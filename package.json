@@ -10,6 +10,9 @@
   "author": "johnedvard",
   "license": "ISC",
   "devDependencies": {
+    "@parcel/compressor-brotli": "^2.7.0",
+    "@parcel/compressor-gzip": "^2.7.0",
+    "@parcel/reporter-bundle-analyzer": "^2.7.0",
     "parcel": "^2.7.0"
   },
   "dependencies": {

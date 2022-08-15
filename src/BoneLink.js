@@ -2,31 +2,38 @@
  * Link between two PointMasses
  */
 export class BoneLink {
-  restingDistance = 1;
+  restingDistance = 10;
+  stiffness = 1;
   pointMassA;
   pointMassB;
-  
-  constructor(){
 
+  constructor(pointMassA, pointMassB) {
+    this.pointMassA = pointMassA;
+    this.pointMassB = pointMassB;
   }
 
-  solveConstraint = (p1, p2) => {
-    // calculate the distance
-    const diffX = p1.x - p2.x;
-    const diffY = p1.y - p2.y;
+  solveConstraint = () => {
+    // calculate the distance between the two PointMasss
+    const diffX = this.pointMassA.x - this.pointMassB.x;
+    const diffY = this.pointMassA.y - this.pointMassB.y;
     const d = Math.sqrt(diffX * diffX + diffY * diffY);
-
-    // difference scalar
+    // find the difference, or the ratio of how far along the restingDistance the actual distance is.
     const difference = (this.restingDistance - d) / d;
 
-    // translation for each PointMass. They'll be pushed 1/2 the required distance to match their resting distances.
-    const translateX = diffX * 0.5 * difference;
-    const translateY = diffY * 0.5 * difference;
+    // Inverse the mass quantities
+    const im1 = 1 / this.pointMassA.mass;
+    const im2 = 1 / this.pointMassB.mass;
+    const scalarP1 = (im1 / (im1 + im2)) * this.stiffness;
+    const scalarP2 = this.stiffness - scalarP1;
+    // console.log('scalarP1', scalarP1);
+    // console.log('scalarP2', scalarP2);
 
-    p1.x += translateX;
-    p1.y += translateY;
+    // Push/pull based on mass
+    // heavier objects will be pushed/pulled less than attached light objects
+    this.pointMassA.x += diffX * scalarP1 * difference;
+    this.pointMassA.y += diffY * scalarP1 * difference;
 
-    p2.x -= translateX;
-    p2.y -= translateY;
+    this.pointMassB.x -= diffX * scalarP2 * difference;
+    this.pointMassB.y -= diffY * scalarP2 * difference;
   };
 }
