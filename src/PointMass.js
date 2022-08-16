@@ -1,4 +1,5 @@
 import { BoneLink } from './BoneLink';
+import { gravity } from './constants';
 
 export class PointMass {
   sprite; // TODO (johnedvard) maybe remove
@@ -12,13 +13,15 @@ export class PointMass {
   anchorX;
   anchorY;
   mass = 1;
+  game;
 
-  constructor(x, y, isAnchor) {
+  constructor(x, y, { isAnchor, game, mass }) {
+    this.game = game;
     this.x = x;
     this.y = y;
     this.lastX = x;
     this.lastY = y;
-    console.log('this', this);
+    this.mass = mass || 1;
     if (isAnchor) {
       this.anchorX = x;
       this.anchorY = y;
@@ -46,8 +49,8 @@ export class PointMass {
     this.links.push(link);
   }
 
-  removeLink(link) {
-    this.links.remove(link);
+  removeLink() {
+    this.links.length = 0;
   }
 
   render(ctx) {
@@ -67,6 +70,8 @@ export class PointMass {
     this.updatePhysics();
   }
   updatePhysics() {
+    this.applyForce(0, this.mass * gravity);
+
     let velX = this.x - this.lastX;
     let velY = this.y - this.lastY;
 
@@ -92,10 +97,26 @@ export class PointMass {
     this.accY = 0;
   }
 
+  applyForce(fX, fY) {
+    this.accX += fX / this.mass;
+    this.accY += fY / this.mass;
+  }
+
   solveConstraints() {
+    if (!this.game.canvas) return;
     this.links.forEach((link) => {
       link.solveConstraint();
     });
+
+    /* Boundary Constraints */
+    // These if statements keep the PointMasss within the screen
+    if (this.y < 1) this.y = 2 * 1 - this.y;
+    if (this.y > this.game.canvas.height - 1)
+      this.y = 2 * (this.game.canvas.height - 1) - this.y;
+
+    if (this.x < 1) this.x = 2 * 1 - this.x;
+    if (this.x > this.game.canvas.width - 1)
+      this.x = 2 * (this.game.canvas.width - 1) - this.x;
 
     /* Other Constraints */
     // make sure the PointMass stays in its place if it's pinned

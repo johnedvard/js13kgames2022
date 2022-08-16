@@ -1,56 +1,33 @@
-import { initPointer, onPointer, init, getPointer, GameLoop } from 'kontra';
-import { PointMass } from './PointMass';
+import { init, initPointer, initInput, GameLoop, onPointer } from 'kontra';
+import { Player } from './Player';
 
 export class Game {
-  rope = []; // list of pointmasses
+  canvas;
+  context;
+  player;
   constructor() {
     const game = this;
     let { canvas, context } = init();
+    this.canvas = canvas;
+    this.context = context;
     initPointer();
-    this.createTestRope();
+    initInput();
+    this.createPlayer();
+
     let loop = GameLoop({
       update: function () {
-        game.updateTestRope();
-        game.dragTestRope();
+        game.player.update();
       },
       render: function () {
-        game.renderTestRope(context);
+        game.player.render(context);
       },
     });
     loop.start(); // start the game
     this.addPointerListeners();
   }
 
-  dragTestRope() {
-    if (this.isDragging && this.rope.length) {
-      const pointer = getPointer();
-      const acnhorPoint = this.rope[0];
-      acnhorPoint.setPos(pointer.x, pointer.y);
-    }
-  }
-
-  updateTestRope() {
-    this.rope.forEach((p) => {
-      p.update();
-    });
-  }
-
-  renderTestRope(ctx) {
-    this.rope.forEach((p) => {
-      p.render(ctx);
-    });
-  }
-
-  createTestRope() {
-    const anchor = new PointMass(0, 0, true);
-    this.rope.push(anchor);
-    for (let i = 1; i < 10; i++) {
-      const p1 = this.rope[this.rope.length - 1];
-      const p2 = new PointMass(i * 10, i * 10);
-      p1.attachTo(p2);
-      this.rope.push(p2);
-    }
-    console.log('created rope', this.rope);
+  createPlayer() {
+    this.player = new Player(40, 40, this);
   }
 
   addPointerListeners() {

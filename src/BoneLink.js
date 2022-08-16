@@ -2,7 +2,7 @@
  * Link between two PointMasses
  */
 export class BoneLink {
-  restingDistance = 10;
+  restingDistance = 30;
   stiffness = 1;
   pointMassA;
   pointMassB;
