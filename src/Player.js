@@ -11,7 +11,7 @@ export class Player {
   rope = []; // list of pointmasses
   pointMass;
   playerControls;
-  sprite;
+  sprite = { render: () => {} };
 
   constructor(x, y, game) {
     this.x = x;
@@ -87,13 +87,20 @@ export class Player {
   }
 
   renderPlayer(_ctx) {
-    if (this.sprite) {
-      this.sprite.render();
-    }
+    this.sprite.render();
   }
 
   applyForce(fX, fY) {
     this.pointMass.applyForce(fX, fY);
+    this.changePlayerDirection(fX < 0);
+  }
+
+  changePlayerDirection(isLeft) {
+    if (isLeft) {
+      this.sprite.scaleX = -2;
+    } else {
+      this.sprite.scaleX = 2;
+    }
   }
 
   render(ctx) {
@@ -104,10 +111,9 @@ export class Player {
   update() {
     this.x = this.pointMass.x;
     this.y = this.pointMass.y;
-    if (this.sprite) {
-      this.sprite.x = this.pointMass.x;
-      this.sprite.y = this.pointMass.y;
-    }
+
+    this.sprite.x = this.pointMass.x;
+    this.sprite.y = this.pointMass.y;
 
     this.updateRope();
     this.dragRope();
