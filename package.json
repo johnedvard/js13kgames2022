@@ -5,6 +5,7 @@
   "source": "src/index.html",
   "scripts": {
     "start": "parcel serve",
+    "prebuild": "rm -rf dist",
     "build": "parcel build src/index.html"
   },
   "author": "johnedvard",
