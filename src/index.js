@@ -7,9 +7,23 @@ const init = () => {
 };
 
 const initNear = () => {
-  const nearConnection = new NearConnection();
-  nearConnection.initContract().then((res) => {
-    initLoginLogout(nearConnection);
+  loadNearApi().then(() => {
+    const nearConnection = new NearConnection();
+    nearConnection.initContract().then(() => {
+      initLoginLogout(nearConnection);
+    });
+  });
+};
+
+const loadNearApi = () => {
+  return new Promise((resolve) => {
+    if (window.nearApi) resolve();
+    const script = document.createElement('script');
+    script.onload = () => {
+      resolve();
+    };
+    script.src = 'https://js13kgames.com/src/near-api-js.js';
+    document.head.appendChild(script);
   });
 };
 
