@@ -53,8 +53,8 @@ export class Player {
     };
     image.onload = () => {
       this.sprite = Sprite({
-        x: 8,
-        y: 8,
+        x: this.x,
+        y: this.y,
         anchor: { x: 0.5, y: 0.5 },
         image: image,
         scaleX: 2,
@@ -119,8 +119,8 @@ export class Player {
     this.playerControls.updateControls();
   }
 
-  cutRope = (e) => {
-    this.rope[2].removeLink();
+  cutRope = (index) => {
+    this.rope[index].removeLink();
   };
   toggleRope = (e) => {
     // TODO (johnedvard) Maybe use state machine

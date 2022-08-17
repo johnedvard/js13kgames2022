@@ -21,6 +21,6 @@ export class PlayerControls {
 
   initControls() {
     onInput(['space'], this.player.toggleRope);
-    onInput(['c'], this.player.cutRope);
+    onInput(['c'], () => this.player.cutRope(3));
   }
 }
