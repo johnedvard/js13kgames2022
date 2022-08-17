@@ -1,8 +1,10 @@
 import { Game } from './Game';
+import { initAssets } from './assetsUtils';
 import { NearConnection } from './near/nearConnection';
 import { initLoginLogout } from './near/nearLogin';
 const init = () => {
   new Game();
+  initAssets();
   initNear();
 };
 
@@ -26,5 +28,4 @@ const loadNearApi = () => {
     document.head.appendChild(script);
   });
 };
-
 init();

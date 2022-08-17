@@ -1,4 +1,6 @@
-import { getPointer } from 'kontra';
+import skull from './assets/img/skull.png';
+
+import { getPointer, Sprite } from 'kontra';
 import { PlayerControls } from './PlayerControls';
 import { PointMass } from './PointMass';
 
@@ -9,13 +11,15 @@ export class Player {
   rope = []; // list of pointmasses
   pointMass;
   playerControls;
+  sprite;
 
   constructor(x, y, game) {
     this.x = x;
     this.y = y;
     this.game = game;
     this.pointMass = new PointMass(x, y, { game, mass: 2 });
-    this.createTestRope();
+    this.createRope();
+    this.createSprite();
     this.playerControls = new PlayerControls(this);
   }
 
@@ -27,21 +31,38 @@ export class Player {
     this.rope.length = 0;
   }
   shootRope() {
-    this.createTestRope();
+    this.createRope();
   }
-  updateTestRope() {
+  updateRope() {
     this.rope.forEach((p) => {
       p.update();
     });
   }
 
-  renderTestRope(ctx) {
+  renderRope(ctx) {
     this.rope.forEach((p) => {
       p.render(ctx);
     });
   }
 
-  createTestRope() {
+  createSprite() {
+    const image = new Image();
+    image.src = skull;
+    image.onerror = function (err) {
+      console.log(err);
+    };
+    image.onload = () => {
+      this.sprite = Sprite({
+        x: 8,
+        y: 8,
+        anchor: { x: 0.5, y: 0.5 },
+        image: image,
+        scaleX: 2,
+        scaleY: 2,
+      });
+    };
+  }
+  createRope() {
     const anchor = new PointMass(this.game.canvas.width / 2, 100, {
       isAnchor: true,
       game: this.game,
@@ -57,7 +78,7 @@ export class Player {
     this.rope.push(this.pointMass);
   }
 
-  dragTestRope() {
+  dragRope() {
     if (this.game.isDragging && this.rope.length) {
       const pointer = getPointer();
       const acnhorPoint = this.rope[this.rope.length - 1];
@@ -65,12 +86,10 @@ export class Player {
     }
   }
 
-  renderPlayer(ctx) {
-    ctx.lineWidth = 2;
-
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, 5, 0, Math.PI * 2);
-    ctx.stroke();
+  renderPlayer(_ctx) {
+    if (this.sprite) {
+      this.sprite.render();
+    }
   }
 
   applyForce(fX, fY) {
@@ -78,15 +97,32 @@ export class Player {
   }
 
   render(ctx) {
-    this.renderTestRope(ctx);
+    this.renderRope(ctx);
     this.renderPlayer(ctx);
   }
 
   update() {
     this.x = this.pointMass.x;
     this.y = this.pointMass.y;
-    this.updateTestRope();
-    this.dragTestRope();
+    if (this.sprite) {
+      this.sprite.x = this.pointMass.x;
+      this.sprite.y = this.pointMass.y;
+    }
+
+    this.updateRope();
+    this.dragRope();
     this.playerControls.updateControls();
   }
+
+  cutRope = (e) => {
+    this.rope[2].removeLink();
+  };
+  toggleRope = (e) => {
+    // TODO (johnedvard) Maybe use state machine
+    if (this.hasRope()) {
+      this.removeRope();
+    } else {
+      this.shootRope();
+    }
+  };
 }

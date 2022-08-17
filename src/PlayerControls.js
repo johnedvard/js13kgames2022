@@ -18,15 +18,7 @@ export class PlayerControls {
   }
 
   initControls() {
-    onInput(['space'], this.toggleRope);
+    onInput(['space'], this.player.toggleRope);
+    onInput(['c'], this.player.cutRope);
   }
-
-  toggleRope = (e) => {
-    // TODO (johnedvard) Maybe use state machine
-    if (this.player.hasRope()) {
-      this.player.removeRope();
-    } else {
-      this.player.shootRope();
-    }
-  };
 }
