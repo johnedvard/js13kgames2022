@@ -11,9 +11,11 @@ export class PlayerControls {
     // TODO (johnedvard) add support for touch gesture and gamepad (if enough space)
     if (keyPressed('arrowleft')) {
       this.player.applyForce(-1.5, 0);
+      this.player.changePlayerDirection(true);
     }
     if (keyPressed('arrowright')) {
       this.player.applyForce(1.5, 0);
+      this.player.changePlayerDirection(false);
     }
   }
 

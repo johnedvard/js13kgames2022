@@ -92,7 +92,6 @@ export class Player {
 
   applyForce(fX, fY) {
     this.pointMass.applyForce(fX, fY);
-    this.changePlayerDirection(fX < 0);
   }
 
   changePlayerDirection(isLeft) {

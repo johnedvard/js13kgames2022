@@ -70,6 +70,7 @@ export class PointMass {
     this.updatePhysics();
   }
   updatePhysics() {
+    if (this.y >= this.game.canvas.height - 2) return; // prevent humping on floor
     this.applyForce(0, this.mass * gravity);
 
     let velX = this.x - this.lastX;
