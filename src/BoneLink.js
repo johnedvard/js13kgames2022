@@ -1,8 +1,10 @@
+import { RESTING_DISTANCE } from './constants';
+
 /**
  * Link between two PointMasses
  */
 export class BoneLink {
-  restingDistance = 30;
+  restingDistance = RESTING_DISTANCE;
   stiffness = 1;
   pointMassA;
   pointMassB;
@@ -36,4 +38,12 @@ export class BoneLink {
     this.pointMassB.x -= diffX * scalarP2 * difference;
     this.pointMassB.y -= diffY * scalarP2 * difference;
   };
+
+  reduceRestingDistance(factor) {
+    const reduction = RESTING_DISTANCE * factor;
+    this.restingDistance -= reduction;
+    if (this.restingDistance <= 0) {
+      this.restingDistance = 0;
+    }
+  }
 }

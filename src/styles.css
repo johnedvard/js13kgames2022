@@ -1,3 +1,9 @@
+:root {
+  --bgc: #211e20;
+  --bgc2: #555568;
+  --fgc: #a0a08b;
+  --fgc2: #e9efec;
+}
 body {
   width: 100vw;
   height: 100vh;
@@ -10,5 +16,5 @@ body {
   overflow: hidden;
 }
 canvas {
-  background-color: gray;
+  background-color: var(--bgc);
 }

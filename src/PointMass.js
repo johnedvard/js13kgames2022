@@ -1,5 +1,6 @@
 import { BoneLink } from './BoneLink';
 import { gravity } from './constants';
+import { fgc2, RESTING_DISTANCE } from './constants';
 
 export class PointMass {
   sprite; // TODO (johnedvard) maybe remove
@@ -14,6 +15,7 @@ export class PointMass {
   anchorY;
   mass = 1;
   game;
+  restingDistance = RESTING_DISTANCE;
 
   constructor(x, y, { isAnchor, game, mass }) {
     this.game = game;
@@ -39,6 +41,13 @@ export class PointMass {
     }
   }
 
+  reduceRestingDistance(factor) {
+    this.links.forEach((l) => {
+      l.reduceRestingDistance(factor);
+      this.restingDistance = l.restingDistance;
+    });
+  }
+
   isAnchor() {
     return this.anchorX !== undefined || this.anchorX !== undefined;
   }
@@ -56,10 +65,11 @@ export class PointMass {
   render(ctx) {
     if (!ctx) return;
     ctx.lineWidth = 4;
+    ctx.strokeStyle = fgc2;
 
     ctx.beginPath();
-    ctx.moveTo(this.x, this.y);
     this.links.forEach((link) => {
+      ctx.moveTo(link.pointMassA.x, link.pointMassA.y);
       ctx.lineTo(link.pointMassB.x, link.pointMassB.y);
     });
     ctx.stroke();
@@ -70,7 +80,7 @@ export class PointMass {
     this.updatePhysics();
   }
   updatePhysics() {
-    if (this.y >= this.game.canvas.height - 2) return; // prevent humping on floor
+    if (this.y >= this.game.canvas.height - 3) return; // prevent humping on floor
     this.applyForce(0, this.mass * gravity);
 
     let velX = this.x - this.lastX;

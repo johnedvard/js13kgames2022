@@ -44,9 +44,10 @@ export class Game {
     const rope = this.player.rope;
     for (let i = 0; i < rope.length - 2; i++) {
       if (
+        // TODO (johnedvard) add to y-axis if saw is up down
         lineIntersection(
-          { x: this.saw.x - 1, y: this.saw.y },
-          { x: this.saw.x + 1, y: this.saw.y },
+          { x: this.saw.x - 5, y: this.saw.y },
+          { x: this.saw.x + 5, y: this.saw.y },
           { x: rope[i].x, y: rope[i].y },
           { x: rope[i + 1].x, y: rope[i + 1].y }
         )

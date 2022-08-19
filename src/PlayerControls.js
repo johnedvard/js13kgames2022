@@ -17,10 +17,15 @@ export class PlayerControls {
       this.player.applyForce(1.5, 0);
       this.player.changePlayerDirection(false);
     }
+    if (keyPressed('arrowup')) {
+      this.player.climbRope();
+    }
+    if (keyPressed('space')) {
+      this.player.applyForce(0, -6);
+    }
   }
 
   initControls() {
-    onInput(['space'], this.player.toggleRope);
     onInput(['c'], () => this.player.cutRope(3));
   }
 }

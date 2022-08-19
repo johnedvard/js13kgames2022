@@ -1,4 +1,5 @@
-import saw from './assets/img/saw.png';
+import saw2 from './assets/img/saw3.png';
+import saw from './assets/img/saw3.png';
 import { Sprite } from 'kontra';
 import { BACK_FORTH, UP_DOWN } from './sawBehavior';
 
@@ -10,6 +11,7 @@ export class Saw {
   sprite = { render: () => {} };
   distance = 100;
   speed = 1;
+  rotSpeed = 0.2;
 
   constructor(x, y, { behavior, distance }) {
     this.x = x;
@@ -23,7 +25,7 @@ export class Saw {
 
   update() {
     this.moveDistance(this.behavior, this.distance);
-    this.sprite.rotation += 5;
+    this.sprite.rotation += this.rotSpeed;
   }
   moveDistance(behavior, distance) {
     let axis = 'x';
@@ -47,7 +49,7 @@ export class Saw {
   }
   createSprite() {
     const image = new Image();
-    image.src = saw;
+    image.src = saw2;
     image.onerror = function (err) {
       console.log(err);
     };
