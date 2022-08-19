@@ -11,6 +11,7 @@ export class Player {
   pointMass; // used to attach to the end of the rope
   playerControls;
   sprite = { render: () => {}, x: 0, y: 0 }; // draw sprite on pointmass position
+  scale = 4;
 
   constructor(x, y, { game }) {
     this.game = game;
@@ -44,8 +45,8 @@ export class Player {
         y: this.pointMass.y,
         anchor: { x: 0.5, y: 0.5 },
         image: image,
-        scaleX: 2,
-        scaleY: 2,
+        scaleX: this.scale,
+        scaleY: this.scale,
       });
     };
   }
@@ -88,9 +89,9 @@ export class Player {
 
   changePlayerDirection(isLeft) {
     if (isLeft) {
-      this.sprite.scaleX = -2;
+      this.sprite.scaleX = -this.scale;
     } else {
-      this.sprite.scaleX = 2;
+      this.sprite.scaleX = this.scale;
     }
   }
 

@@ -11,6 +11,7 @@ export class Saw {
   sprite = { render: () => {} };
   distance = 100;
   speed = 1;
+  scale = 4;
   rotSpeed = 0.2;
 
   constructor(x, y, { behavior, distance }) {
@@ -59,8 +60,8 @@ export class Saw {
         y: this.y,
         anchor: { x: 0.5, y: 0.5 },
         image: image,
-        scaleX: 2,
-        scaleY: 2,
+        scaleX: this.scale,
+        scaleY: this.scale,
       });
     };
   }

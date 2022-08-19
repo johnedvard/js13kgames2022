@@ -13,9 +13,14 @@
     "@parcel/compressor-brotli": "^2.7.0",
     "@parcel/compressor-gzip": "^2.7.0",
     "@parcel/reporter-bundle-analyzer": "^2.7.0",
-    "parcel": "^2.7.0"
+    "parcel": "^2.7.0",
+    "parcel-reporter-static-files-copy": "^1.4.0"
   },
   "dependencies": {
     "kontra": "^8.0.0"
+  },
+  "staticFiles": {
+    "staticPath": "src/static",
+    "staticOutPath": "static"
   }
 }
