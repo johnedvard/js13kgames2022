@@ -5,11 +5,13 @@ import { BACK_FORTH } from './sawBehavior';
 export class Level {
   player;
   saws = [];
+  isLevelLoaded = false;
   constructor(levelId, { game }) {
     this.game = game;
     this.loadLevel(levelId).then((levelData) => {
-      this.createPlayer();
-      this.createSaws();
+      this.createPlayer(levelData);
+      this.createSaws(levelData);
+      this.isLevelLoaded = true;
     });
   }
 
@@ -28,6 +30,7 @@ export class Level {
   }
 
   render(ctx) {
+    if (!this.isLevelLoaded) return;
     this.player.render(ctx);
     this.saws.forEach((saw) => {
       saw.render(ctx);
@@ -35,15 +38,42 @@ export class Level {
   }
 
   update() {
+    if (!this.isLevelLoaded) return;
+    this.checkCollisions();
     this.player.update();
     this.saws.forEach((saw) => {
       saw.update();
     });
   }
-  createPlayer() {
-    this.player = new Player(40, 40, { game: this.game });
+  createPlayer(levelData) {
+    this.player = new Player({
+      levelData,
+      game: this.game,
+    });
   }
-  createSaws() {
-    this.saws.push(new Saw(100, 200, { behavior: BACK_FORTH }));
+  createSaws(levelData) {
+    levelData.s.forEach((saw) => {
+      this.saws.push(new Saw(saw.x, saw.y, { behavior: BACK_FORTH }));
+    });
+  }
+
+  // TODO (johnedvard) Move collisions to own file?
+  checkCollisions() {
+    const rope = this.player.rope;
+    for (let i = 0; i < rope.length - 2; i++) {
+      this.saws.forEach((saw) => {
+        if (
+          // TODO (johnedvard) add to y-axis if saw is up down
+          lineIntersection(
+            { x: saw.x - 5, y: saw.y },
+            { x: saw.x + 5, y: saw.y },
+            { x: rope[i].x, y: rope[i].y },
+            { x: rope[i + 1].x, y: rope[i + 1].y }
+          )
+        ) {
+          this.player.cutRope(i);
+        }
+      });
+    }
   }
 }

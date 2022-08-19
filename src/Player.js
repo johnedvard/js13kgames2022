@@ -13,10 +13,17 @@ export class Player {
   sprite = { render: () => {}, x: 0, y: 0 }; // draw sprite on pointmass position
   scale = 4;
 
-  constructor(x, y, { game }) {
+  constructor({ game, levelData }) {
     this.game = game;
-    this.pointMass = new PointMass(x, y, { game, mass: 2 });
-    this.createRope();
+    const ropeLength = levelData.r;
+    const startX = levelData.p.x;
+    const startY = levelData.p.y;
+    this.pointMass = new PointMass(
+      startX,
+      startY + ropeLength * RESTING_DISTANCE,
+      { game, mass: 2 }
+    );
+    this.createRope({ startX, startY, ropeLength });
     this.createSprite();
     this.playerControls = new PlayerControls(this);
   }
@@ -51,15 +58,15 @@ export class Player {
     };
   }
 
-  createRope() {
-    const anchor = new PointMass(this.game.canvas.width / 2, 100, {
+  createRope({ startX, startY, ropeLength }) {
+    const anchor = new PointMass(startX, startY, {
       isAnchor: true,
       game: this.game,
     });
     this.rope.push(anchor);
-    for (let i = 1; i < 8; i++) {
+    for (let i = 1; i < ropeLength; i++) {
       const p1 = this.rope[this.rope.length - 1];
-      const p2 = new PointMass(this.game.canvas.width / 2, i * 25 + 100, {
+      const p2 = new PointMass(startX, i * RESTING_DISTANCE + startY, {
         game: this.game,
       });
       p1.attachTo(p2);
