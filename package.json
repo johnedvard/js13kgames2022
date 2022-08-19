@@ -5,7 +5,10 @@
   "source": "src/index.html",
   "scripts": {
     "start": "parcel serve",
-    "build": "parcel build src/index.html"
+    "build": "rm -rf dist && parcel build src/index.html",
+    "zip": "cd dist && zip game.zip *.png *.html *.css *.js static/level/*.json",
+    "build:zip": "npm run build && cd dist && zip game.zip *.png *.html *.css *.js static/level/*.json",
+    "build:roadroller": "npm run build && roadroller dist/index.*.js -o dist/index.*.js && npm run zip"
   },
   "author": "johnedvard",
   "license": "ISC",
@@ -14,7 +17,8 @@
     "@parcel/compressor-gzip": "^2.7.0",
     "@parcel/reporter-bundle-analyzer": "^2.7.0",
     "parcel": "^2.7.0",
-    "parcel-reporter-static-files-copy": "^1.4.0"
+    "parcel-reporter-static-files-copy": "^1.4.0",
+    "roadroller": "^2.1.0"
   },
   "dependencies": {
     "kontra": "^8.0.0"
