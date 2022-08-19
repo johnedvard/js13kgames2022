@@ -1,14 +1,13 @@
 import { init, initPointer, initInput, GameLoop, onPointer } from 'kontra';
-import { Player } from './Player';
-import { Saw } from './Saw';
+import { Level } from './Level';
 import { lineIntersection } from './utils';
-import { BACK_FORTH } from './sawBehavior';
 
 export class Game {
   canvas;
   context;
   player;
   saw;
+  level;
   constructor() {
     const game = this;
     let { canvas, context } = init();
@@ -16,45 +15,43 @@ export class Game {
     this.context = context;
     initPointer();
     initInput();
-    this.createPlayer();
-    this.createSaw();
+    this.addPointerListeners();
+
+    this.loadLevel('level1');
 
     let loop = GameLoop({
       update: function () {
-        game.player.update();
-        game.saw.update();
+        game.level.update();
         game.checkCollisions();
       },
       render: function () {
-        game.player.render(context);
-        game.saw.render(context);
+        game.level.render(game.context);
       },
     });
     loop.start(); // start the game
-    this.addPointerListeners();
   }
 
-  createPlayer() {
-    this.player = new Player(40, 40, this);
+  loadLevel(levelId) {
+    this.level = new Level(levelId, { game: this });
   }
-  createSaw() {
-    this.saw = new Saw(100, 200, { behavior: BACK_FORTH });
-  }
+
+  // TODO (johnedvard) Move collisions to own file?
   checkCollisions() {
-    const rope = this.player.rope;
+    const rope = this.level.player.rope;
     for (let i = 0; i < rope.length - 2; i++) {
-      if (
-        // TODO (johnedvard) add to y-axis if saw is up down
-        lineIntersection(
-          { x: this.saw.x - 5, y: this.saw.y },
-          { x: this.saw.x + 5, y: this.saw.y },
-          { x: rope[i].x, y: rope[i].y },
-          { x: rope[i + 1].x, y: rope[i + 1].y }
-        )
-      ) {
-        console.log('intersection happened at index: ', i);
-        this.player.cutRope(i);
-      }
+      this.level.saws.forEach((saw) => {
+        if (
+          // TODO (johnedvard) add to y-axis if saw is up down
+          lineIntersection(
+            { x: saw.x - 5, y: saw.y },
+            { x: saw.x + 5, y: saw.y },
+            { x: rope[i].x, y: rope[i].y },
+            { x: rope[i + 1].x, y: rope[i + 1].y }
+          )
+        ) {
+          this.level.player.cutRope(i);
+        }
+      });
     }
   }
 

@@ -10,9 +10,9 @@ export class Player {
   rope = []; // list of pointmasses
   pointMass; // used to attach to the end of the rope
   playerControls;
-  sprite = { render: () => {} }; // draw sprite on pointmass position
+  sprite = { render: () => {}, x: 0, y: 0 }; // draw sprite on pointmass position
 
-  constructor(x, y, game) {
+  constructor(x, y, { game }) {
     this.game = game;
     this.pointMass = new PointMass(x, y, { game, mass: 2 });
     this.createRope();
@@ -64,7 +64,7 @@ export class Player {
       p1.attachTo(p2);
       this.rope.push(p2);
     }
-    this.pointMass.x = this.rope[this.rope.length - 1];
+    // make player's pointmass attach to the rope
     this.rope[this.rope.length - 1].attachTo(this.pointMass);
     this.rope.push(this.pointMass);
   }
