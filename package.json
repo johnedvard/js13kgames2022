@@ -24,7 +24,6 @@
     "kontra": "^8.0.0"
   },
   "staticFiles": {
-    "staticPath": "src/static",
-    "staticOutPath": "static"
+    "staticPath": "src/level"
   }
 }

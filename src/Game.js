@@ -1,6 +1,5 @@
 import { init, initPointer, initInput, GameLoop, onPointer } from 'kontra';
 import { Level } from './Level';
-import { lineIntersection } from './utils';
 
 export class Game {
   canvas;

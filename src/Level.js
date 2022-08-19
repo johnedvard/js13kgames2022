@@ -17,12 +17,11 @@ export class Level {
 
   loadLevel(levelId) {
     return new Promise((resolve) => {
-      let httpRequest = new XMLHttpRequest(); // asynchronous request
-      httpRequest.open('GET', `/static/level/${levelId}.json`, true);
+      let httpRequest = new XMLHttpRequest();
+      httpRequest.open('GET', `/level/${levelId}.json`, true);
       httpRequest.send();
       httpRequest.addEventListener('readystatechange', function () {
         if (this.readyState === this.DONE) {
-          // when the request has completed
           resolve(JSON.parse(this.response));
         }
       });
