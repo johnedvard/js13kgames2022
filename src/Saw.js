@@ -1,5 +1,5 @@
-import saw2 from './assets/img/saw3.png';
-import saw from './assets/img/saw3.png';
+import saw2 from 'data-url:./assets/img/saw3.png';
+
 import { Sprite } from 'kontra';
 import { BACK_FORTH, UP_DOWN } from './sawBehavior';
 

@@ -1,7 +1,8 @@
+import * as grave from 'data-url:./assets/img/grave-4x-mini.png';
+
 import { Sprite } from 'kontra';
 
 import { isBoxCollision } from './utils';
-import grave from './assets/img/grave-4x-mini.png';
 
 export class Goal {
   level;

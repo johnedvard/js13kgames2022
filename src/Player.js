@@ -1,4 +1,4 @@
-import skull from './assets/img/skull.png';
+import skull from 'data-url:./assets/img/skull.png';
 
 import { getPointer, Sprite } from 'kontra';
 import { PlayerControls } from './PlayerControls';
