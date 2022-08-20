@@ -3,6 +3,16 @@ import { Vector } from 'kontra';
 export const scaleToFit = () => {
   // TODO (johnedvard) listen for window resize, debounce, and scale to fit mac height and width whilst keeping aspect ratio
 };
+export const isBoxCollision = (sprite1, sprite2) => {
+  // TODO (johnedvard) also incorporate anchor
+  if (!sprite1 || !sprite2) return false;
+  return (
+    sprite1.x < sprite2.x + sprite2.width * sprite2.scaleX &&
+    sprite1.x + sprite1.width * sprite1.scaleX > sprite2.x &&
+    sprite1.y < sprite2.y + sprite2.height * sprite2.scaleY &&
+    sprite1.height * sprite1.scaleY + sprite1.y > sprite2.y
+  );
+};
 export const lineIntersection = (p1, p2, p3, p4) => {
   const d = (p2.x - p1.x) * (p4.y - p3.y) - (p2.y - p1.y) * (p4.x - p3.x);
   if (d == 0) return null; // parallel lines

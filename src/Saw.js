@@ -58,7 +58,6 @@ export class Saw {
       this.sprite = Sprite({
         x: this.x,
         y: this.y,
-        anchor: { x: 0.5, y: 0.5 },
         image: image,
         scaleX: this.scale,
         scaleY: this.scale,

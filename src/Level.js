@@ -1,3 +1,4 @@
+import { Goal } from './Goal';
 import { Player } from './Player';
 import { Saw } from './Saw';
 import { BACK_FORTH } from './sawBehavior';
@@ -5,12 +6,14 @@ import { BACK_FORTH } from './sawBehavior';
 export class Level {
   player;
   saws = [];
+  goals = [];
   isLevelLoaded = false;
   constructor(levelId, { game }) {
     this.game = game;
     this.loadLevel(levelId).then((levelData) => {
       this.createPlayer(levelData);
       this.createSaws(levelData);
+      this.createGoals(levelData);
       this.isLevelLoaded = true;
     });
   }
@@ -34,6 +37,9 @@ export class Level {
     this.saws.forEach((saw) => {
       saw.render(ctx);
     });
+    this.goals.forEach((goal) => {
+      goal.render();
+    });
   }
 
   update() {
@@ -42,6 +48,14 @@ export class Level {
     this.player.update();
     this.saws.forEach((saw) => {
       saw.update();
+    });
+    this.goals.forEach((goal) => {
+      goal.update();
+    });
+  }
+  createGoals(levelData) {
+    levelData.g.forEach((g) => {
+      this.goals.push(new Goal(g.x, g.y, { level: this }));
     });
   }
   createPlayer(levelData) {

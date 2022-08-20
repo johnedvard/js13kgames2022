@@ -51,6 +51,8 @@ export class Player {
         x: this.pointMass.x,
         y: this.pointMass.y,
         anchor: { x: 0.5, y: 0.5 },
+        width: 8,
+        height: 8,
         image: image,
         scaleX: this.scale,
         scaleY: this.scale,
