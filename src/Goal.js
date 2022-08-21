@@ -5,7 +5,6 @@ import { GOAL_COLLISION } from './gameEvents';
 
 export class Goal {
   level;
-  sprite;
   scale = 1;
   width = 60;
   height = 32;
@@ -24,9 +23,6 @@ export class Goal {
   update() {
     if (this.hasVanished) return;
     this.checkCollision();
-    if (this.sprite) {
-      this.sprite.update();
-    }
   }
   render(ctx) {
     if (!ctx || this.hasVanished) return;
@@ -47,9 +43,6 @@ export class Goal {
       Math.PI * 2
     );
     ctx.stroke();
-    if (this.sprite) {
-      this.sprite.render();
-    }
   }
 
   startVanishing() {
@@ -62,7 +55,6 @@ export class Goal {
     }
   }
   checkCollision() {
-    const player = this.level.player;
     if (
       isBoxCollision(
         {
