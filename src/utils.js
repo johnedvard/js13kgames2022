@@ -7,10 +7,10 @@ export const isBoxCollision = (sprite1, sprite2) => {
   // TODO (johnedvard) also incorporate anchor
   if (!sprite1 || !sprite2) return false;
   return (
-    sprite1.x < sprite2.x + sprite2.width * sprite2.scaleX &&
-    sprite1.x + sprite1.width * sprite1.scaleX > sprite2.x &&
-    sprite1.y < sprite2.y + sprite2.height * sprite2.scaleY &&
-    sprite1.height * sprite1.scaleY + sprite1.y > sprite2.y
+    sprite1.x < sprite2.x + sprite2.width &&
+    sprite1.x + sprite1.width > sprite2.x &&
+    sprite1.y < sprite2.y + sprite2.height &&
+    sprite1.height + sprite1.y > sprite2.y
   );
 };
 export const lineIntersection = (p1, p2, p3, p4) => {

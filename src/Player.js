@@ -1,9 +1,10 @@
 import skull from 'data-url:./assets/img/skull.png';
 
-import { getPointer, Sprite } from 'kontra';
+import { getPointer, Sprite, on } from 'kontra';
 import { PlayerControls } from './PlayerControls';
 import { PointMass } from './PointMass';
-import { RESTING_DISTANCE } from './constants';
+import { fgc2, RESTING_DISTANCE } from './constants';
+import { GOAL_COLLISION } from './gameEvents';
 
 export class Player {
   game;
@@ -12,6 +13,7 @@ export class Player {
   playerControls;
   sprite = { render: () => {}, x: 0, y: 0 }; // draw sprite on pointmass position
   scale = 4;
+  hasWon = false;
 
   constructor({ game, levelData }) {
     this.game = game;
@@ -26,15 +28,18 @@ export class Player {
     this.createRope({ startX, startY, ropeLength });
     this.createSprite();
     this.playerControls = new PlayerControls(this);
+    this.listenForGameEvents();
   }
 
   updateRope() {
+    if (this.hasWon) return;
     this.rope.forEach((p) => {
       p.update();
     });
   }
 
   renderRope(ctx) {
+    if (this.hasWon) return;
     this.rope.forEach((p) => {
       p.render(ctx);
     });
@@ -107,6 +112,20 @@ export class Player {
   render(ctx) {
     this.renderRope(ctx);
     this.renderPlayer(ctx);
+    // this.renderCollisionBox(ctx);
+  }
+
+  renderCollisionBox(ctx) {
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = fgc2;
+    ctx.beginPath();
+    ctx.rect(
+      this.sprite.x,
+      this.sprite.y,
+      this.sprite.width * this.scale,
+      this.sprite.height * this.scale
+    );
+    ctx.stroke();
   }
 
   update() {
@@ -139,5 +158,12 @@ export class Player {
   cutRope = (index) => {
     if (index >= this.rope.length - 1) index = this.rope.length - 2; // Make sure we can cut the rope if we pass the wrong index
     this.rope[index].removeLink();
+  };
+
+  listenForGameEvents() {
+    on(GOAL_COLLISION, this.onGoalCollision);
+  }
+  onGoalCollision = () => {
+    this.hasWon = true;
   };
 }

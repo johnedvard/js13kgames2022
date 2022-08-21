@@ -38,7 +38,7 @@ export class Level {
       saw.render(ctx);
     });
     this.goals.forEach((goal) => {
-      goal.render();
+      goal.render(ctx);
     });
   }
 

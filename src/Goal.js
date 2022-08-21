@@ -1,53 +1,83 @@
-import * as grave from 'data-url:./assets/img/grave-4x-mini.png';
-
-import { Sprite } from 'kontra';
+import { emit } from 'kontra';
 
 import { isBoxCollision } from './utils';
+import { GOAL_COLLISION } from './gameEvents';
 
 export class Goal {
   level;
   sprite;
-  scale = 2;
+  scale = 1;
+  width = 60;
+  height = 32;
+  originalRadius = { x: 15, y: 30 };
+  radiusX = 15;
+  radiusY = 30;
+  hasWon = false;
+  hasVanished = false;
+  vanishSpeed = 0.3;
+
   constructor(x, y, { level }) {
     this.x = x;
     this.y = y;
     this.level = level;
-    this.createSprite();
   }
   update() {
+    if (this.hasVanished) return;
     this.checkCollision();
     if (this.sprite) {
       this.sprite.update();
     }
   }
-  render() {
+  render(ctx) {
+    if (!ctx || this.hasVanished) return;
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+
+    if (this.hasWon) {
+      this.startVanishing();
+    }
+    // ctx.rect(this.x, this.y, this.width, this.height); // Render collision box
+    ctx.ellipse(
+      this.x + this.width / 2,
+      this.y + this.height / 2,
+      this.radiusX,
+      this.radiusY,
+      Math.PI / 2,
+      0,
+      Math.PI * 2
+    );
+    ctx.stroke();
     if (this.sprite) {
       this.sprite.render();
     }
   }
 
-  checkCollision() {
-    if (isBoxCollision(this.sprite, this.level.player.sprite)) {
-      console.log('collided');
+  startVanishing() {
+    this.radiusX -= this.vanishSpeed;
+    this.radiusY -= this.vanishSpeed * 2;
+    if (this.radiusX <= 0) this.radiusX = 0;
+    if (this.radiusY <= 0) this.radiusY = 0;
+    if (this.radiusX <= 0 && this.radiusY <= 0) {
+      this.hasVanished = true;
     }
   }
-
-  createSprite() {
-    const image = new Image();
-    image.src = grave;
-    image.onerror = function (err) {
-      console.log(err);
-    };
-    image.onload = () => {
-      this.sprite = Sprite({
-        x: this.x,
-        y: this.y,
-        width: 32,
-        height: 32,
-        image: image,
-        scaleX: this.scale,
-        scaleY: this.scale,
-      });
-    };
+  checkCollision() {
+    const player = this.level.player;
+    if (
+      isBoxCollision(
+        {
+          x: this.x,
+          y: this.y,
+          scaleX: this.scale,
+          scaleY: this.scale,
+          width: this.width,
+          height: this.height,
+        },
+        this.level.player.sprite
+      )
+    ) {
+      this.hasWon = true;
+      emit(GOAL_COLLISION);
+    }
   }
 }
