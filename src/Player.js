@@ -4,16 +4,20 @@ import { getPointer, Sprite, on } from 'kontra';
 import { PlayerControls } from './PlayerControls';
 import { PointMass } from './PointMass';
 import { fgc2, RESTING_DISTANCE } from './constants';
-import { GOAL_COLLISION } from './gameEvents';
+import { ARCADIAN_ADDED, GOAL_COLLISION } from './gameEvents';
 
 export class Player {
   game;
   rope = []; // list of pointmasses
   pointMass; // used to attach to the end of the rope
   playerControls;
-  sprite = { render: () => {}, x: 0, y: 0 }; // draw sprite on pointmass position
   scale = 4;
+  sprite = { render: () => {}, x: 0, y: 0 }; // draw sprite on pointmass position
+  headSprite = { render: () => {}, x: 0, y: 0 }; // From Arcadian API
   hasWon = false;
+  headImg = { width: 0, height: 0 };
+  headOffset = { x: 10, y: 38 };
+  isLeft = false;
 
   constructor({ game, levelData }) {
     this.game = game;
@@ -64,6 +68,21 @@ export class Player {
       });
     };
   }
+  createHeadSprite(img) {
+    const scale = this.scale / 2;
+    let scaleX = scale;
+    if (this.isLeft) scaleX = scaleX * -1;
+    this.headSprite = Sprite({
+      x: this.pointMass.x - img.width,
+      y: this.pointMass.y - img.height,
+      anchor: { x: 0.5, y: 0.5 },
+      width: 8,
+      height: 8,
+      image: img,
+      scaleX: scaleX,
+      scaleY: scale,
+    });
+  }
 
   createRope({ startX, startY, ropeLength }) {
     const anchor = new PointMass(startX, startY, {
@@ -95,6 +114,7 @@ export class Player {
 
   renderPlayer(_ctx) {
     this.sprite.render();
+    this.headSprite.render();
   }
 
   applyForce(fX, fY) {
@@ -102,11 +122,18 @@ export class Player {
   }
 
   changePlayerDirection(isLeft) {
+    this.isLeft = isLeft;
     if (isLeft) {
       this.sprite.scaleX = -this.scale;
+      this.headSprite.scaleX = -this.scale / 2;
     } else {
       this.sprite.scaleX = this.scale;
+      this.headSprite.scaleX = this.scale / 2;
     }
+    // prevent headpiece from flashing
+    this.headSprite.x =
+      this.sprite.x -
+      (this.headImg.width - this.headOffset.x) * Math.sign(this.sprite.scaleX);
   }
 
   render(ctx) {
@@ -131,6 +158,12 @@ export class Player {
   update() {
     this.sprite.x = this.pointMass.x;
     this.sprite.y = this.pointMass.y;
+    this.headSprite.x =
+      this.pointMass.x -
+      (this.headImg.width - this.headOffset.x) * Math.sign(this.sprite.scaleX);
+
+    this.headSprite.y =
+      this.pointMass.y - this.headImg.height + +this.headOffset.y;
 
     this.updateRope();
     this.dragRope(); // TODO (johnedvard) Only enable in local and beta env
@@ -162,8 +195,13 @@ export class Player {
 
   listenForGameEvents() {
     on(GOAL_COLLISION, this.onGoalCollision);
+    on(ARCADIAN_ADDED, this.onArcadianAdded);
   }
   onGoalCollision = () => {
     this.hasWon = true;
+  };
+  onArcadianAdded = ({ img }) => {
+    this.headImg = img;
+    this.createHeadSprite(img);
   };
 }
