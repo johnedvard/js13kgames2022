@@ -61,8 +61,6 @@ export class Goal {
         {
           x: this.x,
           y: this.y,
-          scaleX: this.scale,
-          scaleY: this.scale,
           width: this.width,
           height: this.height,
         },

@@ -1,7 +1,5 @@
-import { emit, on, off } from 'kontra';
-
-import { GOAL_COLLISION, LEVEL_COMPLETE } from './gameEvents';
 import { Goal } from './Goal';
+import { Heart } from './Heart';
 import { Player } from './Player';
 import { Saw } from './Saw';
 import { BACK_FORTH } from './sawBehavior';
@@ -10,6 +8,7 @@ export class Level {
   player;
   saws = [];
   goals = [];
+  hearts = [];
   isLevelLoaded = false;
   levelId = -1;
   constructor(levelId, { game }) {
@@ -19,6 +18,7 @@ export class Level {
       this.createPlayer(levelData);
       this.createSaws(levelData);
       this.createGoals(levelData);
+      this.createHearts(levelData);
       this.isLevelLoaded = true;
     });
   }
@@ -38,10 +38,15 @@ export class Level {
 
   render(ctx) {
     if (!this.isLevelLoaded) return;
-    this.player.render(ctx);
+
+    // TODO (johnedvard) Add to same array if pressing for space
     this.saws.forEach((saw) => {
       saw.render(ctx);
     });
+    this.hearts.forEach((heart) => {
+      heart.render(ctx);
+    });
+    this.player.render(ctx);
     this.goals.forEach((goal) => {
       goal.render(ctx);
     });
@@ -57,6 +62,9 @@ export class Level {
     this.goals.forEach((goal) => {
       goal.update();
     });
+    this.hearts.forEach((heart) => {
+      heart.update();
+    });
   }
   createGoals(levelData) {
     levelData.g.forEach((g) => {
@@ -71,7 +79,13 @@ export class Level {
   }
   createSaws(levelData) {
     levelData.s.forEach((saw) => {
+      // TODO (johnedvard) Add actual saw behaviour
       this.saws.push(new Saw(saw.x, saw.y, { behavior: BACK_FORTH }));
+    });
+  }
+  createHearts(levelData) {
+    levelData.h.forEach((heart) => {
+      this.hearts.push(new Heart(heart.x, heart.y, { level: this }));
     });
   }
 
