@@ -1,3 +1,6 @@
+import { emit, on, off } from 'kontra';
+
+import { GOAL_COLLISION, LEVEL_COMPLETE } from './gameEvents';
 import { Goal } from './Goal';
 import { Player } from './Player';
 import { Saw } from './Saw';
@@ -8,9 +11,11 @@ export class Level {
   saws = [];
   goals = [];
   isLevelLoaded = false;
+  levelId = -1;
   constructor(levelId, { game }) {
     this.game = game;
-    this.loadLevel(levelId).then((levelData) => {
+    this.levelId = levelId;
+    this.loadLevel('level' + levelId).then((levelData) => {
       this.createPlayer(levelData);
       this.createSaws(levelData);
       this.createGoals(levelData);
@@ -88,5 +93,9 @@ export class Level {
         }
       });
     }
+  }
+
+  destroy() {
+    console.log('destroy level');
   }
 }

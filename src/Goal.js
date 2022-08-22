@@ -1,7 +1,7 @@
 import { emit } from 'kontra';
 
 import { isBoxCollision } from './utils';
-import { GOAL_COLLISION } from './gameEvents';
+import { GOAL_COLLISION, LEVEL_COMPLETE } from './gameEvents';
 
 export class Goal {
   level;
@@ -52,6 +52,7 @@ export class Goal {
     if (this.radiusY <= 0) this.radiusY = 0;
     if (this.radiusX <= 0 && this.radiusY <= 0) {
       this.hasVanished = true;
+      emit(LEVEL_COMPLETE);
     }
   }
   checkCollision() {

@@ -1,4 +1,5 @@
-import { init, initPointer, initInput, GameLoop, onPointer } from 'kontra';
+import { init, initPointer, initInput, GameLoop, onPointer, on } from 'kontra';
+import { LEVEL_COMPLETE } from './gameEvents';
 import { Level } from './Level';
 
 export class Game {
@@ -16,7 +17,7 @@ export class Game {
     initInput();
     this.addPointerListeners();
 
-    this.loadLevel('level1');
+    this.loadLevel(1);
 
     let loop = GameLoop({
       update: function () {
@@ -28,9 +29,11 @@ export class Game {
     });
 
     loop.start(); // start the game
+    this.listenForGameEvents();
   }
 
   loadLevel(levelId) {
+    console.log('load level', levelId);
     this.level = new Level(levelId, { game: this });
   }
 
@@ -42,4 +45,12 @@ export class Game {
       this.isDragging = false;
     });
   }
+
+  listenForGameEvents() {
+    on(LEVEL_COMPLETE, this.onLevelComplete);
+  }
+  onLevelComplete = () => {
+    this.level.destroy();
+    this.loadLevel(this.level.levelId + 1);
+  };
 }
