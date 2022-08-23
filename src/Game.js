@@ -1,6 +1,7 @@
 import { init, initPointer, initInput, GameLoop, onPointer, on } from 'kontra';
 import { LEVEL_COMPLETE } from './gameEvents';
 import { Level } from './Level';
+import { playSong } from './sound';
 
 export class Game {
   canvas;
@@ -9,6 +10,9 @@ export class Game {
   saw;
   level;
   constructor() {
+    // TODO (johnedvard) Play song after user interraction
+    playSong();
+
     const game = this;
     let { canvas, context } = init();
     this.canvas = canvas;
