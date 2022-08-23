@@ -1,14 +1,17 @@
+import { Brick } from './Brick';
 import { Goal } from './Goal';
 import { Heart } from './Heart';
 import { Player } from './Player';
 import { Saw } from './Saw';
 import { BACK_FORTH } from './sawBehavior';
+import { isBoxCollision, lineIntersection } from './utils';
 
 export class Level {
   player;
   saws = [];
   goals = [];
   hearts = [];
+  bricks = [];
   isLevelLoaded = false;
   levelId = -1;
   constructor(levelId, { game }) {
@@ -19,6 +22,7 @@ export class Level {
       this.createSaws(levelData);
       this.createGoals(levelData);
       this.createHearts(levelData);
+      this.createBricks(levelData);
       this.isLevelLoaded = true;
     });
   }
@@ -46,6 +50,9 @@ export class Level {
     this.hearts.forEach((heart) => {
       heart.render(ctx);
     });
+    this.bricks.forEach((brick) => {
+      brick.render(ctx);
+    });
     this.player.render(ctx);
     this.goals.forEach((goal) => {
       goal.render(ctx);
@@ -65,27 +72,40 @@ export class Level {
     this.hearts.forEach((heart) => {
       heart.update();
     });
+    this.bricks.forEach((brick) => {
+      brick.update();
+    });
   }
+
   createGoals(levelData) {
     levelData.g.forEach((g) => {
       this.goals.push(new Goal(g.x, g.y, { level: this }));
     });
   }
+
   createPlayer(levelData) {
     this.player = new Player({
       levelData,
       game: this.game,
     });
   }
+
   createSaws(levelData) {
     levelData.s.forEach((saw) => {
       // TODO (johnedvard) Add actual saw behaviour
-      this.saws.push(new Saw(saw.x, saw.y, { behavior: BACK_FORTH }));
+      this.saws.push(
+        new Saw(saw.x, saw.y, { behavior: BACK_FORTH, level: this })
+      );
     });
   }
   createHearts(levelData) {
     levelData.h.forEach((heart) => {
       this.hearts.push(new Heart(heart.x, heart.y, { level: this }));
+    });
+  }
+  createBricks(levelData) {
+    levelData.b.forEach((brick) => {
+      this.bricks.push(new Brick(brick.x, brick.y, { level: this }));
     });
   }
 
@@ -103,6 +123,12 @@ export class Level {
             { x: rope[i + 1].x, y: rope[i + 1].y }
           )
         ) {
+          this.player.cutRope(i);
+        }
+      });
+      this.bricks.forEach((brick) => {
+        if (rope[i].isAnchor()) return;
+        if (isBoxCollision(brick.getSmallCollisionBox(), rope[i])) {
           this.player.cutRope(i);
         }
       });

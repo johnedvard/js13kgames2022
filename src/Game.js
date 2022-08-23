@@ -11,7 +11,7 @@ export class Game {
   level;
   constructor() {
     // TODO (johnedvard) Play song after user interraction
-    playSong();
+    // playSong();
 
     const game = this;
     let { canvas, context } = init();

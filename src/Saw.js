@@ -13,14 +13,16 @@ export class Saw {
   speed = 1;
   scale = 4;
   rotSpeed = 0.2;
+  level;
 
-  constructor(x, y, { behavior, distance }) {
+  constructor(x, y, { behavior, distance, level }) {
     this.x = x;
     this.y = y;
     this.orgX = x;
     this.orgY = y;
     this.distance = distance;
     this.behavior = behavior;
+    this.level = level;
     this.createSprite();
   }
 

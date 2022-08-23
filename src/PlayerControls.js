@@ -8,6 +8,7 @@ export class PlayerControls {
   }
 
   updateControls() {
+    if (this.player.isRopeCut) return;
     // TODO (johnedvard) add support for touch gesture and gamepad (if enough space)
     if (keyPressed('arrowleft')) {
       this.player.applyForce(-1.5, 0);

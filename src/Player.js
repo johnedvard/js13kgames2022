@@ -18,6 +18,7 @@ export class Player {
   headImg = { width: 0, height: 0 };
   headOffset = { x: 10, y: 38 };
   isLeft = false;
+  isRopeCut = false;
 
   constructor({ game, levelData }) {
     this.game = game;
@@ -190,6 +191,7 @@ export class Player {
   }
   cutRope = (index) => {
     if (index >= this.rope.length - 1) index = this.rope.length - 2; // Make sure we can cut the rope if we pass the wrong index
+    this.isRopeCut = true;
     this.rope[index].removeLink();
   };
 
