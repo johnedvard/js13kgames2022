@@ -15,7 +15,6 @@ export async function queryArcadian(id) {
         if (xhr.status !== 200) reject(null);
         let gender = 'female';
         var data = JSON.parse(xhr.response);
-        console.log('data', data);
 
         const headPart = data.attributes.find(
           (trait) => trait.trait_type === 'Head'

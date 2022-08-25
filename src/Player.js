@@ -5,6 +5,7 @@ import { PlayerControls } from './PlayerControls';
 import { PointMass } from './PointMass';
 import { fgc2, RESTING_DISTANCE } from './constants';
 import { ARCADIAN_ADDED, GOAL_COLLISION } from './gameEvents';
+import { Rope } from './Rope';
 
 export class Player {
   game;
@@ -25,11 +26,6 @@ export class Player {
     const ropeLength = levelData.r;
     const startX = levelData.p.x;
     const startY = levelData.p.y;
-    this.pointMass = new PointMass(
-      startX,
-      startY + ropeLength * RESTING_DISTANCE,
-      { game, mass: 2 }
-    );
     this.createRope({ startX, startY, ropeLength });
     this.createSprite();
     this.playerControls = new PlayerControls(this);
@@ -38,16 +34,12 @@ export class Player {
 
   updateRope() {
     if (this.hasWon) return;
-    this.rope.forEach((p) => {
-      p.update();
-    });
+    this.rope.update();
   }
 
   renderRope(ctx) {
     if (this.hasWon) return;
-    this.rope.forEach((p) => {
-      p.render(ctx);
-    });
+    this.rope.render(ctx);
   }
 
   createSprite() {
@@ -58,8 +50,8 @@ export class Player {
     };
     image.onload = () => {
       this.sprite = Sprite({
-        x: this.pointMass.x,
-        y: this.pointMass.y,
+        x: this.rope.endNode.x,
+        y: this.rope.endNode.y,
         anchor: { x: 0.5, y: 0.5 },
         width: 8,
         height: 8,
@@ -74,8 +66,8 @@ export class Player {
     let scaleX = scale;
     if (this.isLeft) scaleX = scaleX * -1;
     this.headSprite = Sprite({
-      x: this.pointMass.x - img.width,
-      y: this.pointMass.y - img.height,
+      x: this.rope.endNode.x - img.width,
+      y: this.rope.endNode.y - img.height,
       anchor: { x: 0.5, y: 0.5 },
       width: 8,
       height: 8,
@@ -86,30 +78,37 @@ export class Player {
   }
 
   createRope({ startX, startY, ropeLength }) {
-    const anchor = new PointMass(startX, startY, {
-      isAnchor: true,
-      game: this.game,
+    this.rope = new Rope({
+      x: startX,
+      y: startY,
+      numNodes: ropeLength,
+      level: this.game.level,
     });
-    this.rope.push(anchor);
-    for (let i = 1; i < ropeLength; i++) {
-      const p1 = this.rope[this.rope.length - 1];
-      const p2 = new PointMass(startX, i * RESTING_DISTANCE + startY, {
-        game: this.game,
-      });
-      p1.attachTo(p2);
-      this.rope.push(p2);
-    }
-    // make player's pointmass attach to the rope
-    this.rope[this.rope.length - 1].attachTo(this.pointMass);
-    this.rope.push(this.pointMass);
+    // const anchor = new PointMass(startX, startY, {
+    //   isAnchor: true,
+    //   game: this.game,
+    // });
+    // this.rope.push(anchor);
+    // for (let i = 1; i < ropeLength; i++) {
+    //   const p1 = this.rope[this.rope.length - 1];
+    //   const p2 = new PointMass(startX, i * RESTING_DISTANCE + startY, {
+    //     game: this.game,
+    //   });
+    //   p1.attachTo(p2);
+    //   this.rope.push(p2);
+    // }
+    // // make player's pointmass attach to the rope
+    // this.rope[this.rope.length - 1].attachTo(this.pointMass);
+    // this.rope.push(this.pointMass);
   }
 
   // Debug purpose only
   dragRope() {
     if (this.game.isDragging && this.rope.length) {
       const pointer = getPointer();
-      const acnhorPoint = this.rope[this.rope.length - 1];
-      acnhorPoint.setPos(pointer.x, pointer.y);
+      const acnhorPoint = this.rope.nodes[0];
+      acnhorPoint.pos.x = pointer.x;
+      acnhorPoint.pos.y = pointer.y;
     }
   }
 
@@ -119,7 +118,7 @@ export class Player {
   }
 
   applyForce(fX, fY) {
-    this.pointMass.applyForce(fX, fY);
+    this.rope.endNode.applyForce(fX, fY);
   }
 
   changePlayerDirection(isLeft) {
@@ -157,14 +156,14 @@ export class Player {
   }
 
   update() {
-    this.sprite.x = this.pointMass.x;
-    this.sprite.y = this.pointMass.y;
+    this.sprite.x = this.rope.endNode.pos.x;
+    this.sprite.y = this.rope.endNode.pos.y;
     this.headSprite.x =
-      this.pointMass.x -
+      this.rope.endNode.pos.x -
       (this.headImg.width - this.headOffset.x) * Math.sign(this.sprite.scaleX);
 
     this.headSprite.y =
-      this.pointMass.y - this.headImg.height + +this.headOffset.y;
+      this.rope.endNode.pos.y - this.headImg.height + +this.headOffset.y;
 
     this.updateRope();
     this.dragRope(); // TODO (johnedvard) Only enable in local and beta env
@@ -174,7 +173,7 @@ export class Player {
   climbRope() {
     if (!this.rope || this.rope.length < 2) return;
 
-    const lastPointMassWithLink = this.rope[this.rope.length - 2];
+    const lastPointMassWithLink = this.rope.nodes[this.rope.length - 2];
     lastPointMassWithLink.reduceRestingDistance(0.1);
     if (lastPointMassWithLink.restingDistance <= 0) {
       this.reArrangeRope();

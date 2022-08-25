@@ -9,7 +9,7 @@ import { NearConnection } from './near/nearConnection';
 const init = () => {
   new Game();
   initNear();
-  fetchArcadianHeads();
+  // fetchArcadianHeads();
 };
 
 const initNear = () => {

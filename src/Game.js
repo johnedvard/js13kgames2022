@@ -2,6 +2,7 @@ import { init, initPointer, initInput, GameLoop, onPointer, on } from 'kontra';
 import { LEVEL_COMPLETE } from './gameEvents';
 import { Level } from './Level';
 import { playSong } from './sound';
+import { setGameHeight, setGameWidth } from './store';
 
 export class Game {
   canvas;
@@ -19,6 +20,8 @@ export class Game {
     this.context = context;
     initPointer();
     initInput();
+    setGameHeight(canvas.height);
+    setGameWidth(canvas.width);
     this.addPointerListeners();
 
     this.loadLevel(1);

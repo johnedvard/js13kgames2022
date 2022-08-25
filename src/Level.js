@@ -61,7 +61,7 @@ export class Level {
 
   update() {
     if (!this.isLevelLoaded) return;
-    this.checkCollisions();
+    // this.checkCollisions();
     this.player.update();
     this.saws.forEach((saw) => {
       saw.update();
