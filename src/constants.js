@@ -1,4 +1,4 @@
-export const gravity = 2;
+export const gravity = 1.1;
 export const bgc = '#211e20';
 export const bgc2 = '#555568';
 export const fgc = '#a0a08b';

@@ -11,18 +11,18 @@ export class PlayerControls {
     if (this.player.isRopeCut) return;
     // TODO (johnedvard) add support for touch gesture and gamepad (if enough space)
     if (keyPressed('arrowleft')) {
-      this.player.applyForce(-2.5, -1);
+      this.player.applyForce(-1.5, -1);
       this.player.changePlayerDirection(true);
     }
     if (keyPressed('arrowright')) {
-      this.player.applyForce(2.5, -1);
+      this.player.applyForce(1.5, -1);
       this.player.changePlayerDirection(false);
     }
     if (keyPressed('arrowup')) {
       this.player.climbRope();
     }
     if (keyPressed('space')) {
-      this.player.applyForce(0, -10);
+      this.player.applyForce(0, -5);
     }
   }
 
