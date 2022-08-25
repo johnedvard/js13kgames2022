@@ -113,16 +113,20 @@ export class Rope {
         const max = Math.max(left, right, top, bot);
 
         if (max === right) {
-          node.pos.x = b.x - 5;
+          node.pos.x = b.x - 3;
         } else if (max === left) {
-          node.pos.x = b.x + b.width + 5;
+          node.pos.x = b.x + b.width + 3;
         } else if (max === bot) {
-          node.pos.y = b.y - 5;
+          node.pos.y = b.y - 3;
         } else if (max === top) {
-          node.pos.y = b.y + b.height + 5;
+          node.pos.y = b.y + b.height + 3;
         }
       }
     });
+  }
+  cutRope(index) {
+    if (index >= this.nodes.length - 1) index = this.nodes.length - 2; // Make sure we can cut the rope if we pass the wrong index
+    this.links.splice(index, 1);
   }
 
   get length() {

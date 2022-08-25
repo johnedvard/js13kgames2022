@@ -3,8 +3,8 @@ import { Vector } from 'kontra';
 export class VerletNode {
   pos;
   oldPos;
-  width = 5;
-  height = 5;
+  width = 2;
+  height = 2;
   constructor({ x, y }) {
     this.pos = Vector(x, y);
     console.log(this.pos);

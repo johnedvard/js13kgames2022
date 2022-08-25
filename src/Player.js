@@ -171,9 +171,8 @@ export class Player {
     }
   }
   cutRope = (index) => {
-    if (index >= this.rope.length - 1) index = this.rope.length - 2; // Make sure we can cut the rope if we pass the wrong index
     this.isRopeCut = true;
-    this.rope[index].removeLink();
+    this.rope.cutRope(index);
   };
 
   listenForGameEvents() {
