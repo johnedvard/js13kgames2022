@@ -2,15 +2,13 @@ import skull from 'data-url:./assets/img/skull.png';
 
 import { getPointer, Sprite, on } from 'kontra';
 import { PlayerControls } from './PlayerControls';
-import { PointMass } from './PointMass';
-import { fgc2, RESTING_DISTANCE } from './constants';
+import { fgc2 } from './constants';
 import { ARCADIAN_ADDED, GOAL_COLLISION } from './gameEvents';
 import { Rope } from './Rope';
 
 export class Player {
   game;
   rope = []; // list of pointmasses
-  pointMass; // used to attach to the end of the rope
   playerControls;
   scale = 4;
   sprite = { render: () => {}, x: 0, y: 0 }; // draw sprite on pointmass position
@@ -84,22 +82,6 @@ export class Player {
       numNodes: ropeLength,
       level: this.game.level,
     });
-    // const anchor = new PointMass(startX, startY, {
-    //   isAnchor: true,
-    //   game: this.game,
-    // });
-    // this.rope.push(anchor);
-    // for (let i = 1; i < ropeLength; i++) {
-    //   const p1 = this.rope[this.rope.length - 1];
-    //   const p2 = new PointMass(startX, i * RESTING_DISTANCE + startY, {
-    //     game: this.game,
-    //   });
-    //   p1.attachTo(p2);
-    //   this.rope.push(p2);
-    // }
-    // // make player's pointmass attach to the rope
-    // this.rope[this.rope.length - 1].attachTo(this.pointMass);
-    // this.rope.push(this.pointMass);
   }
 
   // Debug purpose only
