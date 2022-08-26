@@ -3,12 +3,20 @@
   --bgc2: #555568;
   --fgc: #a0a08b;
   --fgc2: #e9efec;
+  --acc: #e20fa0;
 }
 body {
   width: 100vw;
   height: 100vh;
   margin: 0;
   padding: 0;
+}
+#container {
+  position: relative;
+}
+
+body,
+#container {
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -17,4 +25,35 @@ body {
 }
 canvas {
   background-color: var(--bgc);
+}
+
+#menu {
+  color: var(--fgc2);
+  position: absolute;
+  font-size: x-large;
+  font-weight: bolder;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  align-content: center;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+#hamburger {
+  height: 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 0.3;
+  cursor: pointer;
+}
+#hamburger:hover {
+  color: var(--acc);
+}
+#hamburger,
+#hamburger::after,
+#hamburger::before {
+  content: '––';
 }
