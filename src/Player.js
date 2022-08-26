@@ -148,7 +148,7 @@ export class Player {
       this.rope.endNode.pos.y - this.headImg.height + +this.headOffset.y;
 
     this.updateRope();
-    this.dragRope(); // TODO (johnedvard) Only enable in local and beta env
+    // this.dragRope(); // TODO (johnedvard) Only enable in local and beta env
     this.playerControls.updateControls();
   }
 

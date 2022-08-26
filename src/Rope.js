@@ -34,6 +34,7 @@ export class Rope {
   update() {
     this.updateNodes();
     for (let i = 0; i < this.iterations; i++) {
+      // Add more iterations to make the rope more stiff
       this.updateLinks();
       this.constrainNodes();
     }
