@@ -3,7 +3,7 @@ import skull from 'data-url:./assets/img/skull.png';
 import { getPointer, Sprite, on } from 'kontra';
 import { PlayerControls } from './PlayerControls';
 import { fgc2 } from './constants';
-import { ARCADIAN_ADDED, GOAL_COLLISION } from './gameEvents';
+import { ARCADIAN_ADDED, CUT_ROPE, GOAL_COLLISION } from './gameEvents';
 import { Rope } from './Rope';
 
 export class Player {
@@ -153,13 +153,7 @@ export class Player {
   }
 
   climbRope() {
-    if (!this.rope || this.rope.length < 2) return;
-
-    const lastPointMassWithLink = this.rope.nodes[this.rope.length - 2];
-    lastPointMassWithLink.reduceRestingDistance(0.1);
-    if (lastPointMassWithLink.restingDistance <= 0) {
-      this.reArrangeRope();
-    }
+    this.rope.climbRope();
   }
   reArrangeRope() {
     this.rope.splice(this.rope.length - 2, 1);
@@ -170,14 +164,11 @@ export class Player {
       newLastPointWithLink.attachTo(this.pointMass);
     }
   }
-  cutRope = (index) => {
-    this.isRopeCut = true;
-    this.rope.cutRope(index);
-  };
 
   listenForGameEvents() {
     on(GOAL_COLLISION, this.onGoalCollision);
     on(ARCADIAN_ADDED, this.onArcadianAdded);
+    on(CUT_ROPE, this.onCutRope);
   }
   onGoalCollision = () => {
     this.hasWon = true;
@@ -185,5 +176,8 @@ export class Player {
   onArcadianAdded = ({ img }) => {
     this.headImg = img;
     this.createHeadSprite(img);
+  };
+  onCutRope = ({ rope }) => {
+    this.isRopeCut = true;
   };
 }

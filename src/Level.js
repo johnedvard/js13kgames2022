@@ -123,13 +123,13 @@ export class Level {
             { x: rope[i + 1].x, y: rope[i + 1].y }
           )
         ) {
-          this.player.cutRope(i);
+          this.player.rope.cutRope(i);
         }
       });
       this.bricks.forEach((brick) => {
         if (rope[i].isAnchor()) return;
         if (isBoxCollision(brick.getSmallCollisionBox(), rope[i])) {
-          this.player.cutRope(i);
+          this.player.rope.cutRope(i);
         }
       });
     }

@@ -8,7 +8,7 @@ export class PlayerControls {
   }
 
   updateControls() {
-    if (this.player.isRopeCut) return;
+    if (this.player.isRopeCut || this.player.rope.length <= 0) return;
     // TODO (johnedvard) add support for touch gesture and gamepad (if enough space)
     if (keyPressed('arrowleft')) {
       this.player.applyForce(-1.5, -1);
@@ -27,6 +27,6 @@ export class PlayerControls {
   }
 
   initControls() {
-    onInput(['c'], () => this.player.cutRope(0));
+    onInput(['c'], () => this.player.rope.cutRope(0));
   }
 }

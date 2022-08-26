@@ -1,5 +1,6 @@
-import { Vector } from 'kontra';
+import { emit, Vector } from 'kontra';
 import { fgc2, gravity, RESTING_DISTANCE } from './constants';
+import { CUT_ROPE } from './gameEvents';
 import { gameHeight, gameWidth } from './store';
 import { isBoxCollision } from './utils';
 import { VerletLink } from './VerletLink';
@@ -63,7 +64,7 @@ export class Rope {
       const dxy = l.n2.pos.subtract(l.n1.pos);
       // console.log(l.n1.pos);
       const distance = dxy.length();
-      const diff = RESTING_DISTANCE - distance;
+      const diff = l.restingDistance - distance;
       // console.log(distance);
       const percent = diff / distance / 2;
       const offset = Vector(dxy.x * percent, dxy.y * percent);
@@ -125,9 +126,24 @@ export class Rope {
       }
     });
   }
+  climbRope() {
+    if (!this.nodes || this.nodes.length <= 2) {
+      this.cutRope(0);
+      return;
+    }
+
+    const factor = 0.1;
+    const lastLink = this.links[this.links.length - 1];
+    lastLink.restingDistance -= RESTING_DISTANCE * factor;
+    if (lastLink.restingDistance <= 0) {
+      this.links.pop();
+      this.nodes.pop();
+    }
+  }
   cutRope(index) {
     if (index >= this.nodes.length - 1) index = this.nodes.length - 2; // Make sure we can cut the rope if we pass the wrong index
     this.links.splice(index, 1);
+    emit(CUT_ROPE, { rope: this });
   }
 
   get length() {
