@@ -1,5 +1,5 @@
 import { init, initPointer, initInput, GameLoop, onPointer, on } from 'kontra';
-import { LEVEL_COMPLETE } from './gameEvents';
+import { LEVEL_COMPLETE, START_LEVEL } from './gameEvents';
 import { Level } from './Level';
 import { playSong } from './sound';
 import { setGameHeight, setGameWidth } from './store';
@@ -24,13 +24,13 @@ export class Game {
     setGameWidth(canvas.width);
     this.addPointerListeners();
 
-    this.loadLevel(1);
-
     let loop = GameLoop({
       update: function () {
+        if (!game.level) return;
         game.level.update();
       },
       render: function () {
+        if (!game.level) return;
         game.level.render(game.context);
       },
     });
@@ -55,9 +55,13 @@ export class Game {
 
   listenForGameEvents() {
     on(LEVEL_COMPLETE, this.onLevelComplete);
+    on(START_LEVEL, this.onStartLevel);
   }
   onLevelComplete = () => {
     this.level.destroy();
     this.loadLevel(this.level.levelId + 1);
+  };
+  onStartLevel = ({ levelId }) => {
+    this.loadLevel(levelId);
   };
 }

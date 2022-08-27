@@ -23,13 +23,12 @@ export class Rope {
         })
       );
     }
-    console.log(this.nodes);
+
     for (let i = 0; i < this.nodes.length - 1; i++) {
       const n1 = this.nodes[i];
       const n2 = this.nodes[i + 1];
       this.links.push(new VerletLink(n1, n2));
     }
-    console.log('links', this.links);
   }
 
   update() {
@@ -62,10 +61,8 @@ export class Rope {
   updateLinks() {
     this.links.forEach((l) => {
       const dxy = l.n2.pos.subtract(l.n1.pos);
-      // console.log(l.n1.pos);
       const distance = dxy.length();
       const diff = l.restingDistance - distance;
-      // console.log(distance);
       const percent = diff / distance / 2;
       const offset = Vector(dxy.x * percent, dxy.y * percent);
       l.n1.pos = l.n1.pos.subtract(offset);

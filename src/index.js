@@ -5,10 +5,12 @@ import { ARCADIAN_ADDED } from './gameEvents';
 import { queryArcadian } from './arcadianApi';
 import { initLoginLogout } from './near/nearLogin';
 import { NearConnection } from './near/nearConnection';
+import { initMenu } from './menu';
 
 const init = () => {
   new Game();
   initNear();
+  initMenu();
   // fetchArcadianHeads();
 };
 

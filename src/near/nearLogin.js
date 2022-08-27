@@ -10,7 +10,7 @@ export const loginout = (loginoutEl, nearConnection) => {
 };
 
 export const initLoginLogout = (nearConnection) => {
-  const loginoutEl = document.getElementById('loginout');
+  const loginoutEl = document.getElementById('loginoutBtn');
   if (
     nearConnection &&
     nearConnection.walletConnection &&

@@ -3,3 +3,4 @@ export const ARCADIAN_ADDED = 'aa';
 export const LEVEL_COMPLETE = 'lc';
 export const HEART_PICKUP = 'hp';
 export const CUT_ROPE = 'cr';
+export const START_LEVEL = 'sl';

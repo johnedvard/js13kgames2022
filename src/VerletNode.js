@@ -7,7 +7,6 @@ export class VerletNode {
   height = 2;
   constructor({ x, y }) {
     this.pos = Vector(x, y);
-    console.log(this.pos);
     this.oldPos = Vector(x, y);
   }
 
