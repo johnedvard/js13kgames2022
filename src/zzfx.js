@@ -1,7 +1,7 @@
 // https://github.com/KilledByAPixel/ZzFX
 // https://github.com/keithclark/ZzFXM
 // zzfxV - global volume
-const zzfxV = 0.3;
+const zzfxV = 0.1;
 // zzfxR - global sample rate
 const zzfxR = 44100;
 // zzfxX - the common audio context

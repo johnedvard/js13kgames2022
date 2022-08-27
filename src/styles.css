@@ -68,7 +68,11 @@ button {
   font-size: large;
   font-weight: bolder;
 }
-
+button:disabled {
+  background-color: lightgray;
+  color: darkgray;
+  cursor: not-allowed;
+}
 .overlay {
   position: absolute;
   width: 100%;
