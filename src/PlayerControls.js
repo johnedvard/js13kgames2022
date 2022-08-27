@@ -1,4 +1,5 @@
-import { keyPressed, onInput } from 'kontra';
+import { emit, keyPressed, onInput } from 'kontra';
+import { RESTART_LEVEL } from './gameEvents';
 
 export class PlayerControls {
   player;
@@ -28,5 +29,6 @@ export class PlayerControls {
 
   initControls() {
     onInput(['c'], () => this.player.rope.cutRope(0));
+    onInput(['r'], () => emit(RESTART_LEVEL));
   }
 }

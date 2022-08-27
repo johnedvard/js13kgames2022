@@ -31,7 +31,7 @@ export class Saw {
     this.sprite.rotation += this.rotSpeed;
   }
   moveDistance(behavior, distance) {
-    let axis = 'x';
+    let axis = '';
     switch (behavior) {
       case UP_DOWN:
         axis = 'y';
@@ -40,7 +40,6 @@ export class Saw {
         axis = 'x';
         break;
       default:
-        axis = 'x';
     }
 
     this[axis] += this.speed;
@@ -62,6 +61,7 @@ export class Saw {
         y: this.y,
         image: image,
         scaleX: this.scale,
+        anchor: { x: 0.5, y: 0.5 },
         scaleY: this.scale,
       });
     };

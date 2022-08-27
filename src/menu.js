@@ -2,7 +2,7 @@ import { emit } from 'kontra';
 import { START_LEVEL } from './gameEvents';
 
 const overlayIds = ['main', 'bonus', 'levels'];
-const levels = 12;
+const levels = 20;
 export const initMenu = () => {
   addButtonListeners();
   initLevels();
@@ -46,7 +46,7 @@ const onContainerClick = (e) => {
   }
   if (classList.contains('level-item')) {
     showOverlay();
-    emit(START_LEVEL, { levelId: e.target.textContent });
+    emit(START_LEVEL, { levelId: +e.target.textContent });
   }
 };
 

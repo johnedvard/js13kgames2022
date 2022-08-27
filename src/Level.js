@@ -3,8 +3,7 @@ import { Goal } from './Goal';
 import { Heart } from './Heart';
 import { Player } from './Player';
 import { Saw } from './Saw';
-import { BACK_FORTH } from './sawBehavior';
-import { isBoxCollision, lineIntersection } from './utils';
+import { lineIntersection } from './utils';
 
 export class Level {
   player;
@@ -61,7 +60,7 @@ export class Level {
 
   update() {
     if (!this.isLevelLoaded) return;
-    // this.checkCollisions();
+    this.checkCollisions();
     this.player.update();
     this.saws.forEach((saw) => {
       saw.update();
@@ -93,9 +92,7 @@ export class Level {
   createSaws(levelData) {
     levelData.s.forEach((saw) => {
       // TODO (johnedvard) Add actual saw behaviour
-      this.saws.push(
-        new Saw(saw.x, saw.y, { behavior: BACK_FORTH, level: this })
-      );
+      this.saws.push(new Saw(saw.x, saw.y, { level: this }));
     });
   }
   createHearts(levelData) {
@@ -117,18 +114,12 @@ export class Level {
         if (
           // TODO (johnedvard) add to y-axis if saw is up down
           lineIntersection(
-            { x: saw.x - 5, y: saw.y },
-            { x: saw.x + 5, y: saw.y },
-            { x: rope[i].x, y: rope[i].y },
-            { x: rope[i + 1].x, y: rope[i + 1].y }
+            { x: saw.x - 5, y: saw.y - 5 },
+            { x: saw.x + 5, y: saw.y + 5 },
+            { x: rope.nodes[i].x, y: rope.nodes[i].y },
+            { x: rope.nodes[i + 1].x, y: rope.nodes[i + 1].y }
           )
         ) {
-          this.player.rope.cutRope(i);
-        }
-      });
-      this.bricks.forEach((brick) => {
-        if (rope[i].isAnchor()) return;
-        if (isBoxCollision(brick.getSmallCollisionBox(), rope[i])) {
           this.player.rope.cutRope(i);
         }
       });
