@@ -1,6 +1,6 @@
 # Don't cut the rope, a js13kgames game
 
-This is my game entry for [js13kgames](https://js13kgames.com/) 2022 game jam. This year's theme is "DEATH". I decided to create a rope physics game with a death theme.
+This is my game entry for [js13kgames](https://js13kgames.com/) 2022 game jam. This years theme is "DEATH". I decided to create a rope physics game with a death theme. The game prototype can be played here https://js13kgames2022.netlify.app/ (It's subject to change as the game is still in development)
 
 The game uses Verlet Intergration. I've followed this article, [Simulate Tearable Cloth and Ragdolls With Simple Verlet Integration](https://gamedevelopment.tutsplus.com/tutorials/simulate-tearable-cloth-and-ragdolls-with-simple-verlet-integration--gamedev-519), and watched this video series, [Coding Math: Episode 36 - Verlet Integration Part I](https://www.youtube.com/watch?v=3HjO_RGIjCU&feature=youtu.be) trying to understand “Verlet Integration”, and implement it accordingly. I highly recomend taking a look at those resources to understand how it works.
 
