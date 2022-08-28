@@ -44,10 +44,11 @@ export async function queryArcadian(id) {
   });
 }
 
-export const fetchArcadianHeads = () => {
+export const fetchArcadianHeads = (startId = 0) => {
   return new Promise((resolve) => {
     const promises = [];
-    for (let i = 1; i < 6; i++) {
+    for (let i = startId; i < 100; i = i + 5) {
+      if (i === 0) continue;
       const promise = queryArcadian(i);
       promises.push(promise);
     }

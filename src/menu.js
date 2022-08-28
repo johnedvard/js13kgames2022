@@ -1,10 +1,9 @@
-import { emit, Sprite } from 'kontra';
-
 import closeIcon from 'data-url:./assets/img/close icon.svg';
 import skull from 'data-url:./assets/img/skull.png';
 
-import { ARCADIAN_HEAD_SELECTED, START_LEVEL } from './gameEvents';
-import { arcadianHeadImages, fetchArcadianHeads } from './arcadianApi';
+import { emit } from 'kontra';
+import { START_LEVEL } from './gameEvents';
+import { fetchArcadianHeads } from './arcadianApi';
 import { setSelectedArcadian } from './store';
 
 const overlayIds = ['main', 'bonus', 'levels'];
@@ -25,8 +24,14 @@ const initLevels = () => {
     levelsGridEl.appendChild(levelEl);
   }
 };
+
 const initBonusContent = () => {
   const bonusGridEl = document.getElementById('bonus-grid');
+  pouplateBonusGrid(bonusGridEl);
+  listenForBonusGridEvents(bonusGridEl);
+};
+
+const pouplateBonusGrid = (bonusGridEl) => {
   const skullImg = new Image();
   skullImg.src = skull;
   fetchArcadianHeads().then((res) => {
@@ -46,6 +51,9 @@ const initBonusContent = () => {
       bonusGridEl.appendChild(bonusEl);
     }
   });
+};
+
+const listenForBonusGridEvents = (bonusGridEl) => {
   bonusGridEl.addEventListener('click', (e) => {
     if (e.target.classList.contains('bonus-item')) {
       setSelectedArcadian(e.target.getAttribute('arcadian'));
