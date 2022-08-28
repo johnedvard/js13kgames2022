@@ -1,3 +1,4 @@
+import closeIcon from 'data-url:./assets/img/close icon.svg';
 import { emit } from 'kontra';
 import { START_LEVEL } from './gameEvents';
 
@@ -5,6 +6,7 @@ const overlayIds = ['main', 'bonus', 'levels'];
 const levels = 20;
 export const initMenu = () => {
   addButtonListeners();
+  addCloseIcon();
   initLevels();
   initBonusContent();
 };
@@ -23,6 +25,13 @@ const initBonusContent = () => {};
 const addButtonListeners = () => {
   const containerEl = document.getElementById('container');
   containerEl.addEventListener('click', onContainerClick);
+};
+
+const addCloseIcon = () => {
+  const closeIconImgEls = document.getElementsByClassName('close-icon');
+  for (let el of closeIconImgEls) {
+    el.setAttribute('src', closeIcon);
+  }
 };
 
 const onContainerClick = (e) => {

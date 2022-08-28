@@ -1,5 +1,7 @@
 import { emit } from 'kontra';
 
+import cssText from 'bundle-text:./styles.css';
+
 import { Game } from './Game';
 import { ARCADIAN_ADDED } from './gameEvents';
 import { queryArcadian } from './arcadianApi';
@@ -8,10 +10,19 @@ import { NearConnection } from './near/nearConnection';
 import { initMenu } from './menu';
 
 const init = () => {
+  addStyles();
   new Game();
   initNear();
   initMenu();
   // fetchArcadianHeads();
+};
+
+const addStyles = () => {
+  // inject <style> tag
+  let style = document.createElement('style');
+  style.textContent = cssText;
+  const headEl = document.getElementsByTagName('head')[0];
+  headEl.appendChild(style);
 };
 
 const initNear = () => {
