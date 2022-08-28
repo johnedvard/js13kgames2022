@@ -14,13 +14,14 @@ export class Saw {
   scale = 4;
   rotSpeed = 0.2;
   level;
+  direction = 'e'; // n,s,e,w
 
   constructor(x, y, { behavior, distance, level }) {
     this.x = x;
     this.y = y;
     this.orgX = x;
     this.orgY = y;
-    this.distance = distance;
+    this.distance = 200;
     this.behavior = behavior;
     this.level = level;
     this.createSprite();
@@ -28,10 +29,10 @@ export class Saw {
 
   update() {
     this.moveDistance(this.behavior, this.distance);
-    this.sprite.rotation += this.rotSpeed;
   }
   moveDistance(behavior, distance) {
     let axis = '';
+    let multiplier = 1;
     switch (behavior) {
       case UP_DOWN:
         axis = 'y';
@@ -42,9 +43,30 @@ export class Saw {
       default:
     }
 
-    this[axis] += this.speed;
+    switch (this.direction) {
+      case 'n':
+        multiplier = -1;
+        break;
+      case 's':
+        multiplier = 1;
+        break;
+      case 'e':
+        multiplier = 1;
+        if (this.orgX + distance < this.x) {
+          this.direction = 'w';
+        }
+        break;
+      case 'w':
+        multiplier = -1;
+        if (this.orgX - distance > this.x) {
+          this.direction = 'e';
+        }
+        break;
+    }
+    this[axis] += this.speed * multiplier;
     this.sprite.x = this.x;
     this.sprite.y = this.y;
+    this.sprite.rotation += this.rotSpeed * multiplier;
   }
   render(_ctx) {
     this.sprite.render();

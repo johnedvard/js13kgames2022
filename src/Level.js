@@ -92,14 +92,18 @@ export class Level {
   createSaws(levelData) {
     levelData.s.forEach((saw) => {
       // TODO (johnedvard) Add actual saw behaviour
-      this.saws.push(new Saw(saw.x, saw.y, { level: this }));
+      this.saws.push(
+        new Saw(saw.x, saw.y, { level: this, behavior: saw.b, distance: saw.d })
+      );
     });
   }
+
   createHearts(levelData) {
     levelData.h.forEach((heart) => {
       this.hearts.push(new Heart(heart.x, heart.y, { level: this }));
     });
   }
+
   createBricks(levelData) {
     levelData.b.forEach((brick) => {
       this.bricks.push(new Brick(brick.x, brick.y, { level: this }));
