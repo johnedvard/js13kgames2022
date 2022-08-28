@@ -15,7 +15,7 @@ export class Player {
   sprite = { render: () => {}, x: 0, y: 0 }; // draw sprite on pointmass position
   headSprite = { render: () => {}, x: 0, y: 0 }; // From Arcadian API
   hasWon = false;
-  headImg = getSelectedArcadian().img || { width: 0, height: 0 };
+  headImg;
   headOffset = { x: 10, y: 38 };
   isLeft = false;
   isRopeCut = false;
@@ -25,6 +25,7 @@ export class Player {
     const ropeLength = levelData.r;
     const startX = levelData.p.x;
     const startY = levelData.p.y;
+    this.headImg = getSelectedArcadian().img || { width: 0, height: 0 };
     this.createRope({ startX, startY, ropeLength });
     this.createSprite();
     this.createHeadSprite(this.headImg);
@@ -62,7 +63,7 @@ export class Player {
     };
   }
   createHeadSprite(img) {
-    if (!img.width || img.height) return;
+    if (!img.width || !img.height) return;
     const scale = this.scale / 2;
     let scaleX = scale;
     if (this.isLeft) scaleX = scaleX * -1;
