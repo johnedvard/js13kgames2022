@@ -116,8 +116,23 @@ button:disabled {
   display: grid;
   justify-items: center;
 }
-#levels-grid::-webkit-scrollbar {
+#levels-grid::-webkit-scrollbar,
+#bonus-grid::-webkit-scrollbar {
   display: none;
+}
+.bonus-item {
+  cursor: pointer;
+  background: none;
+  border-radius: 4px;
+}
+.bonus-item:hover {
+  box-shadow: inset 0px 0px 100px -50px var(--acc);
+}
+#bonus-grid {
+}
+#bonus-grid > canvas {
+  width: 200px;
+  height: 200px;
 }
 .hide {
   display: none !important; /* XXX Override any other display settings on the element */

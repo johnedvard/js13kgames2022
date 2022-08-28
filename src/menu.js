@@ -1,6 +1,11 @@
+import { emit, Sprite } from 'kontra';
+
 import closeIcon from 'data-url:./assets/img/close icon.svg';
-import { emit } from 'kontra';
-import { START_LEVEL } from './gameEvents';
+import skull from 'data-url:./assets/img/skull.png';
+
+import { ARCADIAN_HEAD_SELECTED, START_LEVEL } from './gameEvents';
+import { arcadianHeadImages, fetchArcadianHeads } from './arcadianApi';
+import { setSelectedArcadian } from './store';
 
 const overlayIds = ['main', 'bonus', 'levels'];
 const levels = 20;
@@ -20,7 +25,34 @@ const initLevels = () => {
     levelsGridEl.appendChild(levelEl);
   }
 };
-const initBonusContent = () => {};
+const initBonusContent = () => {
+  const bonusGridEl = document.getElementById('bonus-grid');
+  const skullImg = new Image();
+  skullImg.src = skull;
+  fetchArcadianHeads().then((res) => {
+    for (let i = 0; i < res.length; i++) {
+      const img = res[i].value.img;
+      const bonusEl = document.createElement('canvas');
+      bonusEl.setAttribute('height', img.height * 4);
+      bonusEl.setAttribute('width', img.width * 4);
+      bonusEl.classList.add('bonus-item');
+      bonusEl.setAttribute('arcadian', res[i].value.id);
+      const ctx = bonusEl.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+      ctx.scale(8, 8);
+      ctx.drawImage(skullImg, img.width / 4 - 4, img.height / 4 - 12);
+      ctx.scale(1 / 2, 1 / 2);
+      ctx.drawImage(img, 0, 0);
+      bonusGridEl.appendChild(bonusEl);
+    }
+  });
+  bonusGridEl.addEventListener('click', (e) => {
+    if (e.target.classList.contains('bonus-item')) {
+      setSelectedArcadian(e.target.getAttribute('arcadian'));
+      showOverlay('main');
+    }
+  });
+};
 
 const addButtonListeners = () => {
   const containerEl = document.getElementById('container');

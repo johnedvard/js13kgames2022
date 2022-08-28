@@ -3,8 +3,9 @@ import skull from 'data-url:./assets/img/skull.png';
 import { getPointer, Sprite, on } from 'kontra';
 import { PlayerControls } from './PlayerControls';
 import { fgc2 } from './constants';
-import { ARCADIAN_ADDED, CUT_ROPE, GOAL_COLLISION } from './gameEvents';
+import { ARCADIAN_HEAD_SELECTED, CUT_ROPE, GOAL_COLLISION } from './gameEvents';
 import { Rope } from './Rope';
+import { getSelectedArcadian } from './store';
 
 export class Player {
   game;
@@ -26,6 +27,8 @@ export class Player {
     const startY = levelData.p.y;
     this.createRope({ startX, startY, ropeLength });
     this.createSprite();
+    this.headImg = getSelectedArcadian().img;
+    this.createHeadSprite(this.headImg);
     this.playerControls = new PlayerControls(this);
     this.listenForGameEvents();
   }
@@ -60,6 +63,7 @@ export class Player {
     };
   }
   createHeadSprite(img) {
+    if (!img) return;
     const scale = this.scale / 2;
     let scaleX = scale;
     if (this.isLeft) scaleX = scaleX * -1;
@@ -167,7 +171,7 @@ export class Player {
 
   listenForGameEvents() {
     on(GOAL_COLLISION, this.onGoalCollision);
-    on(ARCADIAN_ADDED, this.onArcadianAdded);
+    on(ARCADIAN_HEAD_SELECTED, this.onArcadianAdded);
     on(CUT_ROPE, this.onCutRope);
   }
   onGoalCollision = () => {

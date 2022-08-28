@@ -1,4 +1,6 @@
-export const arcadianHeadImages = [];
+import { emit } from 'kontra';
+import { ARCADIAN_ADDED, ARCADIAN_HEAD_SELECTED } from './gameEvents';
+import { setArcadianData } from './store';
 
 export async function queryArcadian(id) {
   const partsUrl =
@@ -29,9 +31,9 @@ export async function queryArcadian(id) {
         img.addEventListener(
           'load',
           () => {
-            localStorage.setItem('Arcadian #' + id, xhr.response);
-            arcadianHeadImages.push(img);
-            resolve(img);
+            localStorage.setItem('Arcadian #' + id, img);
+            setArcadianData({ id, data, img });
+            resolve({ id, data, img });
           },
           false
         );
@@ -41,3 +43,17 @@ export async function queryArcadian(id) {
     xhr.send();
   });
 }
+
+export const fetchArcadianHeads = () => {
+  return new Promise((resolve) => {
+    const promises = [];
+    for (let i = 1; i < 6; i++) {
+      const promise = queryArcadian(i);
+      promises.push(promise);
+    }
+    Promise.allSettled(promises).then((res) => {
+      emit(ARCADIAN_HEAD_SELECTED, { img: res[0].value });
+      resolve(res);
+    });
+  });
+};
