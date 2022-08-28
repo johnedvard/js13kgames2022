@@ -6,8 +6,8 @@
   "scripts": {
     "start": "parcel serve --no-cache",
     "build": "rm -rf dist && parcel build --no-cache src/index.html",
-    "zip": "cd dist && zip game.zip *.png *.html *.css *.js static/level/*.json",
-    "build:zip": "npm run build && cd dist && zip game.zip *.png *.html *.css *.js static/level/*.json",
+    "zip": "cd dist && zip game.zip *.html *.js static/level/*.json",
+    "build:zip": "npm run build && cd dist && zip game.zip *.html *.js static/level/*.json",
     "build:roadroller": "npm run build && roadroller dist/index.*.js -o dist/index.*.js && npm run zip",
     "roadroller": "roadroller dist/index.*.js -o dist/index.*.js"
   },
