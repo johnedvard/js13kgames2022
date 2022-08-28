@@ -124,7 +124,13 @@ button:disabled {
 #bonus-grid > canvas {
   margin-bottom: -60px;
 }
-
+#level-dialog {
+  width: 50%;
+  height: 50%;
+  border-radius: 4px;
+  border: 1px solid white;
+  background-color: #121212ee;
+}
 .bonus-item {
   cursor: pointer;
   background: none;

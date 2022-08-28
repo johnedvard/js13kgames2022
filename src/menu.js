@@ -1,15 +1,21 @@
 import closeIcon from 'data-url:./assets/img/close icon.svg';
 import skull from 'data-url:./assets/img/skull.png';
 
-import { emit } from 'kontra';
-import { START_LEVEL } from './gameEvents';
+import { emit, on } from 'kontra';
+import {
+  LEVEL_COMPLETE,
+  RESTART_LEVEL,
+  START_LEVEL,
+  START_NEXT_LEVEL,
+} from './gameEvents';
 import { fetchArcadianHeads } from './arcadianApi';
 import { setSelectedArcadian } from './store';
 
-const overlayIds = ['main', 'bonus', 'levels'];
+const overlayIds = ['main', 'bonus', 'levels', 'level-dialog'];
 const levels = 20;
 export const initMenu = () => {
   addButtonListeners();
+  listenForGameEvents();
   addCloseIcon();
   initLevels();
   initBonusContent();
@@ -86,6 +92,14 @@ const onContainerClick = (e) => {
       break;
     case 'hamburger':
       showOverlay('main');
+    case 'nextBtn':
+      showOverlay();
+      emit(START_NEXT_LEVEL);
+      break;
+    case 'replayBtn':
+      showOverlay();
+      emit(RESTART_LEVEL);
+      break;
     default:
       break;
   }
@@ -109,4 +123,11 @@ const showOverlay = (id) => {
       overlayEl.classList.remove('hide');
     }
   });
+};
+
+const listenForGameEvents = () => {
+  on(LEVEL_COMPLETE, onLevelComplete);
+};
+const onLevelComplete = () => {
+  showOverlay('level-dialog');
 };

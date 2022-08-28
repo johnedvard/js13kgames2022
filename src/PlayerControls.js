@@ -29,6 +29,6 @@ export class PlayerControls {
 
   initControls() {
     onInput(['c'], () => this.player.rope.cutRope(0));
-    onInput(['r'], () => emit(RESTART_LEVEL));
+    onInput(['z'], () => emit(RESTART_LEVEL));
   }
 }
