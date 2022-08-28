@@ -19,12 +19,17 @@ export const initMenu = () => {
   addCloseIcon();
   initLevels();
   initBonusContent();
+  focusLevelSelectButton();
+};
+
+const focusLevelSelectButton = () => {
+  document.getElementById('levelBtn').focus();
 };
 
 const initLevels = () => {
   const levelsGridEl = document.getElementById('levels-grid');
   for (let i = 1; i < levels + 1; i++) {
-    const levelEl = document.createElement('div');
+    const levelEl = document.createElement('button');
     levelEl.textContent = i;
     levelEl.classList.add('level-item');
     levelsGridEl.appendChild(levelEl);
@@ -86,12 +91,14 @@ const onContainerClick = (e) => {
   switch (id) {
     case 'levelBtn':
       showOverlay('levels');
+      document.getElementsByClassName('level-item')[0].focus();
       break;
     case 'bonusBtn':
       showOverlay('bonus');
       break;
     case 'hamburger':
       showOverlay('main');
+      break;
     case 'nextBtn':
       showOverlay();
       emit(START_NEXT_LEVEL);
@@ -99,8 +106,6 @@ const onContainerClick = (e) => {
     case 'replayBtn':
       showOverlay();
       emit(RESTART_LEVEL);
-      break;
-    default:
       break;
   }
 
@@ -130,4 +135,5 @@ const listenForGameEvents = () => {
 };
 const onLevelComplete = () => {
   showOverlay('level-dialog');
+  document.getElementById('nextBtn').focus();
 };

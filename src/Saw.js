@@ -40,7 +40,6 @@ export class Saw {
       case BACK_FORTH:
         axis = 'x';
         break;
-      default:
     }
 
     switch (this.direction) {
