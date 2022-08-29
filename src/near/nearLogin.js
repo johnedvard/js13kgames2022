@@ -17,9 +17,6 @@ export const initLoginLogout = (nearConnection) => {
     nearConnection.walletConnection.isSignedIn()
   ) {
     loginoutEl.innerHTML = 'Logout from NEAR wallet';
-    nearConnection.getName().then((res) => {
-      loginoutEl.innerHTML = `Logout from NEAR wallet`;
-    });
   } else {
     loginoutEl.innerHTML = 'Login to NEAR wallet';
   }

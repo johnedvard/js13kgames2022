@@ -1,10 +1,12 @@
 import { emit } from 'kontra';
-import { ARCADIAN_HEAD_SELECTED } from './gameEvents';
+import { ARCADIAN_HEAD_SELECTED, NEAR_TOKENS_ADDED } from './gameEvents';
 
 export let gameWidth = 0;
 export let gameHeight = 0;
 const arcadianData = {};
 let selectedArcadian = {};
+export let nftTokensBySeries = [];
+export let nftTokensForOwner = [];
 
 export const setGameWidth = (width) => {
   gameWidth = width;
@@ -25,4 +27,10 @@ export const setSelectedArcadian = (id) => {
 
 export const getSelectedArcadian = () => {
   return selectedArcadian;
+};
+
+export const setNftTokens = (tokensForOwner, tokensBySeries) => {
+  nftTokensForOwner = tokensForOwner;
+  nftTokensBySeries = tokensBySeries;
+  emit(NEAR_TOKENS_ADDED, { nftTokensBySeries, nftTokensForOwner });
 };

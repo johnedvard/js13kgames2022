@@ -1,5 +1,6 @@
 const CONTRACT_NAME = 'dev-1618829854588-2430734';
-
+const CONTARCT_NAME_TESTNET = 'paras-token-v2.testnet';
+const CONTARCT_NAME_MAINNET = 'x.paras.near';
 function getConfig(env) {
   switch (env) {
     // case 'production':
@@ -7,7 +8,7 @@ function getConfig(env) {
     //   return {
     //     networkId: 'mainnet',
     //     nodeUrl: 'https://rpc.mainnet.near.org',
-    //     contractName: CONTRACT_NAME,
+    //     contractName: CONTARCT_NAME_MAINNET,
     //     walletUrl: 'https://wallet.near.org',
     //     helperUrl: 'https://helper.mainnet.near.org',
     //     explorerUrl: 'https://explorer.mainnet.near.org',
@@ -17,7 +18,7 @@ function getConfig(env) {
       return {
         networkId: 'testnet',
         nodeUrl: 'https://rpc.testnet.near.org',
-        contractName: CONTRACT_NAME,
+        contractName: CONTARCT_NAME_TESTNET,
         walletUrl: 'https://wallet.testnet.near.org',
         helperUrl: 'https://helper.testnet.near.org',
         explorerUrl: 'https://explorer.testnet.near.org',

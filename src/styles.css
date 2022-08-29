@@ -104,8 +104,18 @@ button:disabled {
   border-radius: 4px;
   background-color: var(--fgc2);
 }
+.level-item:hover {
+  background-color: var(--bgc2);
+  color: var(--fgc2);
+}
+.level-item img {
+  width: 100%;
+  height: auto;
+}
+
 #levels-grid,
-#bonus-grid {
+#bonus-grid,
+#near-levels-grid {
   width: 640px;
   height: 440px;
   min-height: 440px;
@@ -118,6 +128,15 @@ button:disabled {
   display: grid;
   justify-items: center;
 }
+#near-levels-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+#near-levels-grid .level-item {
+  flex-flow: column;
+  width: 250px;
+  height: 300px;
+}
+
 #bonus-grid {
   row-gap: 0px;
 }

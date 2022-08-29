@@ -4,14 +4,16 @@ import skull from 'data-url:./assets/img/skull.png';
 import { emit, on } from 'kontra';
 import {
   LEVEL_COMPLETE,
+  NEAR_TOKENS_ADDED,
   RESTART_LEVEL,
   START_LEVEL,
   START_NEXT_LEVEL,
 } from './gameEvents';
 import { fetchArcadianHeads } from './arcadianApi';
-import { setSelectedArcadian } from './store';
+import { nftTokensBySeries, setSelectedArcadian } from './store';
+import { IPFS_BASE_PATH } from './near/nearConnection';
 
-const overlayIds = ['main', 'bonus', 'levels', 'level-dialog'];
+const overlayIds = ['main', 'bonus', 'levels', 'level-dialog', 'near-levels'];
 const levels = 20;
 export const initMenu = () => {
   addButtonListeners();
@@ -34,6 +36,21 @@ const initLevels = () => {
     levelEl.classList.add('level-item');
     levelsGridEl.appendChild(levelEl);
   }
+};
+
+const initNearLevels = ({ nftTokensBySeries, nftTokensForOwner }) => {
+  const nearLoadingEl = document.getElementById('loadingNearLevels');
+  if (nearLoadingEl) nearLoadingEl.remove();
+  const levelsGridEl = document.getElementById('near-levels-grid');
+  nftTokensBySeries.forEach((l) => {
+    const levelEl = document.createElement('button');
+    const imgEl = document.createElement('img');
+    imgEl.setAttribute('src', IPFS_BASE_PATH + l.metadata.media);
+    levelEl.textContent = l.metadata.title;
+    levelEl.appendChild(imgEl);
+    levelEl.classList.add('level-item');
+    levelsGridEl.appendChild(levelEl);
+  });
 };
 
 const initBonusContent = () => {
@@ -99,6 +116,9 @@ const onContainerClick = (e) => {
     case 'hamburger':
       showOverlay('main');
       break;
+    case 'nearLevelBtn':
+      showOverlay('near-levels');
+      break;
     case 'nextBtn':
       showOverlay();
       emit(START_NEXT_LEVEL);
@@ -132,8 +152,12 @@ const showOverlay = (id) => {
 
 const listenForGameEvents = () => {
   on(LEVEL_COMPLETE, onLevelComplete);
+  on(NEAR_TOKENS_ADDED, onNearTokensAdded);
 };
 const onLevelComplete = () => {
   showOverlay('level-dialog');
   document.getElementById('nextBtn').focus();
+};
+const onNearTokensAdded = ({ nftTokensBySeries, nftTokensForOwner }) => {
+  initNearLevels({ nftTokensBySeries, nftTokensForOwner });
 };

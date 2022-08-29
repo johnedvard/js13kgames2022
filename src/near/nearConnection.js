@@ -1,5 +1,11 @@
 import getConfig from './config';
 
+export const HANG_BY_A_THREAD_SERIES_TESTNET = '2036';
+export const MIRRORS_SERIES_TESTNET = '494';
+export const PARAS_BASE_PATH_TESTNET =
+  'https://testnet.paras.id/token/paras-token-v2.testnet::';
+export const IPFS_BASE_PATH = 'https://ipfs.fleek.co/ipfs/';
+
 export class NearConnection {
   walletConnection;
   contract;
@@ -8,6 +14,7 @@ export class NearConnection {
   ready; //promise
   nearConfig = getConfig('development');
   resolveContract;
+
   constructor() {
     this.ready = new Promise((resolve, reject) => {
       this.resolveContract = resolve;
@@ -33,7 +40,7 @@ export class NearConnection {
       this.nearConfig.contractName,
       {
         // View methods are read only. They don't modify the state, but usually return some value.
-        viewMethods: ['getScores', 'getScore', 'getName'],
+        viewMethods: ['nft_tokens_for_owner', 'nft_tokens_by_series'],
         // Change methods can modify the state. But you don't receive the returned value when called.
         changeMethods: ['setGreeting', 'setScore', 'setName'],
       }
@@ -55,56 +62,11 @@ export class NearConnection {
     this.walletConnection.requestSignIn(this.nearConfig.contractName);
   }
 
-  setScore(levelName, score, name) {
-    const json = JSON.stringify({ score, name });
-    return this.contract.setScore({
-      levelName,
-      json,
-    });
+  nft_tokens_for_owner(account_id) {
+    return this.contract.nft_tokens_for_owner({ account_id });
   }
 
-  getScores(levelName) {
-    const scoreBoard = this.contract.getScores({ levelName });
-    return scoreBoard;
-  }
-
-  getScore(levelName) {
-    const accountId = this.accountId;
-    return this.contract.getScore({ levelName, accountId });
-  }
-
-  setName(name) {
-    if (
-      name &&
-      name != this.userName &&
-      this.walletConnection &&
-      this.walletConnection.isSignedIn()
-    ) {
-      this.userName = name;
-      return this.contract.setName({ name });
-    }
-    return Promise.resolve();
-  }
-
-  async getName() {
-    if (this.userName) {
-      return Promise.resolve(this.userName);
-    }
-    const accountId = this.accountId;
-    return new Promise((resolve, reject) => {
-      this.contract
-        .getName({ accountId })
-        .then((res) => {
-          if (res && res.match(/[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g)) {
-            this.userName = 'Invalid username';
-          } else {
-            this.userName = res;
-          }
-          resolve(res);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+  nft_tokens_by_series(token_series_id) {
+    return this.contract.nft_tokens_by_series({ token_series_id });
   }
 }
