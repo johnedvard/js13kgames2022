@@ -8,3 +8,4 @@ export const RESTART_LEVEL = 'r';
 export const START_NEXT_LEVEL = 'snl';
 export const ARCADIAN_HEAD_SELECTED = 'ahs';
 export const NEAR_TOKENS_ADDED = 'n';
+export const NFT_MINT = 'nm';

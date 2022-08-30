@@ -25,3 +25,19 @@ export const lineIntersection = (p1, p2, p3, p4) => {
   let intersection = Vector(intersectionX, intersectionY);
   return intersection;
 };
+
+export const doesOwnNft = (seriesId, nftTokensForOwner) => {
+  const token = nftTokensForOwner.find(
+    (token) => token.token_id.split(':')[0] === seriesId
+  );
+  return !!token;
+};
+
+export const getNearLevelId = (tokenSeriesId) => {
+  switch (tokenSeriesId) {
+    case '2037':
+      return 2;
+    case '2036':
+      return 3;
+  }
+};

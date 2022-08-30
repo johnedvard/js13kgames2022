@@ -34,12 +34,14 @@ const initNear = () => {
       const promises = [
         nearConnection.nft_tokens_for_owner(nearConnection.accountId),
         nearConnection.nft_tokens_by_series(HANG_BY_A_THREAD_SERIES_TESTNET),
+        nearConnection.getNftCollections(),
       ];
-      Promise.all(promises).then(([tokensForOwner, tokensBySeries]) => {
-        setNftTokens(tokensForOwner, tokensBySeries);
-        console.log('nft_tokens_for_owner', tokensForOwner);
-        console.log('nft_tokens_by_series', tokensBySeries);
-      });
+
+      Promise.all(promises).then(
+        ([tokensForOwner, tokensBySeries, collections]) => {
+          setNftTokens(tokensForOwner, tokensBySeries, collections);
+        }
+      );
     });
   });
 };

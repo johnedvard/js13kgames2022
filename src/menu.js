@@ -5,6 +5,7 @@ import { emit, on } from 'kontra';
 import {
   LEVEL_COMPLETE,
   NEAR_TOKENS_ADDED,
+  NFT_MINT,
   RESTART_LEVEL,
   START_LEVEL,
   START_NEXT_LEVEL,
@@ -12,6 +13,7 @@ import {
 import { fetchArcadianHeads } from './arcadianApi';
 import { nftTokensBySeries, setSelectedArcadian } from './store';
 import { IPFS_BASE_PATH } from './near/nearConnection';
+import { doesOwnNft, getNearLevelId } from './utils';
 
 const overlayIds = ['main', 'bonus', 'levels', 'level-dialog', 'near-levels'];
 const levels = 20;
@@ -38,16 +40,38 @@ const initLevels = () => {
   }
 };
 
-const initNearLevels = ({ nftTokensBySeries, nftTokensForOwner }) => {
+const initNearLevels = ({
+  nftTokensBySeries,
+  nftTokensForOwner,
+  nftCollections,
+}) => {
   const nearLoadingEl = document.getElementById('loadingNearLevels');
   if (nearLoadingEl) nearLoadingEl.remove();
   const levelsGridEl = document.getElementById('near-levels-grid');
-  nftTokensBySeries.forEach((l) => {
+  nftCollections.forEach((collection) => {
     const levelEl = document.createElement('button');
     const imgEl = document.createElement('img');
-    imgEl.setAttribute('src', IPFS_BASE_PATH + l.metadata.media);
-    levelEl.textContent = l.metadata.title;
+    const ownsNft = doesOwnNft(collection.token_series_id, nftTokensForOwner);
+
+    imgEl.setAttribute('src', IPFS_BASE_PATH + collection.metadata.media);
+    levelEl.setAttribute('near', 'true');
+    if (!ownsNft) {
+      levelEl.setAttribute('disabled', !ownsNft);
+    }
+    levelEl.setAttribute('token-series-id', collection.token_series_id);
+    levelEl.setAttribute('price', collection.price);
+    levelEl.textContent = collection.metadata.title;
     levelEl.appendChild(imgEl);
+    const mintForPriceEl = document.createElement('span');
+    if (!ownsNft) {
+      mintForPriceEl.textContent =
+        'Buy level for: ' +
+        (collection.price / Math.pow(10, 24)).toFixed(2) +
+        ' Ⓝ';
+    } else {
+      mintForPriceEl.textContent = 'Click to play level';
+    }
+    levelEl.appendChild(mintForPriceEl);
     levelEl.classList.add('level-item');
     levelsGridEl.appendChild(levelEl);
   });
@@ -131,10 +155,28 @@ const onContainerClick = (e) => {
 
   if (classList.contains('close-icon')) {
     showOverlay('main');
+    return;
   }
-  if (classList.contains('level-item')) {
+
+  const btn = e.target.closest('button');
+  if (btn && btn.getAttribute('near')) {
+    onNearLevelClick(btn);
+  } else if (classList.contains('level-item')) {
     showOverlay();
     emit(START_LEVEL, { levelId: +e.target.textContent });
+  }
+};
+
+const onNearLevelClick = (btn) => {
+  if (btn && btn.getAttribute('disabled') === 'true') {
+    const token_series_id = btn.getAttribute('token-series-id');
+    const priceInYoctoNear = btn.getAttribute('price');
+    emit(NFT_MINT, { token_series_id, priceInYoctoNear });
+  } else {
+    showOverlay();
+    emit(START_LEVEL, {
+      levelId: getNearLevelId(btn.getAttribute('token-series-id')),
+    });
   }
 };
 
@@ -158,6 +200,10 @@ const onLevelComplete = () => {
   showOverlay('level-dialog');
   document.getElementById('nextBtn').focus();
 };
-const onNearTokensAdded = ({ nftTokensBySeries, nftTokensForOwner }) => {
-  initNearLevels({ nftTokensBySeries, nftTokensForOwner });
+const onNearTokensAdded = ({
+  nftTokensBySeries,
+  nftTokensForOwner,
+  nftCollections,
+}) => {
+  initNearLevels({ nftTokensBySeries, nftTokensForOwner, nftCollections });
 };

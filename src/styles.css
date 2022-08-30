@@ -73,6 +73,12 @@ button:disabled {
   color: darkgray;
   cursor: not-allowed;
 }
+button:disabled img {
+  filter: contrast(0.5);
+}
+button:hover img {
+  filter: none;
+}
 .overlay {
   position: absolute;
   width: 100%;
@@ -135,6 +141,7 @@ button:disabled {
   flex-flow: column;
   width: 250px;
   height: 300px;
+  cursor: pointer;
 }
 
 #bonus-grid {

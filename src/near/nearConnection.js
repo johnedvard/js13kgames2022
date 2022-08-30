@@ -1,3 +1,5 @@
+import { on } from 'kontra';
+import { NFT_MINT } from '../gameEvents';
 import getConfig from './config';
 
 export const HANG_BY_A_THREAD_SERIES_TESTNET = '2036';
@@ -5,6 +7,8 @@ export const MIRRORS_SERIES_TESTNET = '494';
 export const PARAS_BASE_PATH_TESTNET =
   'https://testnet.paras.id/token/paras-token-v2.testnet::';
 export const IPFS_BASE_PATH = 'https://ipfs.fleek.co/ipfs/';
+export const PARAS_COLLECTION_API =
+  'https://api-v3-marketplace-testnet.paras.id/token-series?collection_id=hang-by-a-thread-by-johnonymtestnet';
 
 export class NearConnection {
   walletConnection;
@@ -16,6 +20,7 @@ export class NearConnection {
   resolveContract;
 
   constructor() {
+    this.listenForGameEvents();
     this.ready = new Promise((resolve, reject) => {
       this.resolveContract = resolve;
     });
@@ -42,11 +47,10 @@ export class NearConnection {
         // View methods are read only. They don't modify the state, but usually return some value.
         viewMethods: ['nft_tokens_for_owner', 'nft_tokens_by_series'],
         // Change methods can modify the state. But you don't receive the returned value when called.
-        changeMethods: ['setGreeting', 'setScore', 'setName'],
+        changeMethods: ['nft_mint'],
       }
     );
     this.resolveContract();
-
     return this.walletConnection;
   }
 
@@ -68,5 +72,28 @@ export class NearConnection {
 
   nft_tokens_by_series(token_series_id) {
     return this.contract.nft_tokens_by_series({ token_series_id });
+  }
+  nft_mint({ token_series_id, priceInYoctoNear }) {
+    return this.contract.nft_mint(
+      {
+        owner_id: this.accountId,
+        receiver_id: this.accountId,
+        token_series_id,
+      },
+      '300000000000000',
+      priceInYoctoNear
+    );
+  }
+  getNftCollections() {
+    return fetch(PARAS_COLLECTION_API)
+      .then((res) => res.json())
+      .then((res) => {
+        return res.data.results.filter((data) => data.metadata.copies > 0);
+      });
+  }
+  listenForGameEvents() {
+    on(NFT_MINT, ({ token_series_id, priceInYoctoNear }) =>
+      this.nft_mint({ token_series_id, priceInYoctoNear })
+    );
   }
 }

@@ -7,6 +7,7 @@ const arcadianData = {};
 let selectedArcadian = {};
 export let nftTokensBySeries = [];
 export let nftTokensForOwner = [];
+export let nftCollections = [];
 
 export const setGameWidth = (width) => {
   gameWidth = width;
@@ -29,8 +30,13 @@ export const getSelectedArcadian = () => {
   return selectedArcadian;
 };
 
-export const setNftTokens = (tokensForOwner, tokensBySeries) => {
+export const setNftTokens = (tokensForOwner, tokensBySeries, collections) => {
   nftTokensForOwner = tokensForOwner;
   nftTokensBySeries = tokensBySeries;
-  emit(NEAR_TOKENS_ADDED, { nftTokensBySeries, nftTokensForOwner });
+  nftCollections = collections;
+  emit(NEAR_TOKENS_ADDED, {
+    nftTokensBySeries,
+    nftTokensForOwner,
+    nftCollections,
+  });
 };
