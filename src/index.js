@@ -10,12 +10,14 @@ import {
 } from './near/nearConnection';
 import { initMenu } from './menu';
 import { setNftTokens } from './store';
+import { initMonetization } from './monetization';
 
 const init = () => {
   addStyles();
   new Game();
   initNear();
   initMenu();
+  initMonetization();
 };
 
 const addStyles = () => {

@@ -17,6 +17,8 @@ export const initLoginLogout = (nearConnection) => {
     nearConnection.walletConnection.isSignedIn()
   ) {
     loginoutEl.innerHTML = 'Logout from NEAR wallet';
+    const nearLevelBtn = document.getElementById('nearLevelBtn');
+    nearLevelBtn.removeAttribute('disabled');
   } else {
     loginoutEl.innerHTML = 'Login to NEAR wallet';
   }
