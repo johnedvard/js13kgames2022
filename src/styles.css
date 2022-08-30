@@ -72,11 +72,6 @@ button,
   font-weight: bolder;
   cursor: pointer;
 }
-button:hover,
-.btn:hover {
-  background-color: var(--bgc2);
-  color: var(--fgc2);
-}
 button:disabled {
   background-color: lightgray;
   color: darkgray;
@@ -84,6 +79,11 @@ button:disabled {
 }
 button:disabled img {
   filter: contrast(0.5);
+}
+button:hover,
+.btn:hover {
+  background-color: var(--bgc2);
+  color: var(--fgc2);
 }
 button:hover img {
   filter: none;
@@ -189,6 +189,26 @@ button:hover img {
 #bonus-grid > canvas {
   width: 200px;
   height: 200px;
+}
+#loader-wrapper {
+  z-index: 99;
+  background-color: #211e2055;
+}
+#loader {
+  border: 16px solid var(--fgc2);
+  border-top: 16px solid var(--acc);
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .hide {
   display: none !important; /* XXX Override any other display settings on the element */

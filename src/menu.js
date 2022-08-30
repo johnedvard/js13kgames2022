@@ -178,6 +178,7 @@ const onContainerClick = (e) => {
 
 const onNearLevelClick = (btn) => {
   if (btn && btn.getAttribute('disabled') === 'true') {
+    showLoading();
     const token_series_id = btn.getAttribute('token-series-id');
     const priceInYoctoNear = btn.getAttribute('price');
     emit(NFT_MINT, { token_series_id, priceInYoctoNear });
@@ -231,4 +232,9 @@ const onMonetizationProgress = () => {
   if (bonusItemEls && bonusItemEls.length) {
     hasRemovedDisableOnBonusEls = true;
   }
+};
+
+const showLoading = () => {
+  const loadingWrapper = document.getElementById('loader-wrapper');
+  loadingWrapper.classList.remove('hide');
 };
