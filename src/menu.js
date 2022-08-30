@@ -4,6 +4,7 @@ import skull from 'data-url:./assets/img/skull.png';
 import { emit, on } from 'kontra';
 import {
   LEVEL_COMPLETE,
+  MONETIZATION_PROGRESS,
   NEAR_TOKENS_ADDED,
   NFT_MINT,
   RESTART_LEVEL,
@@ -11,12 +12,13 @@ import {
   START_NEXT_LEVEL,
 } from './gameEvents';
 import { fetchArcadianHeads } from './arcadianApi';
-import { nftTokensBySeries, setSelectedArcadian } from './store';
+import { isSubscriber, nftTokensBySeries, setSelectedArcadian } from './store';
 import { IPFS_BASE_PATH } from './near/nearConnection';
 import { doesOwnNft, getNearLevelId } from './utils';
 
 const overlayIds = ['main', 'bonus', 'levels', 'level-dialog', 'near-levels'];
 const levels = 20;
+let hasRemovedDisableOnBonusEls = false;
 export const initMenu = () => {
   addButtonListeners();
   listenForGameEvents();
@@ -94,6 +96,9 @@ const pouplateBonusGrid = (bonusGridEl) => {
       bonusEl.setAttribute('width', img.width * 4);
       bonusEl.classList.add('bonus-item');
       bonusEl.setAttribute('arcadian', res[i].value.id);
+      if (i > 5 && !isSubscriber) {
+        bonusEl.classList.add('disabled');
+      }
       const ctx = bonusEl.getContext('2d');
       ctx.imageSmoothingEnabled = false;
       ctx.scale(8, 8);
@@ -108,8 +113,12 @@ const pouplateBonusGrid = (bonusGridEl) => {
 const listenForBonusGridEvents = (bonusGridEl) => {
   bonusGridEl.addEventListener('click', (e) => {
     if (e.target.classList.contains('bonus-item')) {
-      setSelectedArcadian(e.target.getAttribute('arcadian'));
-      showOverlay('main');
+      if (!e.target.classList.contains('disabled')) {
+        setSelectedArcadian(e.target.getAttribute('arcadian'));
+        showOverlay('main');
+      } else {
+        // TODO (johnedvard) tell player to become a subscriber
+      }
     }
   });
 };
@@ -195,6 +204,7 @@ const showOverlay = (id) => {
 const listenForGameEvents = () => {
   on(LEVEL_COMPLETE, onLevelComplete);
   on(NEAR_TOKENS_ADDED, onNearTokensAdded);
+  on(MONETIZATION_PROGRESS, onMonetizationProgress);
 };
 const onLevelComplete = () => {
   showOverlay('level-dialog');
@@ -206,4 +216,19 @@ const onNearTokensAdded = ({
   nftCollections,
 }) => {
   initNearLevels({ nftTokensBySeries, nftTokensForOwner, nftCollections });
+};
+
+const onMonetizationProgress = () => {
+  if (hasRemovedDisableOnBonusEls) return;
+  const coilSubEl = document.getElementById('coil-subscriber');
+  const coilBtnEl = document.getElementById('coilBtn');
+  if (coilBtnEl) coilBtnEl.remove();
+  if (coilSubEl) coilSubEl.classList.remove('hide');
+  const bonusItemEls = document.getElementsByClassName('bonus-item');
+  for (item of bonusItemEls) {
+    item.classList.remove('disabled');
+  }
+  if (bonusItemEls && bonusItemEls.length) {
+    hasRemovedDisableOnBonusEls = true;
+  }
 };

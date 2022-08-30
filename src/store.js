@@ -8,6 +8,7 @@ let selectedArcadian = {};
 export let nftTokensBySeries = [];
 export let nftTokensForOwner = [];
 export let nftCollections = [];
+export let isSubscriber = false;
 
 export const setGameWidth = (width) => {
   gameWidth = width;
@@ -39,4 +40,8 @@ export const setNftTokens = (tokensForOwner, tokensBySeries, collections) => {
     nftTokensForOwner,
     nftCollections,
   });
+};
+
+export const setIsSubscriber = () => {
+  // isSubscriber = true;
 };

@@ -10,6 +10,8 @@ body {
   height: 100vh;
   margin: 0;
   padding: 0;
+  color: var(--fgc2);
+  font-family: sans-serif;
 }
 #container {
   position: relative;
@@ -57,7 +59,8 @@ canvas {
   filter: drop-shadow(0 0 12px var(--acc));
 }
 
-button {
+button,
+.btn {
   width: 240px;
   height: 50px;
   margin: 20px 0px 0px 0px;
@@ -67,6 +70,12 @@ button {
   border-radius: 4px;
   font-size: large;
   font-weight: bolder;
+  cursor: pointer;
+}
+button:hover,
+.btn:hover {
+  background-color: var(--bgc2);
+  color: var(--fgc2);
 }
 button:disabled {
   background-color: lightgray;
@@ -78,6 +87,17 @@ button:disabled img {
 }
 button:hover img {
   filter: none;
+}
+#coil-subscriber {
+  height: 50px;
+}
+#coilBtn {
+  width: 400px;
+  height: 50px;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .overlay {
   position: absolute;
@@ -109,10 +129,6 @@ button:hover img {
   height: 80px;
   border-radius: 4px;
   background-color: var(--fgc2);
-}
-.level-item:hover {
-  background-color: var(--bgc2);
-  color: var(--fgc2);
 }
 .level-item img {
   width: 100%;
@@ -147,9 +163,7 @@ button:hover img {
 #bonus-grid {
   row-gap: 0px;
 }
-#bonus-grid > canvas {
-  margin-bottom: -60px;
-}
+
 #level-dialog {
   width: 50%;
   height: 50%;
@@ -161,9 +175,15 @@ button:hover img {
   cursor: pointer;
   background: none;
   border-radius: 4px;
+  margin-bottom: -60px;
 }
-.bonus-item:hover {
+.bonus-item:hover:not(.disabled) {
   transform: scale(1.1);
+}
+.bonus-item.disabled {
+  background-color: black;
+  filter: contrast(0.5);
+  cursor: not-allowed;
 }
 
 #bonus-grid > canvas {
