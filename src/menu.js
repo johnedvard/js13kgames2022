@@ -1,4 +1,3 @@
-import closeIcon from 'data-url:./assets/img/close icon.svg';
 import skull from 'data-url:./assets/img/skull.png';
 
 import { emit, on } from 'kontra';
@@ -22,7 +21,6 @@ let hasRemovedDisableOnBonusEls = false;
 export const initMenu = () => {
   addButtonListeners();
   listenForGameEvents();
-  addCloseIcon();
   initLevels();
   initBonusContent();
   focusLevelSelectButton();
@@ -128,13 +126,6 @@ const addButtonListeners = () => {
   containerEl.addEventListener('click', onContainerClick);
 };
 
-const addCloseIcon = () => {
-  const closeIconImgEls = document.getElementsByClassName('close-icon');
-  for (let el of closeIconImgEls) {
-    el.setAttribute('src', closeIcon);
-  }
-};
-
 const onContainerClick = (e) => {
   const id = e.target.id;
   const classList = e.target.classList;
@@ -162,7 +153,7 @@ const onContainerClick = (e) => {
       break;
   }
 
-  if (classList.contains('close-icon')) {
+  if (classList.contains('bone') || classList.contains('inverse')) {
     showOverlay('main');
     return;
   }
