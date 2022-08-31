@@ -2,7 +2,7 @@ import heart from 'data-url:./assets/img/heart.png';
 
 import { emit, Sprite } from 'kontra';
 import { HEART_PICKUP } from './gameEvents';
-import { isBoxCollision } from './utils';
+import { createSprite, isBoxCollision } from './utils';
 
 export class Heart {
   scale = 4;
@@ -16,7 +16,12 @@ export class Heart {
     this.level = level;
     this.x = x;
     this.y = y;
-    this.createSprite();
+    createSprite({
+      x: this.x,
+      y: this.y,
+      scale: this.scale,
+      imgSrc: heart,
+    }).then((sprite) => (this.sprite = sprite));
   }
   update() {
     if (!this.sprite) return;
@@ -27,26 +32,6 @@ export class Heart {
   render(_ctx) {
     if (!this.sprite) return;
     this.sprite.render();
-  }
-
-  createSprite() {
-    const image = new Image();
-    image.src = heart;
-    image.onerror = function (err) {
-      console.log(err);
-    };
-    image.onload = () => {
-      this.sprite = Sprite({
-        x: this.x,
-        y: this.y,
-        anchor: { x: 0.5, y: 0.5 },
-        width: 8,
-        height: 8,
-        image: image,
-        scaleX: this.scale,
-        scaleY: this.scale,
-      });
-    };
   }
 
   checkCollision() {

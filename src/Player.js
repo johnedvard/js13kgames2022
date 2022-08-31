@@ -6,6 +6,7 @@ import { fgc2 } from './constants';
 import { ARCADIAN_HEAD_SELECTED, CUT_ROPE, GOAL_COLLISION } from './gameEvents';
 import { Rope } from './Rope';
 import { getSelectedArcadian } from './store';
+import { createSprite } from './utils';
 
 export class Player {
   game;
@@ -27,7 +28,12 @@ export class Player {
     const startY = levelData.p.y;
     this.headImg = getSelectedArcadian().img || { width: 0, height: 0 };
     this.createRope({ startX, startY, ropeLength });
-    this.createSprite();
+    createSprite({
+      x: startX,
+      y: startY,
+      scale: this.scale,
+      imgSrc: skull,
+    }).then((sprite) => (this.sprite = sprite));
     this.createHeadSprite(this.headImg);
     this.playerControls = new PlayerControls(this);
     this.listenForGameEvents();
@@ -43,25 +49,6 @@ export class Player {
     this.rope.render(ctx);
   }
 
-  createSprite() {
-    const image = new Image();
-    image.src = skull;
-    image.onerror = function (err) {
-      console.log(err);
-    };
-    image.onload = () => {
-      this.sprite = Sprite({
-        x: this.rope.endNode.x,
-        y: this.rope.endNode.y,
-        anchor: { x: 0.5, y: 0.5 },
-        width: 8,
-        height: 8,
-        image: image,
-        scaleX: this.scale,
-        scaleY: this.scale,
-      });
-    };
-  }
   createHeadSprite(img) {
     if (!img.width || !img.height) return;
     const scale = this.scale / 2;

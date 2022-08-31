@@ -1,4 +1,4 @@
-import { Vector } from 'kontra';
+import { Vector, Sprite } from 'kontra';
 
 export const scaleToFit = () => {
   // TODO (johnedvard) listen for window resize, debounce, and scale to fit mac height and width whilst keeping aspect ratio
@@ -40,4 +40,24 @@ export const getNearLevelId = (tokenSeriesId) => {
     case '2036':
       return 3;
   }
+};
+
+export const createSprite = ({ x, y, scale, imgSrc }) => {
+  return new Promise((resolve) => {
+    const image = new Image();
+    image.src = imgSrc;
+    image.onload = () => {
+      const sprite = Sprite({
+        x: x,
+        y: y,
+        anchor: { x: 0.5, y: 0.5 },
+        width: 8,
+        height: 8,
+        image: image,
+        scaleX: scale,
+        scaleY: scale,
+      });
+      resolve(sprite);
+    };
+  });
 };

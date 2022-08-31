@@ -2,6 +2,7 @@ import saw2 from 'data-url:./assets/img/saw3.png';
 
 import { Sprite } from 'kontra';
 import { BACK_FORTH, UP_DOWN } from './sawBehavior';
+import { createSprite } from './utils';
 
 export class Saw {
   x;
@@ -24,7 +25,12 @@ export class Saw {
     this.distance = 200;
     this.behavior = behavior;
     this.level = level;
-    this.createSprite();
+    createSprite({
+      x: this.x,
+      y: this.y,
+      scale: this.scale,
+      imgSrc: saw2,
+    }).then((sprite) => (this.sprite = sprite));
   }
 
   update() {
@@ -69,22 +75,5 @@ export class Saw {
   }
   render(_ctx) {
     this.sprite.render();
-  }
-  createSprite() {
-    const image = new Image();
-    image.src = saw2;
-    image.onerror = function (err) {
-      console.log(err);
-    };
-    image.onload = () => {
-      this.sprite = Sprite({
-        x: this.x,
-        y: this.y,
-        image: image,
-        scaleX: this.scale,
-        anchor: { x: 0.5, y: 0.5 },
-        scaleY: this.scale,
-      });
-    };
   }
 }
