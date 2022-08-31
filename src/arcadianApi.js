@@ -1,5 +1,5 @@
 import { emit } from 'kontra';
-import { ARCADIAN_ADDED, ARCADIAN_HEAD_SELECTED } from './gameEvents';
+import { ARCADIAN_HEAD_SELECTED } from './gameEvents';
 import { setArcadianData } from './store';
 
 export async function queryArcadian(id) {

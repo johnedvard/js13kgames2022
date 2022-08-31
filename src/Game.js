@@ -1,10 +1,5 @@
 import { init, initPointer, initInput, GameLoop, onPointer, on } from 'kontra';
-import {
-  LEVEL_COMPLETE,
-  RESTART_LEVEL,
-  START_LEVEL,
-  START_NEXT_LEVEL,
-} from './gameEvents';
+import { RESTART_LEVEL, START_LEVEL, START_NEXT_LEVEL } from './gameEvents';
 import { Level } from './Level';
 import { playSong } from './sound';
 import { setGameHeight, setGameWidth } from './store';

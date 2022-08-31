@@ -1,6 +1,6 @@
 import heart from 'data-url:./assets/img/heart.png';
 
-import { emit, Sprite } from 'kontra';
+import { emit } from 'kontra';
 import { HEART_PICKUP } from './gameEvents';
 import { createSprite, isBoxCollision } from './utils';
 
