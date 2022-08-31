@@ -63,7 +63,7 @@ button,
 .btn {
   width: 240px;
   height: 50px;
-  margin: 20px 0px 0px 0px;
+  margin-top: 20px;
   background-color: var(--fgc2);
   color: var(--bgc);
   border: none;
