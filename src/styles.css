@@ -30,8 +30,8 @@ canvas {
 #menu {
   color: var(--fgc2);
   position: absolute;
-  font-size: x-large;
-  font-weight: bolder;
+  font-size: 23px;
+  font-weight: 600;
   top: 0;
   right: 0;
   display: flex;
@@ -68,8 +68,8 @@ button,
   color: var(--bgc);
   border: none;
   border-radius: 4px;
-  font-size: large;
-  font-weight: bolder;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
 }
 button:disabled {
@@ -206,7 +206,7 @@ button:hover img {
   top: 100px;
   right: 100px;
   cursor: pointer;
-  font-size: xx-large;
+  font-size: 32px;
   cursor: pointer;
 }
 .bone:hover {
