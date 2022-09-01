@@ -40,8 +40,7 @@ export class Game {
   }
 
   loadLevel(levelId) {
-    console.log('load level', levelId);
-    this.level = new Level(levelId, { game: this });
+    this.level = new Level({ levelId, game: this });
   }
 
   addPointerListeners() {
@@ -62,11 +61,15 @@ export class Game {
     this.level.destroy();
     this.loadLevel(this.level.levelId + 1);
   };
-  onStartLevel = ({ levelId }) => {
+  onStartLevel = ({ levelId, levelData }) => {
     if (this.level) {
       this.level.destroy();
     }
-    this.loadLevel(levelId);
+    if (levelId) {
+      this.loadLevel(levelId);
+    } else if (levelData) {
+      this.level = new Level({ game: this, levelData: JSON.parse(levelData) });
+    }
   };
   onReStartLevel = () => {
     this.loadLevel(this.level.levelId);

@@ -88,7 +88,9 @@ export class NearConnection {
     return fetch(PARAS_COLLECTION_API)
       .then((res) => res.json())
       .then((res) => {
-        return res.data.results.filter((data) => data.metadata.copies > 0);
+        return res.data.results.filter(
+          (data) => data.metadata.copies > 0 && !data.is_non_mintable
+        );
       });
   }
   listenForGameEvents() {

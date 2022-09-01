@@ -12,18 +12,27 @@ export class Level {
   hearts = [];
   bricks = [];
   isLevelLoaded = false;
-  levelId = -1;
-  constructor(levelId, { game }) {
+  constructor({ game, levelId, levelData }) {
     this.game = game;
-    this.levelId = levelId;
-    this.loadLevel('level' + levelId).then((levelData) => {
-      this.createPlayer(levelData);
-      this.createSaws(levelData);
-      this.createGoals(levelData);
-      this.createHearts(levelData);
-      this.createBricks(levelData);
-      this.isLevelLoaded = true;
-    });
+    if (levelData) {
+      setTimeout(() => {
+        // XXX Using settimout to avoid runtime error for some reason
+        this.init(levelData);
+      });
+    } else {
+      this.loadLevel('level' + levelId).then((levelData) => {
+        this.init(levelData);
+      });
+    }
+  }
+
+  init(levelData) {
+    this.createPlayer(levelData);
+    this.createSaws(levelData);
+    this.createGoals(levelData);
+    this.createHearts(levelData);
+    this.createBricks(levelData);
+    this.isLevelLoaded = true;
   }
 
   loadLevel(levelId) {

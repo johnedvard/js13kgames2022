@@ -9,6 +9,7 @@ export let nftTokensBySeries = [];
 export let nftTokensForOwner = [];
 export let nftCollections = [];
 export let isSubscriber = false;
+export const nearLevelData = {};
 
 export const setGameWidth = (width) => {
   gameWidth = width;
@@ -43,5 +44,9 @@ export const setNftTokens = (tokensForOwner, tokensBySeries, collections) => {
 };
 
 export const setIsSubscriber = () => {
-  // isSubscriber = true;
+  isSubscriber = true;
+};
+
+export const setNearLevel = (id, data) => {
+  nearLevelData[id] = data;
 };

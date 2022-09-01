@@ -8,15 +8,16 @@ The game uses Verlet Intergration. I've followed this article, [Simulate Tearabl
 
 ### NEAR and OP Games
 
-Use NEAR to connect to https://paras.id/. Players can unlock new levels by minting NFTs
+Use NEAR to connect to https://paras.id/. Players can unlock new levels by minting NFTs.
+The levels are integrated in the NFT itself, which means they cannot change.
 
 ### Arcadian
 
-Players can select cool headwear from the Arcadians
+Players can select cool headwear from the Arcadians.
 
 ### Web monetization
 
-Players can adjust the color palette, and also unlock "hard" mode for levels with extra challanges.
+Players can unlock extra bonus headgear if they are Coil subscribers
 
 ## How to run and build the game
 

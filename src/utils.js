@@ -1,4 +1,5 @@
 import { Vector, Sprite } from 'kontra';
+import { nearLevelData } from './store';
 
 export const scaleToFit = () => {
   // TODO (johnedvard) listen for window resize, debounce, and scale to fit mac height and width whilst keeping aspect ratio
@@ -33,13 +34,8 @@ export const doesOwnNft = (seriesId, nftTokensForOwner) => {
   return !!token;
 };
 
-export const getNearLevelId = (tokenSeriesId) => {
-  switch (tokenSeriesId) {
-    case '2037':
-      return 2;
-    case '2036':
-      return 3;
-  }
+export const getNearLevel = (tokenSeriesId) => {
+  return nearLevelData[tokenSeriesId];
 };
 
 export const createSprite = ({ x, y, scale, imgSrc }) => {

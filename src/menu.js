@@ -11,9 +11,14 @@ import {
   START_NEXT_LEVEL,
 } from './gameEvents';
 import { fetchArcadianHeads } from './arcadianApi';
-import { isSubscriber, nftTokensBySeries, setSelectedArcadian } from './store';
+import {
+  isSubscriber,
+  nftTokensBySeries,
+  setNearLevel,
+  setSelectedArcadian,
+} from './store';
 import { IPFS_BASE_PATH } from './near/nearConnection';
-import { doesOwnNft, getNearLevelId } from './utils';
+import { doesOwnNft, getNearLevel } from './utils';
 
 const overlayIds = ['main', 'bonus', 'levels', 'level-dialog', 'near-levels'];
 const levels = 20;
@@ -49,6 +54,7 @@ const initNearLevels = ({
   if (nearLoadingEl) nearLoadingEl.remove();
   const levelsGridEl = document.getElementById('near-levels-grid');
   nftCollections.forEach((collection) => {
+    setNearLevel(collection.token_series_id, collection.metadata.description);
     const levelEl = document.createElement('button');
     const imgEl = document.createElement('img');
     const ownsNft = doesOwnNft(collection.token_series_id, nftTokensForOwner);
@@ -176,7 +182,7 @@ const onNearLevelClick = (btn) => {
   } else {
     showOverlay();
     emit(START_LEVEL, {
-      levelId: getNearLevelId(btn.getAttribute('token-series-id')),
+      levelData: getNearLevel(btn.getAttribute('token-series-id')),
     });
   }
 };
