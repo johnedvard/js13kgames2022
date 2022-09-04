@@ -1,4 +1,5 @@
 import { emit, Vector } from 'kontra';
+
 import { fgc2, gravity, RESTING_DISTANCE } from './constants';
 import { CUT_ROPE } from './gameEvents';
 import { gameHeight, gameWidth } from './store';
@@ -48,7 +49,7 @@ export class Rope {
       if (n === this.nodes[0]) n.pos = this.anchor;
       const vxy = n.pos.subtract(n.oldPos);
       n.oldPos = n.pos;
-      n.pos = n.pos.add(vxy).add(Vector(0, gravity));
+      n.pos = n.pos.add(vxy).add(Vector(0, gravity * n.mass));
     });
   }
   constrainNodes() {
@@ -149,5 +150,10 @@ export class Rope {
 
   get endNode() {
     return this.nodes[this.nodes.length - 1];
+  }
+
+  get anchorNode() {
+    if (!this.nodes.length) return {};
+    return this.nodes[0];
   }
 }

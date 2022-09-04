@@ -1,9 +1,10 @@
+import { BounceBoard } from './BounceBoard';
 import { Brick } from './Brick';
 import { Goal } from './Goal';
 import { Heart } from './Heart';
 import { Player } from './Player';
 import { Saw } from './Saw';
-import { lineIntersection } from './utils';
+import { isBoxCollision } from './utils';
 
 export class Level {
   player;
@@ -11,8 +12,13 @@ export class Level {
   goals = [];
   hearts = [];
   bricks = [];
+  bounceBoards = [];
   isLevelLoaded = false;
+  levelId;
+  levelData;
   constructor({ game, levelId, levelData }) {
+    this.levelId = levelId;
+    this.levelData = levelData;
     this.game = game;
     if (levelData) {
       setTimeout(() => {
@@ -32,6 +38,7 @@ export class Level {
     this.createGoals(levelData);
     this.createHearts(levelData);
     this.createBricks(levelData);
+    this.createBounceBoards(levelData);
     this.isLevelLoaded = true;
   }
 
@@ -61,6 +68,9 @@ export class Level {
     this.bricks.forEach((brick) => {
       brick.render(ctx);
     });
+    this.bounceBoards.forEach((board) => {
+      board.render(ctx);
+    });
     this.player.render(ctx);
     this.goals.forEach((goal) => {
       goal.render(ctx);
@@ -83,6 +93,9 @@ export class Level {
     this.bricks.forEach((brick) => {
       brick.update();
     });
+    this.bounceBoards.forEach((board) => {
+      board.update();
+    });
   }
 
   createGoals(levelData) {
@@ -99,6 +112,7 @@ export class Level {
   }
 
   createSaws(levelData) {
+    if (!levelData.s) return;
     levelData.s.forEach((saw) => {
       // TODO (johnedvard) Add actual saw behaviour
       this.saws.push(
@@ -108,14 +122,31 @@ export class Level {
   }
 
   createHearts(levelData) {
+    if (!levelData.h) return;
     levelData.h.forEach((heart) => {
       this.hearts.push(new Heart(heart.x, heart.y, { level: this }));
     });
   }
 
   createBricks(levelData) {
+    if (!levelData.b) return;
     levelData.b.forEach((brick) => {
-      this.bricks.push(new Brick(brick.x, brick.y, { level: this }));
+      this.bricks.push(
+        new Brick(brick.x, brick.y, {
+          behavior: brick.b,
+          distance: brick.d,
+          level: this,
+        })
+      );
+    });
+  }
+
+  createBounceBoards(levelData) {
+    if (!levelData.bb) return;
+    levelData.bb.forEach((board) => {
+      this.bounceBoards.push(
+        new BounceBoard({ p1: board.p1, p2: board.p2, level: this })
+      );
     });
   }
 
@@ -125,13 +156,11 @@ export class Level {
     for (let i = 0; i < rope.length - 2; i++) {
       this.saws.forEach((saw) => {
         if (
-          // TODO (johnedvard) add to y-axis if saw is up down
-          lineIntersection(
-            { x: saw.x - 5, y: saw.y - 5 },
-            { x: saw.x + 5, y: saw.y + 5 },
-            { x: rope.nodes[i].x, y: rope.nodes[i].y },
-            { x: rope.nodes[i + 1].x, y: rope.nodes[i + 1].y }
-          )
+          isBoxCollision(rope.nodes[i], {
+            width: saw.width * saw.scale,
+            height: saw.height * saw.scale,
+            ...saw,
+          })
         ) {
           this.player.rope.cutRope(i);
         }

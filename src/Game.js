@@ -31,6 +31,7 @@ export class Game {
       },
       render: function () {
         if (!game.level) return;
+        context.save();
         game.level.render(game.context);
       },
     });
@@ -39,10 +40,13 @@ export class Game {
     this.listenForGameEvents();
   }
 
-  loadLevel(levelId) {
-    this.level = new Level({ levelId, game: this });
+  loadLevel({ levelId, levelData }) {
+    if (levelId) {
+      this.level = new Level({ levelId, game: this });
+    } else if (levelData) {
+      this.level = new Level({ game: this, levelData: JSON.parse(levelData) });
+    }
   }
-
   addPointerListeners() {
     onPointer('down', () => {
       this.isDragging = true;
@@ -59,19 +63,18 @@ export class Game {
   }
   onStartNextLevel = () => {
     this.level.destroy();
-    this.loadLevel(this.level.levelId + 1);
+    this.loadLevel({ levelId: this.level.levelId + 1 });
   };
   onStartLevel = ({ levelId, levelData }) => {
     if (this.level) {
       this.level.destroy();
     }
-    if (levelId) {
-      this.loadLevel(levelId);
-    } else if (levelData) {
-      this.level = new Level({ game: this, levelData: JSON.parse(levelData) });
-    }
+    this.loadLevel({ levelId, levelData });
   };
   onReStartLevel = () => {
-    this.loadLevel(this.level.levelId);
+    this.loadLevel({
+      levelId: this.level.levelId,
+      levelData: this.level.levelData,
+    });
   };
 }

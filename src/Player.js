@@ -1,33 +1,42 @@
 import skull from 'data-url:./assets/img/skull.png';
 
-import { getPointer, Sprite, on } from 'kontra';
+import { getPointer, Sprite, on, Vector } from 'kontra';
 import { PlayerControls } from './PlayerControls';
 import { fgc2 } from './constants';
 import { ARCADIAN_HEAD_SELECTED, CUT_ROPE, GOAL_COLLISION } from './gameEvents';
 import { Rope } from './Rope';
 import { getSelectedArcadian } from './store';
 import { createSprite } from './utils';
+import { getDirection, moveBehavior, setBehavior } from './behavior';
 
 export class Player {
   game;
-  rope = []; // list of pointmasses
+  rope = [];
   playerControls;
   scale = 4;
-  sprite = { render: () => {}, x: 0, y: 0 }; // draw sprite on pointmass position
+  sprite = { render: () => {}, x: 0, y: 0 };
   headSprite = { render: () => {}, x: 0, y: 0 }; // From Arcadian API
   hasWon = false;
   headImg;
   headOffset = { x: 10, y: 38 };
   isLeft = false;
   isRopeCut = false;
+  anchorNodeSpeed = 1;
+  anchorNodeDirection;
+  anchorNodeOrgPos;
 
   constructor({ game, levelData }) {
+    levelData.p = levelData.p || {};
+    this.anchorNodeDirection = getDirection(levelData.p.b, levelData.p.d);
+    this.distance = Math.abs(levelData.p.d);
+    this.behavior = levelData.p.b;
     this.game = game;
     const ropeLength = levelData.r;
     const startX = levelData.p.x;
     const startY = levelData.p.y;
+    this.anchorNodeOrgPos = Vector(startX, startY);
     this.headImg = getSelectedArcadian().img || { width: 0, height: 0 };
-    this.createRope({ startX, startY, ropeLength });
+    this.createRope({ startX, startY, ropeLength, levelData });
     createSprite({
       x: startX,
       y: startY,
@@ -139,8 +148,24 @@ export class Player {
       this.rope.endNode.pos.y - this.headImg.height + +this.headOffset.y;
 
     this.updateRope();
+    this.updateAnchorNode();
     // this.dragRope(); // TODO (johnedvard) Only enable in local and beta env
     this.playerControls.updateControls();
+  }
+
+  updateAnchorNode() {
+    const anchorNode = this.rope.anchorNode;
+    const { axis, newDirection, multiplier } = moveBehavior({
+      behavior: this.behavior,
+      distance: this.distance,
+      direction: this.anchorNodeDirection,
+      x: anchorNode.pos.x,
+      y: anchorNode.pos.y,
+      orgX: this.anchorNodeOrgPos.x,
+      orgY: this.anchorNodeOrgPos.y,
+    });
+    this.anchorNodeDirection = newDirection;
+    anchorNode.pos[axis] += this.anchorNodeSpeed * multiplier;
   }
 
   climbRope() {
@@ -171,4 +196,18 @@ export class Player {
   onCutRope = ({ rope }) => {
     this.isRopeCut = true;
   };
+
+  get currPos() {
+    return this.rope.endNode.pos;
+  }
+  get oldPos() {
+    return this.rope.endNode.oldPos;
+  }
+
+  set currPos(pos) {
+    this.rope.endNode.currPos = pos;
+  }
+  set oldPos(pos) {
+    this.rope.endNode.oldPos = pos;
+  }
 }

@@ -47,6 +47,8 @@ export async function queryArcadian(id) {
 export const fetchArcadianHeads = () => {
   return new Promise((resolve) => {
     const promises = [];
+    promises.push(queryArcadian(92));
+    promises.push(queryArcadian(101));
     for (let i = 1; i < 46; i++) {
       if (i === 2 || i === 13) continue;
       const promise = queryArcadian(i);

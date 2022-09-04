@@ -23,8 +23,8 @@ export const lineIntersection = (p1, p2, p3, p4) => {
   if (v < 0.0 || v > 1.0) return null; // intersection point not between p3 and p4
   const intersectionX = p1.x + u * (p2.x - p1.x);
   const intersectionY = p1.y + u * (p2.y - p1.y);
-  let intersection = Vector(intersectionX, intersectionY);
-  return intersection;
+  if (Number.isNaN(intersectionX) || Number.isNaN(intersectionY)) return null;
+  return Vector(intersectionX, intersectionY);
 };
 
 export const doesOwnNft = (seriesId, nftTokensForOwner) => {

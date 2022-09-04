@@ -5,6 +5,7 @@ export class VerletNode {
   oldPos;
   width = 2;
   height = 2;
+  mass = 0.03;
   constructor({ x, y }) {
     this.pos = Vector(x, y);
     this.oldPos = Vector(x, y);

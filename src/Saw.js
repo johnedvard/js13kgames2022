@@ -1,6 +1,6 @@
 import saw2 from 'data-url:./assets/img/saw3.png';
 
-import { BACK_FORTH, UP_DOWN } from './sawBehavior';
+import { moveBehavior, getDirection } from './behavior';
 import { createSprite } from './utils';
 
 export class Saw {
@@ -13,60 +13,40 @@ export class Saw {
   speed = 1;
   scale = 4;
   rotSpeed = 0.2;
+  width = 8;
+  height = 8;
   level;
-  direction = 'e'; // n,s,e,w
 
   constructor(x, y, { behavior, distance, level }) {
+    this.direction = getDirection(behavior, distance);
+    this.distance = Math.abs(distance);
+    this.behavior = behavior;
     this.x = x;
     this.y = y;
     this.orgX = x;
     this.orgY = y;
-    this.distance = 200;
-    this.behavior = behavior;
     this.level = level;
     createSprite({
       x: this.x,
       y: this.y,
+      width: this.width,
+      height: this.height,
       scale: this.scale,
       imgSrc: saw2,
     }).then((sprite) => (this.sprite = sprite));
   }
 
   update() {
-    this.moveDistance(this.behavior, this.distance);
-  }
-  moveDistance(behavior, distance) {
-    let axis = '';
-    let multiplier = 1;
-    switch (behavior) {
-      case UP_DOWN:
-        axis = 'y';
-        break;
-      case BACK_FORTH:
-        axis = 'x';
-        break;
-    }
-
-    switch (this.direction) {
-      case 'n':
-        multiplier = -1;
-        break;
-      case 's':
-        multiplier = 1;
-        break;
-      case 'e':
-        multiplier = 1;
-        if (this.orgX + distance < this.x) {
-          this.direction = 'w';
-        }
-        break;
-      case 'w':
-        multiplier = -1;
-        if (this.orgX - distance > this.x) {
-          this.direction = 'e';
-        }
-        break;
-    }
+    const { axis, newDirection, multiplier } = moveBehavior({
+      behavior: this.behavior,
+      distance: this.distance,
+      direction: this.direction,
+      x: this.x,
+      y: this.y,
+      orgX: this.orgX,
+      orgY: this.orgY,
+    });
+    this.direction = newDirection;
     this[axis] += this.speed * multiplier;
     this.sprite.x = this.x;
     this.sprite.y = this.y;

@@ -1,10 +1,18 @@
+import { getDirection, moveBehavior, setBehavior } from './behavior';
+
 export class Brick {
   x;
   y;
   level;
   width = 32;
   height = 32;
-  constructor(x, y, { level }) {
+  speed = 1;
+  constructor(x, y, { level, behavior, distance }) {
+    this.direction = getDirection(behavior, distance);
+    this.distance = Math.abs(distance);
+    this.behavior = behavior;
+    this.orgX = x;
+    this.orgY = y;
     this.x = x;
     this.y = y;
     this.level = level;
@@ -18,7 +26,19 @@ export class Brick {
       height: 12,
     };
   }
-  update() {}
+  update() {
+    const { axis, newDirection, multiplier } = moveBehavior({
+      behavior: this.behavior,
+      distance: this.distance,
+      direction: this.direction,
+      x: this.x,
+      y: this.y,
+      orgX: this.orgX,
+      orgY: this.orgY,
+    });
+    this.direction = newDirection;
+    this[axis] += this.speed * multiplier;
+  }
 
   render(ctx) {
     if (!ctx) return;
