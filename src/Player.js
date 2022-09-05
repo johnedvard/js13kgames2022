@@ -148,9 +148,9 @@ export class Player {
     this.headSprite.y =
       this.rope.endNode.pos.y - this.headImg.height + +this.headOffset.y;
 
+    this.particleEffect.update();
     this.updateRope();
     this.updateAnchorNode();
-    this.particleEffect.update();
     this.playerControls.updateControls();
   }
 
