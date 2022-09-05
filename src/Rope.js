@@ -130,7 +130,7 @@ export class Rope {
       return;
     }
 
-    const factor = 0.1;
+    const factor = 0.3;
     const lastLink = this.links[this.links.length - 1];
     lastLink.restingDistance -= RESTING_DISTANCE * factor;
     if (lastLink.restingDistance <= 0) {

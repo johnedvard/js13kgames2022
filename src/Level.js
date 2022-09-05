@@ -1,5 +1,6 @@
 import { BounceBoard } from './BounceBoard';
 import { Brick } from './Brick';
+import { initGameHints } from './gameHints';
 import { Goal } from './Goal';
 import { Heart } from './Heart';
 import { Player } from './Player';
@@ -40,6 +41,7 @@ export class Level {
     this.createBricks(levelData);
     this.createBounceBoards(levelData);
     this.isLevelLoaded = true;
+    initGameHints(this.levelId);
   }
 
   loadLevel(levelId) {

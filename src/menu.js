@@ -19,6 +19,7 @@ import {
 } from './store';
 import { IPFS_BASE_PATH } from './near/nearConnection';
 import { doesOwnNft, getNearLevel } from './utils';
+import { initGameHints } from './gameHints';
 
 const overlayIds = ['main', 'bonus', 'levels', 'level-dialog', 'near-levels'];
 const levels = 20;
@@ -188,6 +189,7 @@ const onNearLevelClick = (btn) => {
 };
 
 const showOverlay = (id) => {
+  initGameHints(null);
   overlayIds.forEach((o) => {
     const overlayEl = document.getElementById(o);
     if (!overlayEl.classList.contains('hide')) {
