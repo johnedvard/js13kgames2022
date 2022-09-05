@@ -1,4 +1,4 @@
-import { Vector, Sprite } from 'kontra';
+import { Vector, Sprite } from './kontra';
 import { nearLevelData } from './store';
 
 export const scaleToFit = () => {

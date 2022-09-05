@@ -1,4 +1,4 @@
-import { Vector } from 'kontra';
+import { Vector } from './kontra';
 
 import { acc } from './constants';
 import { lineIntersection } from './utils';

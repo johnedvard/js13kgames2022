@@ -1,6 +1,6 @@
 import skull from 'data-url:./assets/img/skull.png';
 
-import { getPointer, Sprite, on, Vector } from 'kontra';
+import { Sprite, on, Vector } from './kontra';
 import { PlayerControls } from './PlayerControls';
 import { fgc2 } from './constants';
 import { ARCADIAN_HEAD_SELECTED, CUT_ROPE, GOAL_COLLISION } from './gameEvents';
@@ -87,7 +87,6 @@ export class Player {
   // Debug purpose only
   dragRope() {
     if (this.game.isDragging && this.rope.length) {
-      const pointer = getPointer();
       const acnhorPoint = this.rope.nodes[0];
       acnhorPoint.pos.x = pointer.x;
       acnhorPoint.pos.y = pointer.y;

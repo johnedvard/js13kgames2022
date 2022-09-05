@@ -1,4 +1,4 @@
-import { emit } from 'kontra';
+import { emit } from './kontra';
 
 import { isBoxCollision } from './utils';
 import { GOAL_COLLISION, LEVEL_COMPLETE } from './gameEvents';

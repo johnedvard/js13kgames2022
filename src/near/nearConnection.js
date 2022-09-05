@@ -1,4 +1,4 @@
-import { on } from 'kontra';
+import { on } from '../kontra';
 import { NFT_MINT } from '../gameEvents';
 import getConfig from './config';
 

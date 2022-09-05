@@ -1,5 +1,3 @@
-import { emit } from 'kontra';
-
 import cssText from 'bundle-text:./styles.css';
 
 import { Game } from './Game';

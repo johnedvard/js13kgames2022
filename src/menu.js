@@ -1,6 +1,6 @@
 import skull from 'data-url:./assets/img/skull.png';
 
-import { emit, on } from 'kontra';
+import { emit, on } from './kontra';
 import {
   LEVEL_COMPLETE,
   MONETIZATION_PROGRESS,

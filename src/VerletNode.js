@@ -1,4 +1,4 @@
-import { Vector } from 'kontra';
+import { Vector } from './kontra';
 
 export class VerletNode {
   pos;

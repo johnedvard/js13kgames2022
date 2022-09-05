@@ -1,4 +1,11 @@
-import { init, initPointer, initInput, GameLoop, onPointer, on } from 'kontra';
+import {
+  init,
+  initPointer,
+  initInput,
+  GameLoop,
+  onPointer,
+  on,
+} from './kontra';
 import { RESTART_LEVEL, START_LEVEL, START_NEXT_LEVEL } from './gameEvents';
 import { Level } from './Level';
 import { playSong } from './sound';

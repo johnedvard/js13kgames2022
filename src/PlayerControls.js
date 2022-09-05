@@ -1,4 +1,4 @@
-import { emit, keyPressed, onInput } from 'kontra';
+import { emit, keyPressed, onInput } from './kontra';
 import { RESTART_LEVEL } from './gameEvents';
 
 export class PlayerControls {
