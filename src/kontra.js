@@ -630,13 +630,6 @@ class Sprite extends GameObject {
 function factory$8() {
   return new Sprite(...arguments);
 }
-let fontSizeRegex = /(\d+)(\w+)/;
-function parseFont(t) {
-  let e = t.match(fontSizeRegex),
-    i = +e[1];
-  return { size: i, unit: e[2], computed: i };
-}
-
 let pointers = new WeakMap();
 function getPointer(t = getCanvas()) {
   return pointers.get(t);

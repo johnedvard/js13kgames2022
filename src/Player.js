@@ -9,6 +9,7 @@ import { Rope } from './Rope';
 import { getSelectedArcadian } from './store';
 import { createSprite } from './utils';
 import { getDirection, moveBehavior } from './behavior';
+import { BubbleEffect } from './BubbleEffect';
 
 export class Player {
   game;
@@ -25,6 +26,7 @@ export class Player {
   anchorNodeSpeed = 1;
   anchorNodeDirection;
   anchorNodeOrgPos;
+  particleEffect;
 
   constructor({ game, levelData }) {
     levelData.p = levelData.p || {};
@@ -47,6 +49,7 @@ export class Player {
     this.createHeadSprite(this.headImg);
     this.playerControls = new PlayerControls(this);
     this.listenForGameEvents();
+    this.particleEffect = new BubbleEffect();
   }
 
   updateRope() {
@@ -91,6 +94,12 @@ export class Player {
   }
 
   applyForce(fX, fY) {
+    this.particleEffect.addBubbles({
+      x: this.sprite.x,
+      y: this.sprite.y,
+      // TODO (johnedvard) use a constant to make it more obvious and less prone to bug
+      isBoost: fY < -4,
+    });
     this.rope.endNode.applyForce(fX, fY);
   }
 
@@ -112,6 +121,7 @@ export class Player {
   render(ctx) {
     this.renderRope(ctx);
     this.renderPlayer(ctx);
+    this.particleEffect.render(ctx);
     // this.renderCollisionBox(ctx);
   }
 
@@ -140,6 +150,7 @@ export class Player {
 
     this.updateRope();
     this.updateAnchorNode();
+    this.particleEffect.update();
     this.playerControls.updateControls();
   }
 
