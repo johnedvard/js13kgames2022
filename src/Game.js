@@ -1,11 +1,4 @@
-import {
-  init,
-  initPointer,
-  initInput,
-  GameLoop,
-  onPointer,
-  on,
-} from './kontra';
+import { init, initInput, GameLoop, on } from './kontra';
 import { RESTART_LEVEL, START_LEVEL, START_NEXT_LEVEL } from './gameEvents';
 import { Level } from './Level';
 import { playSong } from './sound';
@@ -25,11 +18,9 @@ export class Game {
     let { canvas, context } = init();
     this.canvas = canvas;
     this.context = context;
-    initPointer();
     initInput();
     setGameHeight(canvas.height);
     setGameWidth(canvas.width);
-    this.addPointerListeners();
 
     let loop = GameLoop({
       update: function () {
@@ -53,14 +44,6 @@ export class Game {
     } else if (levelData) {
       this.level = new Level({ game: this, levelData: JSON.parse(levelData) });
     }
-  }
-  addPointerListeners() {
-    onPointer('down', () => {
-      this.isDragging = true;
-    });
-    onPointer('up', () => {
-      this.isDragging = false;
-    });
   }
 
   listenForGameEvents() {

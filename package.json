@@ -20,9 +20,6 @@
     "parcel-reporter-static-files-copy": "^1.4.0",
     "roadroller": "^2.1.0"
   },
-  "dependencies": {
-    "kontra": "^8.0.0"
-  },
   "staticFiles": {
     "staticPath": "src/level",
     "staticOutPath": "level"

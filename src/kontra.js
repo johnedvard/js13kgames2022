@@ -636,250 +636,12 @@ function parseFont(t) {
     i = +e[1];
   return { size: i, unit: e[2], computed: i };
 }
-class Text extends GameObject {
-  init({
-    text: t = '',
-    textAlign: e = '',
-    lineHeight: i = 1,
-    font: s = getContext().font,
-    ...a
-  } = {}) {
-    (t = '' + t),
-      super.init({ text: t, textAlign: e, lineHeight: i, font: s, ...a }),
-      this._p();
-  }
-  get width() {
-    return this._w;
-  }
-  set width(t) {
-    (this._d = !0), (this._w = t), (this._fw = t);
-  }
-  get text() {
-    return this._t;
-  }
-  set text(t) {
-    (this._d = !0), (this._t = '' + t);
-  }
-  get font() {
-    return this._f;
-  }
-  set font(t) {
-    (this._d = !0), (this._f = t), (this._fs = parseFont(t).computed);
-  }
-  get lineHeight() {
-    return this._lh;
-  }
-  set lineHeight(t) {
-    (this._d = !0), (this._lh = t);
-  }
-  render() {
-    this._d && this._p(), super.render();
-  }
-  _p() {
-    (this._s = []), (this._d = !1);
-    let t = this.context;
-    if (((t.font = this.font), !this._s.length && this._fw)) {
-      let e = this.text.split(' '),
-        i = 0,
-        s = 2;
-      for (; s <= e.length; s++) {
-        let a = e.slice(i, s).join(' ');
-        t.measureText(a).width > this._fw &&
-          (this._s.push(e.slice(i, s - 1).join(' ')), (i = s - 1));
-      }
-      this._s.push(e.slice(i, s).join(' '));
-    }
-    if (!this._s.length && this.text.includes('\n')) {
-      let e = 0;
-      this.text.split('\n').map((i) => {
-        this._s.push(i), (e = Math.max(e, t.measureText(i).width));
-      }),
-        (this._w = this._fw || e);
-    }
-    this._s.length ||
-      (this._s.push(this.text),
-      (this._w = this._fw || t.measureText(this.text).width)),
-      (this.height =
-        this._fs + (this._s.length - 1) * this._fs * this.lineHeight),
-      this._uw();
-  }
-  draw() {
-    let t = 0,
-      e = this.textAlign,
-      i = this.context;
-    (e = this.textAlign || ('rtl' == i.canvas.dir ? 'right' : 'left')),
-      (t =
-        'right' == e ? this.width : 'center' == e ? (this.width / 2) | 0 : 0),
-      this._s.map((s, a) => {
-        (i.textBaseline = 'top'),
-          (i.textAlign = e),
-          (i.fillStyle = this.color),
-          (i.font = this.font),
-          i.fillText(s, t, this._fs * this.lineHeight * a);
-      });
-  }
-}
-function factory$7() {
-  return new Text(...arguments);
-}
-let pointers = new WeakMap(),
-  callbacks$1 = {},
-  pressedButtons = {},
-  pointerMap = { 0: 'left', 1: 'middle', 2: 'right' };
+
+let pointers = new WeakMap();
 function getPointer(t = getCanvas()) {
   return pointers.get(t);
 }
-function circleRectCollision(t, e) {
-  let { x: i, y: s, width: a, height: n } = getWorldRect(t);
-  do {
-    (i -= t.sx || 0), (s -= t.sy || 0);
-  } while ((t = t.parent));
-  let r = e.x - Math.max(i, Math.min(e.x, i + a)),
-    o = e.y - Math.max(s, Math.min(e.y, s + n));
-  return r * r + o * o < e.radius * e.radius;
-}
-function getCurrentObject(t) {
-  let e = t._lf.length ? t._lf : t._cf;
-  for (let i = e.length - 1; i >= 0; i--) {
-    let s = e[i];
-    if (
-      s.collidesWithPointer
-        ? s.collidesWithPointer(t)
-        : circleRectCollision(s, t)
-    )
-      return s;
-  }
-}
-function getPropValue(t, e) {
-  return parseFloat(t.getPropertyValue(e)) || 0;
-}
-function getCanvasOffset(t) {
-  let { canvas: e, _s: i } = t,
-    s = e.getBoundingClientRect(),
-    a =
-      'none' != i.transform
-        ? i.transform.replace('matrix(', '').split(',')
-        : [1, 1, 1, 1],
-    n = parseFloat(a[0]),
-    r = parseFloat(a[3]),
-    o =
-      (getPropValue(i, 'border-left-width') +
-        getPropValue(i, 'border-right-width')) *
-      n,
-    h =
-      (getPropValue(i, 'border-top-width') +
-        getPropValue(i, 'border-bottom-width')) *
-      r,
-    d =
-      (getPropValue(i, 'padding-left') + getPropValue(i, 'padding-right')) * n,
-    l =
-      (getPropValue(i, 'padding-top') + getPropValue(i, 'padding-bottom')) * r;
-  return {
-    scaleX: (s.width - o - d) / e.width,
-    scaleY: (s.height - h - l) / e.height,
-    offsetX:
-      s.left +
-      (getPropValue(i, 'border-left-width') + getPropValue(i, 'padding-left')) *
-        n,
-    offsetY:
-      s.top +
-      (getPropValue(i, 'border-top-width') + getPropValue(i, 'padding-top')) *
-        r,
-  };
-}
-function pointerDownHandler(t) {
-  let e = null != t.button ? pointerMap[t.button] : 'left';
-  (pressedButtons[e] = !0), pointerHandler(t, 'onDown');
-}
-function pointerUpHandler(t) {
-  let e = null != t.button ? pointerMap[t.button] : 'left';
-  (pressedButtons[e] = !1), pointerHandler(t, 'onUp');
-}
-function mouseMoveHandler(t) {
-  pointerHandler(t, 'onOver');
-}
-function blurEventHandler$2(t) {
-  (pointers.get(t.target)._oo = null), (pressedButtons = {});
-}
-function callCallback(t, e, i) {
-  let s = getCurrentObject(t);
-  s && s[e] && s[e](i),
-    callbacks$1[e] && callbacks$1[e](i, s),
-    'onOver' == e &&
-      (s != t._oo && t._oo && t._oo.onOut && t._oo.onOut(i), (t._oo = s));
-}
-function pointerHandler(t, e) {
-  t.preventDefault();
-  let i = t.target,
-    s = pointers.get(i),
-    { scaleX: a, scaleY: n, offsetX: r, offsetY: o } = getCanvasOffset(s);
-  t.type.includes('touch')
-    ? (Array.from(t.touches).map(
-        ({ clientX: t, clientY: e, identifier: i }) => {
-          let h = s.touches[i];
-          h ||
-            ((h = s.touches[i] = { start: { x: (t - r) / a, y: (e - o) / n } }),
-            s.touches.length++),
-            (h.changed = !1);
-        }
-      ),
-      Array.from(t.changedTouches).map(
-        ({ clientX: i, clientY: h, identifier: d }) => {
-          let l = s.touches[d];
-          (l.changed = !0),
-            (l.x = s.x = (i - r) / a),
-            (l.y = s.y = (h - o) / n),
-            callCallback(s, e, t),
-            emit('touchChanged', t, s.touches),
-            'onUp' == e &&
-              (delete s.touches[d],
-              s.touches.length--,
-              s.touches.length || emit('touchEnd'));
-        }
-      ))
-    : ((s.x = (t.clientX - r) / a),
-      (s.y = (t.clientY - o) / n),
-      callCallback(s, e, t));
-}
-function initPointer({ radius: t = 5, canvas: e = getCanvas() } = {}) {
-  let i = pointers.get(e);
-  if (!i) {
-    let s = window.getComputedStyle(e);
-    (i = {
-      x: 0,
-      y: 0,
-      radius: t,
-      touches: { length: 0 },
-      canvas: e,
-      _cf: [],
-      _lf: [],
-      _o: [],
-      _oo: null,
-      _s: s,
-    }),
-      pointers.set(e, i);
-  }
-  return (
-    e.addEventListener('mousedown', pointerDownHandler),
-    e.addEventListener('touchstart', pointerDownHandler),
-    e.addEventListener('mouseup', pointerUpHandler),
-    e.addEventListener('touchend', pointerUpHandler),
-    e.addEventListener('touchcancel', pointerUpHandler),
-    e.addEventListener('blur', blurEventHandler$2),
-    e.addEventListener('mousemove', mouseMoveHandler),
-    e.addEventListener('touchmove', mouseMoveHandler),
-    i._t ||
-      ((i._t = !0),
-      on('tick', () => {
-        (i._lf.length = 0),
-          i._cf.map((t) => {
-            i._lf.push(t);
-          }),
-          (i._cf.length = 0);
-      })),
-    i
-  );
-}
+function initPointer() {}
 function track(...t) {
   t.flat().map((t) => {
     let e = t.context ? t.context.canvas : getCanvas(),
@@ -907,121 +669,8 @@ function untrack(...t) {
     (t.render = t._r), (t._r = 0), removeFromArray(i._o, t);
   });
 }
-function pointerOver(t) {
-  let e = t.context ? t.context.canvas : getCanvas(),
-    i = pointers.get(e);
-  if (!i)
-    throw new ReferenceError(
-      'Pointer events not initialized for the objects canvas'
-    );
-  return i._o.includes(t) && getCurrentObject(i) === t;
-}
-function onPointer(t, e) {
-  let i = t[0].toUpperCase() + t.substr(1);
-  callbacks$1['on' + i] = e;
-}
-function offPointer(t) {
-  let e = t[0].toUpperCase() + t.substr(1);
-  callbacks$1['on' + e] = 0;
-}
-function pointerPressed(t) {
-  return !!pressedButtons[t];
-}
-class Button extends Sprite {
-  init({
-    padX: t = 0,
-    padY: e = 0,
-    text: i,
-    disabled: s = !1,
-    onDown: a,
-    onUp: n,
-    ...r
-  } = {}) {
-    super.init({ padX: t, padY: e, ...r }),
-      (this.textNode = factory$7({ ...i, context: this.context })),
-      this.width ||
-        ((this.width = this.textNode.width),
-        (this.height = this.textNode.height)),
-      track(this),
-      this.addChild(this.textNode),
-      (this._od = a || noop),
-      (this._ou = n || noop);
-    let o = (this._dn = document.createElement('button'));
-    (o.style = srOnlyStyle),
-      (o.textContent = this.text),
-      s && this.disable(),
-      o.addEventListener('focus', () => this.focus()),
-      o.addEventListener('blur', () => this.blur()),
-      o.addEventListener('keydown', (t) => this._kd(t)),
-      o.addEventListener('keyup', (t) => this._ku(t)),
-      addToDom(o, this.context.canvas),
-      this._uw(),
-      this._p();
-  }
-  get text() {
-    return this.textNode.text;
-  }
-  set text(t) {
-    (this._d = !0), (this.textNode.text = t);
-  }
-  destroy() {
-    this._dn.remove();
-  }
-  _p() {
-    this.text != this._dn.textContent && (this._dn.textContent = this.text),
-      this.textNode._p();
-    let t = this.textNode.width + 2 * this.padX,
-      e = this.textNode.height + 2 * this.padY;
-    (this.width = Math.max(t, this.width)),
-      (this.height = Math.max(e, this.height)),
-      this._uw();
-  }
-  render() {
-    this._d && this._p(), super.render();
-  }
-  enable() {
-    (this.disabled = this._dn.disabled = !1), this.onEnable();
-  }
-  disable() {
-    (this.disabled = this._dn.disabled = !0), this.onDisable();
-  }
-  focus() {
-    this.disabled ||
-      ((this.focused = !0),
-      document.activeElement != this._dn && this._dn.focus(),
-      this.onFocus());
-  }
-  blur() {
-    (this.focused = !1),
-      document.activeElement == this._dn && this._dn.blur(),
-      this.onBlur();
-  }
-  onOver() {
-    this.disabled || (this.hovered = !0);
-  }
-  onOut() {
-    this.hovered = !1;
-  }
-  onEnable() {}
-  onDisable() {}
-  onFocus() {}
-  onBlur() {}
-  onDown() {
-    this.disabled || ((this.pressed = !0), this._od());
-  }
-  onUp() {
-    this.disabled || ((this.pressed = !1), this._ou());
-  }
-  _kd(t) {
-    ('Enter' != t.code && 'Space' != t.code) || this.onDown();
-  }
-  _ku(t) {
-    ('Enter' != t.code && 'Space' != t.code) || this.onUp();
-  }
-}
-function factory$6() {
-  return new Button(...arguments);
-}
+function onPointer() {}
+function offPointer() {}
 function clear(t) {
   let e = t.canvas;
   t.clearRect(0, 0, e.width, e.height);
@@ -1082,289 +731,9 @@ function GameLoop({
     l
   );
 }
-let gamepads = [],
-  gamepaddownCallbacks = {},
-  gamepadupCallbacks = {},
-  gamepadMap = {
-    0: 'south',
-    1: 'east',
-    2: 'west',
-    3: 'north',
-    4: 'leftshoulder',
-    5: 'rightshoulder',
-    6: 'lefttrigger',
-    7: 'righttrigger',
-    8: 'select',
-    9: 'start',
-    10: 'leftstick',
-    11: 'rightstick',
-    12: 'dpadup',
-    13: 'dpaddown',
-    14: 'dpadleft',
-    15: 'dpadright',
-  };
-function gamepadConnectedHandler(t) {
-  gamepads[t.gamepad.index] = { pressedButtons: {}, axes: {} };
-}
-function gamepadDisconnectedHandler(t) {
-  delete gamepads[t.gamepad.index];
-}
-function blurEventHandler$1() {
-  gamepads.map((t) => {
-    (t.pressedButtons = {}), (t.axes = {});
-  });
-}
-function updateGamepad() {
-  let t = navigator.getGamepads
-    ? navigator.getGamepads()
-    : navigator.webkitGetGamepads
-    ? navigator.webkitGetGamepads
-    : [];
-  for (let e = 0; e < t.length; e++) {
-    let i = t[e];
-    if (!i) continue;
-    i.buttons.map((t, e) => {
-      let s = gamepadMap[e],
-        { pressed: a } = t,
-        { pressedButtons: n } = gamepads[i.index],
-        r = n[s];
-      !r && a
-        ? [gamepaddownCallbacks[i.index], gamepaddownCallbacks].map((e) => {
-            e?.[s]?.(i, t);
-          })
-        : r &&
-          !a &&
-          [gamepadupCallbacks[i.index], gamepadupCallbacks].map((e) => {
-            e?.[s]?.(i, t);
-          }),
-        (n[s] = a);
-    });
-    let { axes: s } = gamepads[i.index];
-    (s.leftstickx = i.axes[0]),
-      (s.leftsticky = i.axes[1]),
-      (s.rightstickx = i.axes[2]),
-      (s.rightsticky = i.axes[3]);
-  }
-}
-function initGamepad() {
-  window.addEventListener('gamepadconnected', gamepadConnectedHandler),
-    window.addEventListener('gamepaddisconnected', gamepadDisconnectedHandler),
-    window.addEventListener('blur', blurEventHandler$1),
-    on('tick', updateGamepad);
-}
-function onGamepad(t, e, { gamepad: i, handler: s = 'gamepaddown' } = {}) {
-  let a = 'gamepaddown' == s ? gamepaddownCallbacks : gamepadupCallbacks;
-  [].concat(t).map((t) => {
-    isNaN(i) ? (a[t] = e) : ((a[i] = a[i] || {}), (a[i][t] = e));
-  });
-}
-function offGamepad(t, { gamepad: e, handler: i = 'gamepaddown' } = {}) {
-  let s = 'gamepaddown' == i ? gamepaddownCallbacks : gamepadupCallbacks;
-  [].concat(t).map((t) => {
-    isNaN(e) ? delete s[t] : ((s[e] = s[e] || {}), delete s[e][t]);
-  });
-}
-function gamepadPressed(t, { gamepad: e } = {}) {
-  return isNaN(e)
-    ? gamepads.some((e) => e.pressedButtons[t])
-    : !!gamepads[e] && !!gamepads[e].pressedButtons[t];
-}
-function gamepadAxis(t, e) {
-  return gamepads[e]?.axes[t] || 0;
-}
-let currGesture,
-  callbacks = {},
-  init = !1,
-  gestureMap = {
-    swipe: {
-      touches: 1,
-      threshold: 10,
-      touchend({ 0: t }) {
-        let e = t.x - t.start.x,
-          i = t.y - t.start.y,
-          s = Math.abs(e),
-          a = Math.abs(i);
-        if (!(s < this.threshold && a < this.threshold))
-          return s > a ? (e < 0 ? 'left' : 'right') : i < 0 ? 'up' : 'down';
-      },
-    },
-    pinch: {
-      touches: 2,
-      threshold: 2,
-      touchstart({ 0: t, 1: e }) {
-        this.prevDist = Math.hypot(t.x - e.x, t.y - e.y);
-      },
-      touchmove({ 0: t, 1: e }) {
-        let i = Math.hypot(t.x - e.x, t.y - e.y);
-        if (Math.abs(i - this.prevDist) < this.threshold) return;
-        let s = i > this.prevDist ? 'out' : 'in';
-        return (this.prevDist = i), s;
-      },
-    },
-  };
-function initGesture() {
-  init ||
-    ((init = !0),
-    on('touchChanged', (t, e) => {
-      Object.keys(gestureMap).map((i) => {
-        let s,
-          a = gestureMap[i];
-        (!currGesture || currGesture == i) &&
-          e.length == a.touches &&
-          [...Array(e.length).keys()].every((t) => e[t]) &&
-          (s = a[t.type]?.(e) ?? '') &&
-          callbacks[i + s] &&
-          ((currGesture = i), callbacks[i + s](t, e));
-      });
-    }),
-    on('touchEnd', () => {
-      currGesture = 0;
-    }));
-}
-function onGesture(t, e) {
-  [].concat(t).map((t) => {
-    callbacks[t] = e;
-  });
-}
-function offGesture(t) {
-  [].concat(t).map((t) => {
-    callbacks[t] = 0;
-  });
-}
-let handler = {
-    set: (t, e, i) => (e.startsWith('_') || (t._d = !0), Reflect.set(t, e, i)),
-  },
-  alignment = {
-    start: (t) => (t ? 1 : 0),
-    center: () => 0.5,
-    end: (t) => (t ? 0 : 1),
-  };
-class Grid extends GameObject {
-  init({
-    flow: t = 'column',
-    align: e = 'start',
-    justify: i = 'start',
-    colGap: s = 0,
-    rowGap: a = 0,
-    numCols: n = 1,
-    dir: r = '',
-    breakpoints: o = [],
-    ...h
-  } = {}) {
-    return (
-      super.init({
-        flow: t,
-        align: e,
-        justify: i,
-        colGap: s,
-        rowGap: a,
-        numCols: n,
-        dir: r,
-        breakpoints: o,
-        ...h,
-      }),
-      this._p(),
-      new Proxy(this, handler)
-    );
-  }
-  addChild(t) {
-    (this._d = !0), super.addChild(t);
-  }
-  removeChild(t) {
-    (this._d = !0), super.removeChild(t);
-  }
-  render() {
-    this._d && this._p(), super.render();
-  }
-  destroy() {
-    this.children.map((t) => t.destroy && t.destroy());
-  }
-  _p() {
-    (this._d = !1),
-      this.breakpoints.map((t) => {
-        t.metric.call(this) &&
-          this._b !== t &&
-          ((this._b = t), t.callback.call(this));
-      });
-    let t = (this._g = []),
-      e = (this._cw = []),
-      i = (this._rh = []),
-      s = this.children,
-      a = (this._nc =
-        'column' == this.flow
-          ? 1
-          : 'row' == this.flow
-          ? s.length
-          : this.numCols),
-      n = 0,
-      r = 0;
-    for (let o, h = 0; (o = s[h]); h++) {
-      (t[n] = t[n] || []), o._p && o._p();
-      let { width: s, height: h } = o.world || o;
-      i[n] = Math.max(i[n] || 0, h);
-      let d = o.colSpan || 1,
-        l = d;
-      do {
-        (e[r] = Math.max(e[r] || 0, s / l)), (t[n][r] = o);
-      } while (r++ <= a && --d);
-      r >= a && ((r = 0), n++);
-    }
-    for (; r > 0 && r < a; ) t[n][r++] = !1;
-    let o = t.length,
-      h = [].concat(this.colGap),
-      d = [].concat(this.rowGap);
-    this._w = e.reduce((t, e) => t + e, 0);
-    for (let t = 0; t < a - 1; t++) this._w += h[t % h.length];
-    this._h = i.reduce((t, e) => t + e, 0);
-    for (let t = 0; t < o - 1; t++) this._h += d[t % d.length];
-    this._uw();
-    let l =
-      ('rtl' == this.context.canvas.dir && !this.dir) || 'rtl' == this.dir;
-    (this._rtl = l),
-      l &&
-        ((this._g = t.map((t) => t.reverse())),
-        (this._cw = e.reverse()),
-        (h = h.reverse()));
-    let c = -this.anchor.y * this.height,
-      u = [],
-      p = [].concat(this.justify),
-      g = [].concat(this.align);
-    this._g.map((t, s) => {
-      let a = -this.anchor.x * this.width;
-      t.map((t, n) => {
-        if (t && !u.includes(t)) {
-          u.push(t);
-          let r = alignment[t.justifySelf || p[n % p.length]](this._rtl),
-            o = alignment[t.alignSelf || g[s % g.length]](),
-            d = t.colSpan || 1,
-            l = e[n];
-          if (d > 1 && n + d <= this._nc)
-            for (let t = 1; t < d; t++) l += e[n + t] + h[(n + t) % h.length];
-          let f = l * r,
-            m = i[s] * o,
-            _ = 0,
-            y = 0,
-            { width: w, height: x } = t.world || t;
-          if ((t.anchor && ((_ = t.anchor.x), (y = t.anchor.y)), 0 == r))
-            f += w * _;
-          else if (0.5 == r) {
-            f += (_ < 0.5 ? -1 : 0.5 == _ ? 0 : 1) * w * r;
-          } else f -= w * (1 - _);
-          if (0 == o) m += x * y;
-          else if (0.5 == o) {
-            m += (y < 0.5 ? -1 : 0.5 == y ? 0 : 1) * x * o;
-          } else m -= x * (1 - y);
-          (t.x = a + f), (t.y = c + m);
-        }
-        a += e[n] + h[n % h.length];
-      }),
-        (c += i[s] + d[s % d.length]);
-    });
-  }
-}
-function factory$5() {
-  return new Grid(...arguments);
-}
+
+function initGamepad() {}
+function initGesture() {}
 let keydownCallbacks = {},
   keyupCallbacks = {},
   pressedKeys = {},
@@ -1416,19 +785,14 @@ function keyPressed(t) {
 function contains(t, e) {
   return Object.values(e).includes(t);
 }
-function isGesture(t) {
-  return Object.keys(gestureMap).some((e) => t.startsWith(e));
-}
 function initInput(t = {}) {
   initKeys();
-  let e = initPointer(t.pointer);
+  let e = initPointer();
   return initGesture(), initGamepad(), { pointer: e };
 }
 function onInput(t, e, { gamepad: i, key: s } = {}) {
   [].concat(t).map((t) => {
-    if (contains(t, gamepadMap)) onGamepad(t, e, i);
-    else if (isGesture(t)) onGesture(t, e);
-    else if (contains(t, keyMap)) onKey(t, e, s);
+    if (contains(t, keyMap)) onKey(t, e, s);
     else {
       if (!['down', 'up'].includes(t))
         throw new TypeError(`"${t}" is not a valid input name`);
@@ -1438,11 +802,7 @@ function onInput(t, e, { gamepad: i, key: s } = {}) {
 }
 function offInput(t, { gamepad: e, key: i } = {}) {
   [].concat(t).map((t) => {
-    contains(t, gamepadMap)
-      ? offGamepad(t, e)
-      : isGesture(t)
-      ? offGesture(t)
-      : contains(t, keyMap)
+    contains(t, keyMap)
       ? offKey(t, i)
       : ['down', 'up'].includes(t) && offPointer(t);
   });
@@ -1999,8 +1359,6 @@ let kontra = {
   loadAudio: loadAudio,
   loadData: loadData,
   load: load,
-  Button: factory$6,
-  ButtonClass: Button,
   init: init$1,
   getCanvas: getCanvas,
   getContext: getContext,
@@ -2010,19 +1368,8 @@ let kontra = {
   GameLoop: GameLoop,
   GameObject: factory$9,
   GameObjectClass: GameObject,
-  gamepadMap: gamepadMap,
-  updateGamepad: updateGamepad,
   initGamepad: initGamepad,
-  onGamepad: onGamepad,
-  offGamepad: offGamepad,
-  gamepadPressed: gamepadPressed,
-  gamepadAxis: gamepadAxis,
-  gestureMap: gestureMap,
   initGesture: initGesture,
-  onGesture: onGesture,
-  offGesture: offGesture,
-  Grid: factory$5,
-  GridClass: Grid,
   degToRad: degToRad,
   radToDeg: radToDeg,
   angleToTarget: angleToTarget,
@@ -2049,14 +1396,11 @@ let kontra = {
   registerPlugin: registerPlugin,
   unregisterPlugin: unregisterPlugin,
   extendObject: extendObject,
-  initPointer: initPointer,
   getPointer: getPointer,
   track: track,
   untrack: untrack,
-  pointerOver: pointerOver,
   onPointer: onPointer,
   offPointer: offPointer,
-  pointerPressed: pointerPressed,
   Pool: factory$4,
   PoolClass: Pool,
   Quadtree: factory$3,
@@ -2067,8 +1411,6 @@ let kontra = {
   SpriteClass: Sprite,
   SpriteSheet: factory$1,
   SpriteSheetClass: SpriteSheet,
-  Text: factory$7,
-  TextClass: Text,
   TileEngine: factory,
   Vector: factory$a,
   VectorClass: Vector,
@@ -2076,13 +1418,9 @@ let kontra = {
 export {
   factory$b as Animation,
   Animation as AnimationClass,
-  factory$6 as Button,
-  Button as ButtonClass,
   GameLoop,
   factory$9 as GameObject,
   GameObject as GameObjectClass,
-  factory$5 as Grid,
-  Grid as GridClass,
   factory$4 as Pool,
   Pool as PoolClass,
   factory$3 as Quadtree,
@@ -2093,8 +1431,6 @@ export {
   Sprite as SpriteClass,
   factory$1 as SpriteSheet,
   SpriteSheet as SpriteSheetClass,
-  factory$7 as Text,
-  Text as TextClass,
   factory as TileEngine,
   factory$a as Vector,
   Vector as VectorClass,
@@ -2108,10 +1444,6 @@ export {
   depthSort,
   emit,
   extendObject,
-  gamepadAxis,
-  gamepadMap,
-  gamepadPressed,
-  gestureMap,
   getCanvas,
   getContext,
   getPointer,
@@ -2123,7 +1455,6 @@ export {
   initGesture,
   initInput,
   initKeys,
-  initPointer,
   inverseLerp,
   keyMap,
   keyPressed,
@@ -2134,19 +1465,13 @@ export {
   loadImage,
   movePoint,
   off,
-  offGamepad,
-  offGesture,
   offInput,
   offKey,
   offPointer,
   on,
-  onGamepad,
-  onGesture,
   onInput,
   onKey,
   onPointer,
-  pointerOver,
-  pointerPressed,
   radToDeg,
   randInt,
   registerPlugin,
@@ -2159,5 +1484,4 @@ export {
   track,
   unregisterPlugin,
   untrack,
-  updateGamepad,
 };

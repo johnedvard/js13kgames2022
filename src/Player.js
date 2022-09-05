@@ -1,13 +1,14 @@
 import skull from 'data-url:./assets/img/skull.png';
 
 import { Sprite, on, Vector } from './kontra';
+
 import { PlayerControls } from './PlayerControls';
 import { fgc2 } from './constants';
 import { ARCADIAN_HEAD_SELECTED, CUT_ROPE, GOAL_COLLISION } from './gameEvents';
 import { Rope } from './Rope';
 import { getSelectedArcadian } from './store';
 import { createSprite } from './utils';
-import { getDirection, moveBehavior, setBehavior } from './behavior';
+import { getDirection, moveBehavior } from './behavior';
 
 export class Player {
   game;
@@ -84,15 +85,6 @@ export class Player {
     });
   }
 
-  // Debug purpose only
-  dragRope() {
-    if (this.game.isDragging && this.rope.length) {
-      const acnhorPoint = this.rope.nodes[0];
-      acnhorPoint.pos.x = pointer.x;
-      acnhorPoint.pos.y = pointer.y;
-    }
-  }
-
   renderPlayer(_ctx) {
     this.sprite.render();
     this.headSprite.render();
@@ -148,7 +140,6 @@ export class Player {
 
     this.updateRope();
     this.updateAnchorNode();
-    // this.dragRope(); // TODO (johnedvard) Only enable in local and beta env
     this.playerControls.updateControls();
   }
 
