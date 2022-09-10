@@ -1,13 +1,22 @@
+// zzfxV - global volume
+zzfxV = 0.3;
+
+// zzfxR - global sample rate
+zzfxR = 44100;
+
+// zzfxX - the common audio context
+zzfxX = new (window.AudioContext || webkitAudioContext)();
+sfxContext = new (window.AudioContext || webkitAudioContext)();
 // zzfx() - the universal entry point -- returns a AudioBufferSourceNode
-export const zzfx = (...t) => zzfxP(zzfxG(...t));
+export const zzfx = (...t) => zzfxP(sfxContext, zzfxG(...t));
 
 // zzfxP() - the sound player -- returns a AudioBufferSourceNode
-export const zzfxP = (...t) => {
-  let e = zzfxX.createBufferSource(),
-    f = zzfxX.createBuffer(t.length, t[0].length, zzfxR);
+export const zzfxP = (ctx, ...t) => {
+  let e = ctx.createBufferSource(),
+    f = ctx.createBuffer(t.length, t[0].length, zzfxR);
   t.map((d, i) => f.getChannelData(i).set(d)),
     (e.buffer = f),
-    e.connect(zzfxX.destination),
+    e.connect(ctx.destination),
     e.start();
   return e;
 };
@@ -96,12 +105,3 @@ zzfxG = (
       !l || ++J % l || ((c = D), (v = H), (n = n || 1));
   return Z;
 };
-
-// zzfxV - global volume
-zzfxV = 0.3;
-
-// zzfxR - global sample rate
-zzfxR = 44100;
-
-// zzfxX - the common audio context
-zzfxX = new (window.AudioContext || webkitAudioContext)();

@@ -31,9 +31,13 @@ export class Level {
         this.init(levelData);
       });
     } else {
-      this.loadLevel('level' + levelId).then((levelData) => {
-        this.init(levelData);
-      });
+      this.loadLevel('level' + levelId)
+        .then((levelData) => {
+          this.init(levelData);
+        })
+        .catch(() => {
+          // TODO (johnedvard) improve error handling, not always assume last level
+        });
     }
     this.listenForGameEvents();
   }
@@ -51,13 +55,18 @@ export class Level {
   }
 
   loadLevel(levelId) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       let httpRequest = new XMLHttpRequest();
       httpRequest.open('GET', `/level/${levelId}.json`, true);
       httpRequest.send();
       httpRequest.addEventListener('readystatechange', function () {
         if (this.readyState === this.DONE) {
-          resolve(JSON.parse(this.response));
+          try {
+            const levelData = JSON.parse(this.response);
+            resolve(levelData);
+          } catch (err) {
+            reject(err);
+          }
         }
       });
     });

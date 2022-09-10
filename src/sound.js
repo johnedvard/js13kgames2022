@@ -4,6 +4,7 @@ import { zzfxM } from './zzfxm';
 let myAudioNode = null;
 let isPlaying = false;
 let audioContext = zzfxX;
+
 export const getIsPlaying = () => {
   return isPlaying;
 };
@@ -1261,7 +1262,7 @@ export const playSong = () => {
   ];
   let mySongData = zzfxM(...song);
 
-  myAudioNode = zzfxP(...mySongData);
+  myAudioNode = zzfxP(zzfxX, ...mySongData);
   myAudioNode.loop = true;
   return;
 };
