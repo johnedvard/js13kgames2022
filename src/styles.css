@@ -120,18 +120,32 @@ button:hover img {
 .level-item {
   cursor: pointer;
   display: flex;
+  flex-flow: column;
   align-items: center;
   justify-content: center;
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   border-radius: 4px;
-  background-color: var(--fgc2);
+  background-color: var(--fgc);
 }
+
 .level-item img {
   width: 100%;
   height: auto;
 }
-
+.level-item img:not(.collected) {
+  filter: grayscale(1);
+}
+.heart-container {
+  height: 50%;
+  width: 70%;
+  display: flex;
+  flex-flow: row;
+}
+.heart-container img {
+  object-fit: contain;
+  image-rendering: pixelated;
+}
 #levels-grid,
 #bonus-grid,
 #near-levels-grid {

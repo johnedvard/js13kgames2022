@@ -1,4 +1,5 @@
 import skull from 'data-url:./assets/img/skull.png';
+import heart from 'data-url:./assets/img/heart.png';
 
 import { emit, on } from './kontra';
 import {
@@ -22,8 +23,10 @@ import { doesOwnNft, getNearLevel } from './utils';
 import { initGameHints } from './gameHints';
 
 const overlayIds = ['main', 'bonus', 'levels', 'level-dialog', 'near-levels'];
-const levels = 20;
+const levels = 5;
+
 let hasRemovedDisableOnBonusEls = false;
+
 export const initMenu = () => {
   addButtonListeners();
   listenForGameEvents();
@@ -39,8 +42,21 @@ const focusLevelSelectButton = () => {
 const initLevels = () => {
   const levelsGridEl = document.getElementById('levels-grid');
   for (let i = 1; i < levels + 1; i++) {
+    const collectedHearts = localStorage.getItem('hearts-' + i) || 0;
     const levelEl = document.createElement('button');
+
     levelEl.textContent = i;
+    const heartContainerEl = document.createElement('div');
+    heartContainerEl.classList.add('heart-container');
+    for (let i = 0; i < 2; i++) {
+      const heartEl = document.createElement('img');
+      heartEl.setAttribute('src', heart);
+      if (collectedHearts > i) {
+        heartEl.classList.add('collected');
+      }
+      heartContainerEl.appendChild(heartEl);
+    }
+    levelEl.appendChild(heartContainerEl);
     levelEl.classList.add('level-item');
     levelsGridEl.appendChild(levelEl);
   }
@@ -168,9 +184,9 @@ const onContainerClick = (e) => {
   const btn = e.target.closest('button');
   if (btn && btn.getAttribute('near')) {
     onNearLevelClick(btn);
-  } else if (classList.contains('level-item')) {
+  } else if (btn.classList.contains('level-item')) {
     showOverlay();
-    emit(START_LEVEL, { levelId: +e.target.textContent });
+    emit(START_LEVEL, { levelId: +btn.textContent });
   }
 };
 

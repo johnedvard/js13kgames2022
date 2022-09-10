@@ -1,8 +1,10 @@
 import { BounceBoard } from './BounceBoard';
 import { Brick } from './Brick';
+import { HEART_PICKUP, LEVEL_COMPLETE, PLAYER_DIED } from './gameEvents';
 import { initGameHints } from './gameHints';
 import { Goal } from './Goal';
 import { Heart } from './Heart';
+import { on } from './kontra';
 import { Player } from './Player';
 import { Saw } from './Saw';
 import { isBoxCollision } from './utils';
@@ -17,6 +19,7 @@ export class Level {
   isLevelLoaded = false;
   levelId;
   levelData;
+  capturedHearts = [];
   constructor({ game, levelId, levelData }) {
     this.levelId = levelId;
     this.levelData = levelData;
@@ -31,9 +34,11 @@ export class Level {
         this.init(levelData);
       });
     }
+    this.listenForGameEvents();
   }
 
   init(levelData) {
+    this.levelData = levelData;
     this.createPlayer(levelData);
     this.createSaws(levelData);
     this.createGoals(levelData);
@@ -118,7 +123,11 @@ export class Level {
     levelData.s.forEach((saw) => {
       // TODO (johnedvard) Add actual saw behaviour
       this.saws.push(
-        new Saw(saw.x, saw.y, { level: this, behavior: saw.b, distance: saw.d })
+        new Saw(saw.x, saw.y, {
+          level: this,
+          behavior: saw.b,
+          distance: saw.d,
+        }),
       );
     });
   }
@@ -138,7 +147,7 @@ export class Level {
           behavior: brick.b,
           distance: brick.d,
           level: this,
-        })
+        }),
       );
     });
   }
@@ -147,9 +156,46 @@ export class Level {
     if (!levelData.bb) return;
     levelData.bb.forEach((board) => {
       this.bounceBoards.push(
-        new BounceBoard({ p1: board.p1, p2: board.p2, level: this })
+        new BounceBoard({ p1: board.p1, p2: board.p2, level: this }),
       );
     });
+  }
+
+  storeCapturedHearts() {
+    localStorage.setItem('hearts-' + this.levelId, this.capturedHearts.length);
+  }
+
+  listenForGameEvents() {
+    on(PLAYER_DIED, this.onPlayerDied);
+    on(HEART_PICKUP, this.onHeartPickup);
+    on(LEVEL_COMPLETE, this.onLevelComplete);
+  }
+  onLevelComplete = () => {
+    this.storeCapturedHearts();
+  };
+  onHeartPickup = ({ heart }) => {
+    this.capturedHearts.push(heart);
+  };
+  onPlayerDied = ({}) => {
+    this.player.respawnPlayer();
+    this.resetHearts();
+    this.resertSaws();
+    this.resetBricks();
+  };
+
+  resetBricks() {
+    this.bricks.length = 0;
+    this.createBricks(this.levelData);
+  }
+
+  resetHearts() {
+    this.capturedHearts.length = 0;
+    this.hearts.length = 0;
+    this.createHearts(this.levelData);
+  }
+  resertSaws() {
+    this.saws.length = 0;
+    this.createSaws(this.levelData);
   }
 
   // TODO (johnedvard) Move collisions to own file?

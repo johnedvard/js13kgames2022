@@ -1,10 +1,7 @@
 export class Bubble {
   constructor() {}
-  update() {
-    console.log('update');
-  }
+  update() {}
   render(ctx) {
-    console.log('render');
     ctx.beginPath();
     ctx.moveTo(this.x, this.y);
     ctx.arc(100, 75, 50, 0, 2 * Math.PI);

@@ -11,8 +11,14 @@ export class Heart {
   x;
   y;
   sprite;
+  idleSpeed = 0.1;
+  direction = 'n';
+  orgX;
+  orgY;
 
   constructor(x, y, { level }) {
+    this.orgX = x;
+    this.orgY = y;
     this.level = level;
     this.x = x;
     this.y = y;
@@ -25,8 +31,27 @@ export class Heart {
   }
   update() {
     if (!this.sprite) return;
+    this.updateIdlePos();
     this.sprite.update();
     this.checkCollision();
+  }
+  updateIdlePos() {
+    if (this.direction === 'n') {
+      this.sprite.y -= this.idleSpeed;
+      this.sprite.scaleY += this.idleSpeed / 10;
+      this.sprite.scaleX += this.idleSpeed / 10;
+      if (this.sprite.y <= this.orgY - 2) {
+        this.direction = 's';
+      }
+    }
+    if (this.direction === 's') {
+      this.sprite.y += this.idleSpeed;
+      this.sprite.scaleY -= this.idleSpeed / 10;
+      this.sprite.scaleX -= this.idleSpeed / 10;
+      if (this.sprite.y >= this.orgY + 2) {
+        this.direction = 'n';
+      }
+    }
   }
 
   render(_ctx) {
@@ -43,7 +68,7 @@ export class Heart {
           width: this.width * this.scale,
           height: this.height * this.scale,
         },
-        this.level.player.sprite
+        this.level.player.sprite,
       )
     ) {
       this.sprite = null;

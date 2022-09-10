@@ -1,15 +1,21 @@
 import skull from 'data-url:./assets/img/skull.png';
 
-import { Sprite, on, Vector } from './kontra';
+import { Sprite, on, Vector, emit } from './kontra';
 
 import { PlayerControls } from './PlayerControls';
 import { fgc2 } from './constants';
-import { ARCADIAN_HEAD_SELECTED, CUT_ROPE, GOAL_COLLISION } from './gameEvents';
+import {
+  ARCADIAN_HEAD_SELECTED,
+  CUT_ROPE,
+  GOAL_COLLISION,
+  PLAYER_DIED,
+} from './gameEvents';
 import { Rope } from './Rope';
-import { getSelectedArcadian } from './store';
+import { gameHeight, getSelectedArcadian } from './store';
 import { createSprite } from './utils';
 import { getDirection, moveBehavior } from './behavior';
 import { BubbleEffect } from './BubbleEffect';
+import { PLAYER_ALIVE, PLAYER_DEAD } from './PlayerState';
 
 export class Player {
   game;
@@ -27,9 +33,15 @@ export class Player {
   anchorNodeDirection;
   anchorNodeOrgPos;
   particleEffect;
+  deadTimer = 0;
+  deadInAirTimer = 0;
+  deadLimit = 50;
+  deadInAirLimit = 250;
+  playerState = PLAYER_ALIVE;
 
   constructor({ game, levelData }) {
     levelData.p = levelData.p || {};
+    this.levelData = levelData;
     this.anchorNodeDirection = getDirection(levelData.p.b, levelData.p.d);
     this.distance = Math.abs(levelData.p.d);
     this.behavior = levelData.p.b;
@@ -86,6 +98,7 @@ export class Player {
       numNodes: ropeLength,
       level: this.game.level,
     });
+    this.isRopeCut = false;
   }
 
   renderPlayer(_ctx) {
@@ -133,7 +146,7 @@ export class Player {
       this.sprite.x,
       this.sprite.y,
       this.sprite.width * this.scale,
-      this.sprite.height * this.scale
+      this.sprite.height * this.scale,
     );
     ctx.stroke();
   }
@@ -151,7 +164,37 @@ export class Player {
     this.particleEffect.update();
     this.updateRope();
     this.updateAnchorNode();
+    this.handlePlayerState();
     this.playerControls.updateControls();
+  }
+
+  handlePlayerState() {
+    this.handleDeadOnGround();
+    this.handleDeadInAir();
+  }
+
+  handleDeadOnGround() {
+    if (this.playerState === PLAYER_DEAD) return;
+    if (this.sprite.y >= gameHeight) {
+      this.deadTimer += 1;
+      if (this.deadTimer >= this.deadLimit) {
+        this.handleDied();
+      }
+    }
+  }
+  handleDeadInAir() {
+    if (!this.isRopeCut || this.playerState === PLAYER_DEAD) return;
+    this.deadInAirTimer += 1;
+    if (this.deadInAirTimer >= this.deadInAirLimit) {
+      this.handleDied();
+    }
+  }
+
+  handleDied() {
+    this.deadTimer = 0;
+    this.deadInAirTimer = 0;
+    this.playerState = PLAYER_DEAD;
+    emit(PLAYER_DIED, {});
   }
 
   updateAnchorNode() {
@@ -181,7 +224,23 @@ export class Player {
       newLastPointWithLink.attachTo(this.pointMass);
     }
   }
-
+  respawnPlayer() {
+    const ropeLength = this.levelData.r;
+    const startX = this.levelData.p.x;
+    const startY = this.levelData.p.y;
+    this.anchorNodeDirection = getDirection(
+      this.levelData.p.b,
+      this.levelData.p.d,
+    );
+    this.createRope({
+      startX,
+      startY,
+      ropeLength,
+      levelData: this.levelData,
+    });
+    this.playerState = PLAYER_ALIVE;
+  }
+  resetHearts() {}
   listenForGameEvents() {
     on(GOAL_COLLISION, this.onGoalCollision);
     on(ARCADIAN_HEAD_SELECTED, this.onArcadianAdded);
