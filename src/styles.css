@@ -40,6 +40,9 @@ canvas {
   align-items: center;
   padding: 10px 20px;
 }
+#musicBtn {
+  margin-top: 40px;
+}
 
 #hamburger {
   height: 9px;

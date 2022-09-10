@@ -1,7 +1,12 @@
 import { init, initInput, GameLoop, on } from './kontra';
-import { RESTART_LEVEL, START_LEVEL, START_NEXT_LEVEL } from './gameEvents';
+import {
+  RESTART_LEVEL,
+  START_LEVEL,
+  START_NEXT_LEVEL,
+  TOGGLE_MUSIC,
+} from './gameEvents';
 import { Level } from './Level';
-import { playSong } from './sound';
+import { playSong, stopSong } from './sound';
 import { setGameHeight, setGameWidth } from './store';
 import { bgc, bgc2, fgc, fgc2 } from './constants';
 
@@ -13,9 +18,8 @@ export class Game {
   level;
   constructor() {
     // TODO (johnedvard) Play song after user interraction
-    setTimeout(() => {
-      playSong();
-    }, 1000);
+
+    playSong();
 
     const game = this;
     let { canvas, context } = init();
@@ -53,7 +57,15 @@ export class Game {
     on(START_NEXT_LEVEL, this.onStartNextLevel);
     on(START_LEVEL, this.onStartLevel);
     on(RESTART_LEVEL, this.onReStartLevel);
+    on(TOGGLE_MUSIC, this.onToggleMusic);
   }
+  onToggleMusic = ({ isMusicOn = false }) => {
+    if (isMusicOn) {
+      playSong();
+    } else {
+      stopSong();
+    }
+  };
   onStartNextLevel = () => {
     this.level.destroy();
     this.loadLevel({ levelId: this.level.levelId + 1 });

@@ -10,6 +10,7 @@ import {
   RESTART_LEVEL,
   START_LEVEL,
   START_NEXT_LEVEL,
+  TOGGLE_MUSIC,
 } from './gameEvents';
 import { fetchArcadianHeads } from './arcadianApi';
 import {
@@ -21,6 +22,7 @@ import {
 import { IPFS_BASE_PATH } from './near/nearConnection';
 import { doesOwnNft, getNearLevel } from './utils';
 import { initGameHints } from './gameHints';
+import { getIsPlaying } from './sound';
 
 const overlayIds = ['main', 'bonus', 'levels', 'level-dialog', 'near-levels'];
 const levels = 5;
@@ -175,6 +177,9 @@ const onContainerClick = (e) => {
       showOverlay();
       emit(RESTART_LEVEL);
       break;
+    case 'musicBtn':
+      emit(TOGGLE_MUSIC, { isMusicOn: !getIsPlaying() });
+      break;
   }
 
   if (classList.contains('bone') || classList.contains('inverse')) {
@@ -222,6 +227,12 @@ const listenForGameEvents = () => {
   on(LEVEL_COMPLETE, onLevelComplete);
   on(NEAR_TOKENS_ADDED, onNearTokensAdded);
   on(MONETIZATION_PROGRESS, onMonetizationProgress);
+  on(TOGGLE_MUSIC, onToggleMusic);
+};
+
+const onToggleMusic = () => {
+  const musicBtnEl = document.getElementById('musicBtn');
+  musicBtnEl.textContent = getIsPlaying() ? 'Music is ON' : 'Music is OFF';
 };
 const onLevelComplete = () => {
   showOverlay('level-dialog');

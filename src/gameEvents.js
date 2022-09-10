@@ -11,3 +11,4 @@ export const NEAR_TOKENS_ADDED = 'n';
 export const NFT_BUY = 'nb';
 export const MONETIZATION_PROGRESS = 'mp';
 export const PLAYER_DIED = 'pd';
+export const TOGGLE_MUSIC = 'tm';

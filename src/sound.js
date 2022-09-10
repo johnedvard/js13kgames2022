@@ -4,6 +4,9 @@ import { zzfxM } from './zzfxm';
 let myAudioNode = null;
 let isPlaying = false;
 let audioContext = zzfxX;
+export const getIsPlaying = () => {
+  return isPlaying;
+};
 export const playBubble = () => {
   zzfx(
     ...[, 1, 7, 0.02, 0.01, 0.02, 4, 0.5, , , 1, 0.01, , , 150, , 0.21, , 0.01]
