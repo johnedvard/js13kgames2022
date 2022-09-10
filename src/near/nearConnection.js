@@ -1,5 +1,5 @@
 import { on } from '../kontra';
-import { NFT_MINT } from '../gameEvents';
+import { NFT_BUY } from '../gameEvents';
 import getConfig from './config';
 
 export const HANG_BY_A_THREAD_SERIES_TESTNET = '2036';
@@ -47,7 +47,7 @@ export class NearConnection {
         // View methods are read only. They don't modify the state, but usually return some value.
         viewMethods: ['nft_tokens_for_owner', 'nft_tokens_by_series'],
         // Change methods can modify the state. But you don't receive the returned value when called.
-        changeMethods: ['nft_mint'],
+        changeMethods: ['nft_buy'],
       }
     );
     this.resolveContract();
@@ -73,8 +73,8 @@ export class NearConnection {
   nft_tokens_by_series(token_series_id) {
     return this.contract.nft_tokens_by_series({ token_series_id });
   }
-  nft_mint({ token_series_id, priceInYoctoNear }) {
-    return this.contract.nft_mint(
+  nft_buy({ token_series_id, priceInYoctoNear }) {
+    return this.contract.nft_buy(
       {
         owner_id: this.accountId,
         receiver_id: this.accountId,
@@ -94,8 +94,8 @@ export class NearConnection {
       });
   }
   listenForGameEvents() {
-    on(NFT_MINT, ({ token_series_id, priceInYoctoNear }) =>
-      this.nft_mint({ token_series_id, priceInYoctoNear })
+    on(NFT_BUY, ({ token_series_id, priceInYoctoNear }) =>
+      this.nft_buy({ token_series_id, priceInYoctoNear })
     );
   }
 }

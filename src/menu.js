@@ -6,7 +6,7 @@ import {
   LEVEL_COMPLETE,
   MONETIZATION_PROGRESS,
   NEAR_TOKENS_ADDED,
-  NFT_MINT,
+  NFT_BUY,
   RESTART_LEVEL,
   START_LEVEL,
   START_NEXT_LEVEL,
@@ -82,7 +82,8 @@ const initNearLevels = ({
       levelEl.setAttribute('disabled', !ownsNft);
     }
     levelEl.setAttribute('token-series-id', collection.token_series_id);
-    levelEl.setAttribute('price', collection.price);
+    // TODO (johnedvard) figure out how to use actual prize and pay for storage instead of hardcoding 1N (actual price is 0.5N)
+    levelEl.setAttribute('price', '1000000000000000000000000');
     levelEl.textContent = collection.metadata.title;
     levelEl.appendChild(imgEl);
     const mintForPriceEl = document.createElement('span');
@@ -184,7 +185,7 @@ const onContainerClick = (e) => {
   const btn = e.target.closest('button');
   if (btn && btn.getAttribute('near')) {
     onNearLevelClick(btn);
-  } else if (btn.classList.contains('level-item')) {
+  } else if (btn && btn.classList.contains('level-item')) {
     showOverlay();
     emit(START_LEVEL, { levelId: +btn.textContent });
   }
@@ -195,7 +196,7 @@ const onNearLevelClick = (btn) => {
     showLoading();
     const token_series_id = btn.getAttribute('token-series-id');
     const priceInYoctoNear = btn.getAttribute('price');
-    emit(NFT_MINT, { token_series_id, priceInYoctoNear });
+    emit(NFT_BUY, { token_series_id, priceInYoctoNear });
   } else {
     showOverlay();
     emit(START_LEVEL, {
