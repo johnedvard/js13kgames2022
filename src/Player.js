@@ -16,6 +16,7 @@ import { createSprite } from './utils';
 import { getDirection, moveBehavior } from './behavior';
 import { BubbleEffect } from './BubbleEffect';
 import { PLAYER_ALIVE, PLAYER_DEAD } from './PlayerState';
+import { playBubble } from './sound';
 
 export class Player {
   game;
@@ -107,11 +108,12 @@ export class Player {
   }
 
   applyForce(fX, fY) {
+    // TODO (johnedvard) use a constant to make it more obvious and less prone to bug
+    const isBoost = fY < -4;
     this.particleEffect.addBubbles({
       x: this.sprite.x,
       y: this.sprite.y,
-      // TODO (johnedvard) use a constant to make it more obvious and less prone to bug
-      isBoost: fY < -4,
+      isBoost,
     });
     this.rope.endNode.applyForce(fX, fY);
   }
@@ -146,7 +148,7 @@ export class Player {
       this.sprite.x,
       this.sprite.y,
       this.sprite.width * this.scale,
-      this.sprite.height * this.scale,
+      this.sprite.height * this.scale
     );
     ctx.stroke();
   }
@@ -230,7 +232,7 @@ export class Player {
     const startY = this.levelData.p.y;
     this.anchorNodeDirection = getDirection(
       this.levelData.p.b,
-      this.levelData.p.d,
+      this.levelData.p.d
     );
     this.createRope({
       startX,

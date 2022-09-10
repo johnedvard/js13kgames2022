@@ -2,6 +2,7 @@ import { emit } from './kontra';
 
 import { isBoxCollision } from './utils';
 import { GOAL_COLLISION, LEVEL_COMPLETE } from './gameEvents';
+import { playGoal } from './sound';
 
 export class Goal {
   level;
@@ -14,6 +15,7 @@ export class Goal {
   hasWon = false;
   hasVanished = false;
   vanishSpeed = 0.3;
+  isVanishihng = false;
 
   constructor(x, y, { level }) {
     this.x = x;
@@ -46,6 +48,12 @@ export class Goal {
   }
 
   startVanishing() {
+    // XXX Only play goal sound when we start vanishing goal for the first time
+    // TODO (johnedvard) emit isvanishing event
+    if (!this.isVanishihng) {
+      playGoal();
+    }
+    this.isVanishihng = true;
     this.radiusX -= this.vanishSpeed;
     this.radiusY -= this.vanishSpeed * 2;
     if (this.radiusX <= 0) this.radiusX = 0;

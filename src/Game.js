@@ -3,6 +3,7 @@ import { RESTART_LEVEL, START_LEVEL, START_NEXT_LEVEL } from './gameEvents';
 import { Level } from './Level';
 import { playSong } from './sound';
 import { setGameHeight, setGameWidth } from './store';
+import { bgc, bgc2, fgc, fgc2 } from './constants';
 
 export class Game {
   canvas;

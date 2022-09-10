@@ -6,6 +6,7 @@ import { gameHeight, gameWidth } from './store';
 import { isBoxCollision } from './utils';
 import { VerletLink } from './VerletLink';
 import { VerletNode } from './VerletNode';
+import { playCutRope } from './sound';
 
 export class Rope {
   nodes = [];
@@ -141,6 +142,7 @@ export class Rope {
   cutRope(index) {
     if (index >= this.nodes.length - 1) index = this.nodes.length - 2; // Make sure we can cut the rope if we pass the wrong index
     this.links.splice(index, 1);
+    playCutRope();
     emit(CUT_ROPE, { rope: this });
   }
 

@@ -1,39 +1,73 @@
-import { zzfxP } from './zzfx';
+import { zzfxP, zzfx } from './zzfx';
 import { zzfxM } from './zzfxm';
 
 let myAudioNode = null;
 let isPlaying = false;
 let audioContext = zzfxX;
-export const playDead = () => {
+export const playBubble = () => {
   zzfx(
-    ...[1.1, , 229, , , 0.31, 4, 2.38, -0.7, -3, , , , 0.4, , 0.2, , 0.88, 0.01]
-  ); // Hit 111
+    ...[, 1, 7, 0.02, 0.01, 0.02, 4, 0.5, , , 1, 0.01, , , 150, , 0.21, , 0.01]
+  ); // Blip 273
 };
-export const playBulletExplotion = () => {
+export const playDead = () => {
+  zzfx(...[, , 326, , 0.06, 0.08, 1, 0.95, -6.8, , , , , , , , , 0.45, 0.08]); // Jump 299
+};
+
+export const playGoal = () => {
   zzfx(
     ...[
-      1.75,
       ,
-      334,
+      ,
+      269,
+      0.07,
+      0.21,
+      0.3,
+      1,
+      0.94,
+      8.3,
+      -0.2,
+      284,
+      0.12,
+      0.12,
+      ,
+      ,
       ,
       0.13,
-      0.98,
-      4,
-      0.79,
-      0.9,
-      ,
-      ,
-      ,
-      ,
-      0.9,
-      ,
-      0.4,
-      0.29,
-      0.84,
-      0.01,
-      0.49,
+      0.75,
+      0.17,
     ]
-  ); // Explosion 121
+  ); // Powerup 397
+};
+export const playPickup = () => {
+  zzfx(
+    ...[
+      ,
+      ,
+      607,
+      0.01,
+      0.03,
+      0.13,
+      1,
+      1.56,
+      ,
+      ,
+      -490,
+      0.04,
+      0.02,
+      ,
+      ,
+      ,
+      ,
+      0.47,
+      0.02,
+      0.03,
+    ]
+  ); // Pickup 368
+};
+export const playCutRope = () => {
+  zzfx(
+    ...[, , 1081, 0.01, 0.01, 0.02, 4, 1.1, 14, 32, , , , 0.8, , , 0.06, 0.66]
+  ); // Blip 329
 };
 export const playSong = () => {
   isPlaying = true;

@@ -7,6 +7,7 @@ import { Heart } from './Heart';
 import { on } from './kontra';
 import { Player } from './Player';
 import { Saw } from './Saw';
+import { playDead } from './sound';
 import { isBoxCollision } from './utils';
 
 export class Level {
@@ -127,7 +128,7 @@ export class Level {
           level: this,
           behavior: saw.b,
           distance: saw.d,
-        }),
+        })
       );
     });
   }
@@ -147,7 +148,7 @@ export class Level {
           behavior: brick.b,
           distance: brick.d,
           level: this,
-        }),
+        })
       );
     });
   }
@@ -156,7 +157,7 @@ export class Level {
     if (!levelData.bb) return;
     levelData.bb.forEach((board) => {
       this.bounceBoards.push(
-        new BounceBoard({ p1: board.p1, p2: board.p2, level: this }),
+        new BounceBoard({ p1: board.p1, p2: board.p2, level: this })
       );
     });
   }
@@ -177,6 +178,7 @@ export class Level {
     this.capturedHearts.push(heart);
   };
   onPlayerDied = ({}) => {
+    playDead();
     this.player.respawnPlayer();
     this.resetHearts();
     this.resertSaws();

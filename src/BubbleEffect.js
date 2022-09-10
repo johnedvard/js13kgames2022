@@ -1,5 +1,6 @@
 import { fgc2 } from './constants';
 import { Pool, Sprite } from './kontra';
+import { playBubble } from './sound';
 
 export class BubbleEffect {
   timeBetweenBubbles = 10;
@@ -25,6 +26,7 @@ export class BubbleEffect {
     if (isBoost && this.timeSinceLastBoostBubble <= this.timeBetweenBubbles) {
       return;
     }
+    playBubble();
     this.timeSinceLastBubble = 0;
     this.timeSinceLastBoostBubble = 0;
     this.pool.get({

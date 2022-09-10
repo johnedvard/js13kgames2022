@@ -3,6 +3,7 @@ import heart from 'data-url:./assets/img/heart.png';
 import { emit } from './kontra';
 import { HEART_PICKUP } from './gameEvents';
 import { createSprite, isBoxCollision } from './utils';
+import { playPickup } from './sound';
 
 export class Heart {
   scale = 4;
@@ -68,10 +69,11 @@ export class Heart {
           width: this.width * this.scale,
           height: this.height * this.scale,
         },
-        this.level.player.sprite,
+        this.level.player.sprite
       )
     ) {
       this.sprite = null;
+      playPickup();
       emit(HEART_PICKUP, { heart: this });
     }
   }
