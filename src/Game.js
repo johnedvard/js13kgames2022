@@ -13,7 +13,7 @@ export class Game {
   constructor() {
     // TODO (johnedvard) Play song after user interraction
     setTimeout(() => {
-      // playSong();
+      playSong();
     }, 1000);
 
     const game = this;
