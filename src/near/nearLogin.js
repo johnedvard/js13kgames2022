@@ -10,14 +10,14 @@ export const loginout = (loginoutEl, nearConnection) => {
 };
 
 export const initLoginLogout = (nearConnection) => {
-  const loginoutEl = document.getElementById('loginoutBtn');
+  const loginoutEl = document.getElementById('lo');
   if (
     nearConnection &&
     nearConnection.walletConnection &&
     nearConnection.walletConnection.isSignedIn()
   ) {
     loginoutEl.innerHTML = 'Logout from NEAR wallet';
-    const nearLevelBtn = document.getElementById('nearLevelBtn');
+    const nearLevelBtn = document.getElementById('near');
     nearLevelBtn.removeAttribute('disabled');
   } else {
     loginoutEl.innerHTML = 'Login to NEAR wallet';

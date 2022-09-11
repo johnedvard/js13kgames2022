@@ -38,7 +38,7 @@ export const initMenu = () => {
 };
 
 const focusLevelSelectButton = () => {
-  document.getElementById('levelBtn').focus();
+  document.getElementById('lv').focus();
 };
 
 const initLevels = () => {
@@ -156,17 +156,17 @@ const onContainerClick = (e) => {
   const id = e.target.id;
   const classList = e.target.classList;
   switch (id) {
-    case 'levelBtn':
+    case 'lv':
       showOverlay('levels');
       document.getElementsByClassName('level-item')[0].focus();
       break;
-    case 'bonusBtn':
+    case 'bo':
       showOverlay('bonus');
       break;
     case 'hamburger':
       showOverlay('main');
       break;
-    case 'nearLevelBtn':
+    case 'near':
       showOverlay('near-levels');
       break;
     case 'nextBtn':
@@ -177,7 +177,7 @@ const onContainerClick = (e) => {
       showOverlay();
       emit(RESTART_LEVEL);
       break;
-    case 'musicBtn':
+    case 'mu':
       emit(TOGGLE_MUSIC, { isMusicOn: !getIsPlaying() });
       break;
   }
@@ -231,7 +231,7 @@ const listenForGameEvents = () => {
 };
 
 const onToggleMusic = () => {
-  const musicBtnEl = document.getElementById('musicBtn');
+  const musicBtnEl = document.getElementById('mu');
   musicBtnEl.textContent = getIsPlaying() ? 'Music is ON' : 'Music is OFF';
 };
 const onLevelComplete = () => {
