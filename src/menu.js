@@ -13,12 +13,7 @@ import {
   TOGGLE_MUSIC,
 } from './gameEvents';
 import { fetchArcadianHeads } from './arcadianApi';
-import {
-  isSubscriber,
-  nftTokensBySeries,
-  setNearLevel,
-  setSelectedArcadian,
-} from './store';
+import { isSubscriber, setNearLevel, setSelectedArcadian } from './store';
 import { IPFS_BASE_PATH } from './near/nearConnection';
 import { doesOwnNft, getNearLevel } from './utils';
 import { initGameHints } from './gameHints';
