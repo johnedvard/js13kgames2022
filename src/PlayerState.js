@@ -1,2 +1,2 @@
-export const PLAYER_DEAD = 'pd';
-export const PLAYER_ALIVE = 'pa';
+export const PLAYER_DEAD = 'd';
+export const PLAYER_ALIVE = 'a';

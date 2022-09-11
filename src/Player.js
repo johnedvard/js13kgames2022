@@ -16,7 +16,6 @@ import { createSprite } from './utils';
 import { getDirection, moveBehavior } from './behavior';
 import { BubbleEffect } from './BubbleEffect';
 import { PLAYER_ALIVE, PLAYER_DEAD } from './PlayerState';
-import { playBubble } from './sound';
 
 export class Player {
   game;
