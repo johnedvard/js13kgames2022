@@ -1,17 +1,17 @@
 export const initGameHints = (levelId) => {
+  const txt = '\nCut the rope with "S".';
   const hintEl = document.getElementById('hint');
   hintEl.textContent = '';
   switch (levelId) {
     case 1:
       hintEl.textContent =
-        'Reach the goal below.\nUse the arrow keys (⬅️ ➡️) to move.\nCut the rope with "S".';
+        'Reach the goal below.\nUse the arrow keys to move.' + txt;
       break;
     case 2:
       hintEl.textContent = 'Use "Up Arrow" to shorten the rope';
       break;
     case 3:
-      hintEl.textContent =
-        'Use "Space" to give you a boost upwards.\n Cut the rope with "S".';
+      hintEl.textContent = 'Use "Space" to give you a boost upwards.' + txt;
       break;
   }
 };
