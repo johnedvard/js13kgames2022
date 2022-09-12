@@ -30,24 +30,29 @@ canvas {
 #c {
   border: 3px solid var(--fgc2);
 }
-
-#menu {
+.menu {
+  display: flex;
+  flex-direction: row-reverse;
   color: var(--fgc2);
   position: absolute;
   font-size: 23px;
   font-weight: 600;
-  top: 0;
-  right: 0;
-  display: flex;
-  flex-direction: row-reverse;
   align-content: center;
   align-items: center;
   padding: 10px 20px;
 }
-#mu {
-  margin-top: 40px;
+#r-menu {
+  top: 0;
+  right: 0;
 }
-
+#mu {
+  margin-top: 50px;
+}
+.flat {
+  background-color: inherit;
+  color: var(--fgc2);
+  border: 3px solid var(--fgc2);
+}
 #hamburger {
   height: 9px;
   display: flex;

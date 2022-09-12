@@ -8,7 +8,6 @@ import {
 import { Level } from './Level';
 import { playSong, stopSong } from './sound';
 import { setGameHeight, setGameWidth } from './store';
-import { bgc, bgc2, fgc, fgc2 } from './constants';
 
 export class Game {
   canvas;
@@ -17,10 +16,6 @@ export class Game {
   saw;
   level;
   constructor() {
-    // TODO (johnedvard) Play song after user interraction
-
-    playSong();
-
     const game = this;
     let { canvas, context } = init();
     this.canvas = canvas;
