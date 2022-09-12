@@ -248,7 +248,7 @@ const onMonetizationProgress = () => {
   if (coilBtnEl) coilBtnEl.remove();
   if (coilSubEl) coilSubEl.classList.remove('hide');
   const bonusItemEls = document.getElementsByClassName('bonus-item');
-  for (item of bonusItemEls) {
+  for (let item of bonusItemEls) {
     item.classList.remove('disabled');
   }
   if (bonusItemEls && bonusItemEls.length) {
