@@ -1143,7 +1143,7 @@ class TileEngine {
           });
         }
         let { image: r } = e;
-        if ('' + r === r) {
+        if ('' + r == r) {
           if (!i)
             throw Error(
               'You must use "load" or "loadImage" to resolve tileset.image'

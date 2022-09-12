@@ -29,7 +29,7 @@ export const lineIntersection = (p1, p2, p3, p4) => {
 
 export const doesOwnNft = (seriesId, nftTokensForOwner) => {
   const token = nftTokensForOwner.find(
-    (token) => token.token_id.split(':')[0] === seriesId
+    (token) => token.token_id.split(':')[0] == seriesId
   );
   return !!token;
 };

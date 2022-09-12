@@ -60,7 +60,7 @@ export class Level {
       httpRequest.open('GET', `/level/${levelId}.json`, true);
       httpRequest.send();
       httpRequest.addEventListener('readystatechange', function () {
-        if (this.readyState === this.DONE) {
+        if (this.readyState == this.DONE) {
           try {
             const levelData = JSON.parse(this.response);
             resolve(levelData);

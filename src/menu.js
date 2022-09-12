@@ -192,7 +192,7 @@ const onContainerClick = (e) => {
 };
 
 const onNearLevelClick = (btn) => {
-  if (btn && btn.getAttribute('disabled') === 'true') {
+  if (btn && btn.getAttribute('disabled') == 'true') {
     showLoading();
     const token_series_id = btn.getAttribute('token-series-id');
     const priceInYoctoNear = btn.getAttribute('price');
@@ -212,7 +212,7 @@ const showOverlay = (id) => {
     if (!overlayEl.classList.contains('hide')) {
       overlayEl.classList.add('hide');
     }
-    if (o === id) {
+    if (o == id) {
       overlayEl.classList.remove('hide');
     }
   });

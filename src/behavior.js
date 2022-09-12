@@ -48,9 +48,9 @@ export const moveBehavior = ({
 export const getDirection = (behavior, distance) => {
   let direction = '';
   if (distance < 0) {
-    direction = behavior === BACK_FORTH ? 'w' : 'n';
+    direction = behavior == BACK_FORTH ? 'w' : 'n';
   } else {
-    direction = behavior === BACK_FORTH ? 'e' : 's';
+    direction = behavior == BACK_FORTH ? 'e' : 's';
   }
   return direction;
 };

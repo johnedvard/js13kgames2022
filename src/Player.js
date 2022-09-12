@@ -175,7 +175,7 @@ export class Player {
   }
 
   handleDeadOnGround() {
-    if (this.playerState === PLAYER_DEAD) return;
+    if (this.playerState == PLAYER_DEAD) return;
     if (this.sprite.y >= gameHeight) {
       this.deadTimer += 1;
       if (this.deadTimer >= this.deadLimit) {
@@ -184,7 +184,7 @@ export class Player {
     }
   }
   handleDeadInAir() {
-    if (!this.isRopeCut || this.playerState === PLAYER_DEAD) return;
+    if (!this.isRopeCut || this.playerState == PLAYER_DEAD) return;
     this.deadInAirTimer += 1;
     if (this.deadInAirTimer >= this.deadInAirLimit) {
       this.handleDied();

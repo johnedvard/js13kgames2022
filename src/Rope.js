@@ -47,7 +47,7 @@ export class Rope {
   }
   updateNodes() {
     this.nodes.forEach((n) => {
-      if (n === this.nodes[0]) n.pos = this.anchor;
+      if (n == this.nodes[0]) n.pos = this.anchor;
       const vxy = n.pos.subtract(n.oldPos);
       n.oldPos = n.pos;
       n.pos = n.pos.add(vxy).add(Vector(0, gravity * n.mass));
@@ -55,7 +55,7 @@ export class Rope {
   }
   constrainNodes() {
     this.nodes.forEach((n) => {
-      if (n === this.nodes[0]) n.pos = this.anchor;
+      if (n == this.nodes[0]) n.pos = this.anchor;
       this.handleWallCollision(n);
       this.handleBoxCollision(n);
     });
@@ -100,7 +100,7 @@ export class Rope {
     }
   }
   handleBoxCollision(node, vxy) {
-    if (node === this.nodes[0]) return;
+    if (node == this.nodes[0]) return;
     const bricks = this.level.bricks;
     bricks.forEach((b) => {
       // check left edge
@@ -113,13 +113,13 @@ export class Rope {
         // hhit left wall
         const max = Math.max(left, right, top, bot);
 
-        if (max === right) {
+        if (max == right) {
           node.pos.x = b.x - 3;
-        } else if (max === left) {
+        } else if (max == left) {
           node.pos.x = b.x + b.width + 3;
-        } else if (max === bot) {
+        } else if (max == bot) {
           node.pos.y = b.y - 3;
-        } else if (max === top) {
+        } else if (max == top) {
           node.pos.y = b.y + b.height + 3;
         }
       }
