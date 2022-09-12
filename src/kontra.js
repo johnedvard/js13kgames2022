@@ -821,9 +821,7 @@ class Pool {
   constructor({ create: t, maxSize: e = 1024 } = {}) {
     let i;
     if (!t || !(i = t()) || !(i.update && i.init && i.isAlive && i.render))
-      throw Error(
-        'Must provide create() function which returns an object with init(), update(), render(), and isAlive() functions'
-      );
+      throw Error('');
     (this._c = t), (this.objects = [t()]), (this.size = 0), (this.maxSize = e);
   }
   get(t = {}) {
@@ -834,12 +832,6 @@ class Pool {
     }
     let e = this.objects[this.size];
     return this.size++, e.init(t), e;
-  }
-  getAliveObjects() {
-    return this.objects.slice(0, this.size);
-  }
-  clear() {
-    (this.size = this.objects.length = 0), this.objects.push(this._c());
   }
   update(t) {
     let e,
