@@ -258,3 +258,6 @@ button:hover img {
 .hide {
   display: none !important; /* XXX Override any other display settings on the element */
 }
+.flash {
+  background-color: var(--bgc2);
+}

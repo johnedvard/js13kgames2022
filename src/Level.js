@@ -1,6 +1,11 @@
 import { BounceBoard } from './BounceBoard';
 import { Brick } from './Brick';
-import { HEART_PICKUP, LEVEL_COMPLETE, PLAYER_DIED } from './gameEvents';
+import {
+  CUT_ROPE,
+  HEART_PICKUP,
+  LEVEL_COMPLETE,
+  PLAYER_DIED,
+} from './gameEvents';
 import { initGameHints } from './gameHints';
 import { Goal } from './Goal';
 import { Heart } from './Heart';
@@ -19,9 +24,13 @@ export class Level {
   bricks = [];
   bounceBoards = [];
   isLevelLoaded = false;
+  isFirstRopeCut = false;
+  isStopMotion = false;
   levelId;
   levelData;
   capturedHearts = [];
+  stopMotionTime = 10;
+  stopMotionEllapsed = 0;
   constructor({ game, levelId, levelData }) {
     this.levelId = levelId;
     this.levelData = levelData;
@@ -98,7 +107,16 @@ export class Level {
 
   update() {
     if (!this.isLevelLoaded) return;
+
+    if (this.isStopMotion) {
+      this.stopMotionEllapsed += 1;
+      if (this.stopMotionEllapsed >= this.stopMotionTime) {
+        this.isStopMotion = false;
+      }
+      return;
+    }
     this.checkCollisions();
+
     this.player.update();
     this.saws.forEach((saw) => {
       saw.update();
@@ -181,15 +199,34 @@ export class Level {
     on(PLAYER_DIED, this.onPlayerDied);
     on(HEART_PICKUP, this.onHeartPickup);
     on(LEVEL_COMPLETE, this.onLevelComplete);
+    on(CUT_ROPE, this.onCutRope);
   }
+  onCutRope = ({ rope }) => {
+    if (this.isFirstRopeCut) return;
+    this.isStopMotion = true;
+    this.isFirstRopeCut = true;
+    this.flashScreen();
+  };
   onLevelComplete = () => {
     this.storeCapturedHearts();
   };
   onHeartPickup = ({ heart }) => {
     this.capturedHearts.push(heart);
   };
+  flashScreen() {
+    const canvasEl = document.getElementById('c');
+    canvasEl.classList.add('flash');
+
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        canvasEl.classList.remove('flash');
+      });
+    }, 50);
+  }
   onPlayerDied = ({}) => {
     playDead();
+    this.isFirstRopeCut = false;
+    this.stopMotionEllapsed = 0;
     this.player.respawnPlayer();
     this.resetHearts();
     this.resertSaws();
