@@ -34,7 +34,6 @@ let hasRemovedDisableOnBonusEls = false;
 export const initMenu = () => {
   addButtonListeners();
   listenForGameEvents();
-  initLevels();
   initBonusContent();
   focusLevelSelectButton();
 };
@@ -45,6 +44,7 @@ const focusLevelSelectButton = () => {
 
 const initLevels = () => {
   const levelsGridEl = document.getElementById('levels-grid');
+  levelsGridEl.innerHTML = '';
   for (let i = 1; i < levels + 1; i++) {
     const collectedHearts = localStorage.getItem('hearts-' + i) || 0;
     const levelEl = document.createElement('button');
@@ -159,6 +159,7 @@ const onContainerClick = (e) => {
   const classList = e.target.classList;
   switch (id) {
     case 'lv':
+      initLevels();
       showOverlay('levels');
       document.getElementsByClassName('level-item')[0].focus();
       break;
