@@ -311,10 +311,8 @@ function depthSort(t, e, i = 'y') {
   return ([t, e] = [t, e].map(getWorldRect)), t[i] - e[i];
 }
 class Vector {
-  constructor(t = 0, e = 0, i = {}) {
-    (this.x = t),
-      (this.y = e),
-      i._c && (this.clamp(i._a, i._b, i._d, i._e), (this.x = t), (this.y = e));
+  constructor(t = 0, e = 0) {
+    (this.x = t), (this.y = e);
   }
   add(t) {
     return new Vector(this.x + t.x, this.y + t.y, this);
@@ -322,26 +320,8 @@ class Vector {
   subtract(t) {
     return new Vector(this.x - t.x, this.y - t.y, this);
   }
-  scale(t) {
-    return new Vector(this.x * t, this.y * t);
-  }
-  normalize(t = this.length()) {
-    return new Vector(this.x / t, this.y / t);
-  }
-  dot(t) {
-    return this.x * t.x + this.y * t.y;
-  }
   length() {
     return Math.hypot(this.x, this.y);
-  }
-  distance(t) {
-    return Math.hypot(this.x - t.x, this.y - t.y);
-  }
-  angle(t) {
-    return Math.acos(this.dot(t) / (this.length() * t.length()));
-  }
-  clamp(t, e, i, s) {
-    (this._c = !0), (this._a = t), (this._b = e), (this._d = i), (this._e = s);
   }
   get x() {
     return this._x;
