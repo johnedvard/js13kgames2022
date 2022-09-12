@@ -27,7 +27,7 @@ const overlayIds = [
   'near-levels',
   'thanks',
 ];
-const levels = 5;
+const levels = 6;
 
 let hasRemovedDisableOnBonusEls = false;
 
