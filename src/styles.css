@@ -26,6 +26,8 @@ body,
 }
 canvas {
   background-color: var(--bgc);
+}
+#c {
   border: 3px solid var(--fgc2);
 }
 
