@@ -8,6 +8,7 @@ import {
 import { Level } from './Level';
 import { playSong, stopSong } from './sound';
 import { setGameHeight, setGameWidth } from './store';
+import { showOverlay } from './menu';
 
 export class Game {
   canvas;
@@ -44,7 +45,7 @@ export class Game {
     if (levelId) {
       this.level = new Level({ levelId, game: this });
     } else if (levelData) {
-      this.level = new Level({ game: this, levelData: JSON.parse(levelData) });
+      this.level = new Level({ game: this, levelData });
     }
   }
 
@@ -63,7 +64,13 @@ export class Game {
   };
   onStartNextLevel = () => {
     this.level.destroy();
-    this.loadLevel({ levelId: this.level.levelId + 1 });
+    if (this.level.levelId) {
+      this.loadLevel({ levelId: this.level.levelId + 1 });
+    } else {
+      // TODO (johnedvard) figure out a way to go to next level instead of going back to list
+      // NEAR level go back to menu
+      showOverlay('near-levels');
+    }
   };
   onStartLevel = ({ levelId, levelData }) => {
     if (this.level) {

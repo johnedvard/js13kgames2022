@@ -207,7 +207,7 @@ const onNearLevelClick = (btn) => {
   } else {
     showOverlay();
     emit(START_LEVEL, {
-      levelData: getNearLevel(btn.getAttribute('token-series-id')),
+      levelData: JSON.parse(getNearLevel(btn.getAttribute('token-series-id'))),
     });
   }
 };
