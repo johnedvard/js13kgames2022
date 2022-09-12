@@ -587,24 +587,6 @@ class Sprite extends GameObject {
   } = {}) {
     super.init({ image: t, width: e, height: i, ...s });
   }
-  get animations() {
-    return this._a;
-  }
-  set animations(t) {
-    let e, i;
-    for (e in ((this._a = {}), t))
-      (this._a[e] = t[e].clone()), (i = i || this._a[e]);
-    (this.currentAnimation = i),
-      (this.width = this.width || i.width),
-      (this.height = this.height || i.height);
-  }
-  playAnimation(t) {
-    (this.currentAnimation = this.animations[t]),
-      this.currentAnimation.loop || this.currentAnimation.reset();
-  }
-  advance(t) {
-    super.advance(t), this.currentAnimation && this.currentAnimation.update(t);
-  }
   draw() {
     this.image &&
       this.context.drawImage(

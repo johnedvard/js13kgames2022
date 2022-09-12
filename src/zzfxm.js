@@ -23,7 +23,7 @@ export const zzfxM = (n, f, t, e = 125) => {
     q = 0,
     s = 1,
     v = {},
-    w = ((zzfxR / e) * 60) >> 2;
+    w = ((window.zzfxR / e) * 60) >> 2;
   for (; s; k++)
     (R = [(s = a = d = m = 0)]),
       t.map((e, d) => {
@@ -55,7 +55,7 @@ export const zzfxM = (n, f, t, e = 125) => {
                 v[[c, g]] ||
                 ((l = [...n[c]]),
                 (l[2] *= 2 ** ((g - 12) / 12)),
-                g > 0 ? zzfxG(...l) : [])));
+                g > 0 ? window.zzfxG(...l) : [])));
         }
         m = G;
       });

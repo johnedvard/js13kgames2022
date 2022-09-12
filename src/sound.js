@@ -3,7 +3,7 @@ import { zzfxM } from './zzfxm';
 
 let myAudioNode = null;
 let isPlaying = false;
-let audioContext = zzfxX;
+let audioContext = window.zzfxX;
 
 export const getIsPlaying = () => {
   return isPlaying;

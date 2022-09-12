@@ -1,12 +1,13 @@
 // zzfxV - global volume
-zzfxV = 0.3;
+const zzfxV = 0.3;
 
 // zzfxR - global sample rate
-zzfxR = 44100;
+const zzfxR = 44100;
+window.zzfxR = zzfxR;
 
 // zzfxX - the common audio context
-zzfxX = new (window.AudioContext || webkitAudioContext)();
-sfxContext = new (window.AudioContext || webkitAudioContext)();
+window.zzfxX = new (window.AudioContext || webkitAudioContext)();
+const sfxContext = new (window.AudioContext || webkitAudioContext)();
 // zzfx() - the universal entry point -- returns a AudioBufferSourceNode
 export const zzfx = (...t) => zzfxP(sfxContext, zzfxG(...t));
 
@@ -22,7 +23,7 @@ export const zzfxP = (ctx, ...t) => {
 };
 
 // zzfxG() - the sound generator -- returns an array of sample data
-zzfxG = (
+window.zzfxG = (
   q = 1,
   k = 0.05,
   c = 220,
