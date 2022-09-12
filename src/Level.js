@@ -5,6 +5,7 @@ import { initGameHints } from './gameHints';
 import { Goal } from './Goal';
 import { Heart } from './Heart';
 import { on } from './kontra';
+import { showOverlay } from './menu';
 import { Player } from './Player';
 import { Saw } from './Saw';
 import { playDead } from './sound';
@@ -36,6 +37,7 @@ export class Level {
           this.init(levelData);
         })
         .catch(() => {
+          showOverlay('thanks');
           // TODO (johnedvard) improve error handling, not always assume last level
         });
     }

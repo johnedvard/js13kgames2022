@@ -19,7 +19,14 @@ import { doesOwnNft, getNearLevel } from './utils';
 import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
 
-const overlayIds = ['main', 'bonus', 'levels', 'level-dialog', 'near-levels'];
+const overlayIds = [
+  'main',
+  'bonus',
+  'levels',
+  'level-dialog',
+  'near-levels',
+  'thanks',
+];
 const levels = 5;
 
 let hasRemovedDisableOnBonusEls = false;
@@ -205,7 +212,7 @@ const onNearLevelClick = (btn) => {
   }
 };
 
-const showOverlay = (id) => {
+export const showOverlay = (id) => {
   initGameHints(null);
   overlayIds.forEach((o) => {
     const overlayEl = document.getElementById(o);

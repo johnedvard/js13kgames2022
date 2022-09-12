@@ -127,6 +127,11 @@ button:hover img {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+}
+#thanks {
+  width: 80%;
+  height: 80%;
 }
 
 .level-item {
