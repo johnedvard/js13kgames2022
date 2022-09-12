@@ -755,7 +755,7 @@ function onInput(t, e, { gamepad: i, key: s } = {}) {
     }
   });
 }
-function offInput(t, { gamepad: e, key: i } = {}) {
+function offInput(t, { key: i } = {}) {
   [].concat(t).map((t) => {
     contains(t, keyMap)
       ? offKey(t, i)
