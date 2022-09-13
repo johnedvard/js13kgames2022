@@ -90,12 +90,12 @@ button,
   font-weight: 600;
   cursor: pointer;
 }
-button:disabled {
+button.disabled {
   background-color: lightgray;
   color: darkgray;
   cursor: not-allowed;
 }
-button:disabled img {
+button.disabled img {
   filter: contrast(0.5);
 }
 button:hover,

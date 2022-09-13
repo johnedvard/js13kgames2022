@@ -78,7 +78,7 @@ const initNearLevels = ({
     imgEl.setAttribute('src', IPFS_BASE_PATH + collection.metadata.media);
     levelEl.setAttribute('near', 'true');
     if (!ownsNft) {
-      levelEl.setAttribute('disabled', !ownsNft);
+      levelEl.classList.add('disabled');
     }
     levelEl.setAttribute('token-series-id', collection.token_series_id);
     // TODO (johnedvard) figure out how to use actual prize and pay for storage instead of hardcoding 1N (actual price is 0.5N)
@@ -195,7 +195,7 @@ const onContainerClick = (e) => {
 };
 
 const onNearLevelClick = (btn) => {
-  if (btn && btn.getAttribute('disabled') == 'true') {
+  if (btn && btn.classList.contains('disabled')) {
     showLoading();
     const token_series_id = btn.getAttribute('token-series-id');
     const priceInYoctoNear = btn.getAttribute('price');
