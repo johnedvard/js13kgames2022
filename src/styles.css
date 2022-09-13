@@ -14,11 +14,11 @@ body {
   color: var(--fgc2);
   font-family: sans-serif;
 }
-#container {
+#wrap {
   position: relative;
 }
 body,
-#container {
+#wrap {
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -153,19 +153,19 @@ button:hover img {
 .level-item img:not(.collected) {
   filter: grayscale(1);
 }
-.heart-container {
+.heart-wrap {
   height: 50%;
   width: 70%;
   display: flex;
   flex-flow: row;
 }
-.heart-container img {
+.heart-wrap img {
   object-fit: contain;
   image-rendering: pixelated;
 }
-#levels-grid,
-#bonus-grid,
-#near-levels-grid {
+#levels-g,
+#bonus-g,
+#nlg {
   width: 640px;
   height: 440px;
   min-height: 440px;
@@ -178,21 +178,21 @@ button:hover img {
   display: grid;
   justify-items: center;
 }
-#near-levels-grid {
+#nlg {
   grid-template-columns: repeat(2, 1fr);
 }
-#near-levels-grid .level-item {
+#nlg .level-item {
   flex-flow: column;
   width: 250px;
   height: 300px;
   cursor: pointer;
 }
 
-#bonus-grid {
+#bonus-g {
   row-gap: 0px;
 }
 
-#level-dialog {
+#level-d {
   width: 50%;
   height: 50%;
   border-radius: 4px;
@@ -214,7 +214,7 @@ button:hover img {
   cursor: not-allowed;
 }
 
-#bonus-grid > canvas {
+#bonus-g > canvas {
   width: 200px;
   height: 200px;
 }

@@ -69,7 +69,7 @@ export class Game {
     } else {
       // TODO (johnedvard) figure out a way to go to next level instead of going back to list
       // NEAR level go back to menu
-      showOverlay('near-levels');
+      showOverlay('n-l');
     }
   };
   onStartLevel = ({ levelId, levelData }) => {

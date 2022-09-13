@@ -11,7 +11,7 @@ export const initGameHints = (levelId) => {
       hintEl.textContent = 'Use "Up Arrow" to shorten the rope';
       break;
     case 3:
-      hintEl.textContent = 'Use "Space" to give you a boost upwards.' + txt;
+      hintEl.textContent = 'Use "Space" to boost up.' + txt;
       break;
   }
 };

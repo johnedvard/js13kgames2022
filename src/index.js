@@ -1,11 +1,11 @@
 import cssText from 'bundle-text:./styles.css';
 
 import { Game } from './Game';
-import { initLoginLogout } from './near/nearLogin';
+import { initLoginLogout } from './nearLogin';
 import {
   HANG_BY_A_THREAD_SERIES_TESTNET,
   NearConnection,
-} from './near/nearConnection';
+} from './nearConnection';
 import { initMenu } from './menu';
 import { setNftTokens } from './store';
 import { initMonetization } from './monetization';
@@ -31,6 +31,7 @@ const initNear = () => {
     const nearConnection = new NearConnection();
     nearConnection.initContract().then(() => {
       initLoginLogout(nearConnection);
+      if (!nearConnection.isSignedIn()) return;
       const promises = [
         nearConnection.nft_tokens_for_owner(nearConnection.accountId),
         nearConnection.nft_tokens_by_series(HANG_BY_A_THREAD_SERIES_TESTNET),

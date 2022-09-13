@@ -1,4 +1,3 @@
-import { BounceBoard } from './BounceBoard';
 import { Brick } from './Brick';
 import {
   CUT_ROPE,
@@ -10,6 +9,7 @@ import { initGameHints } from './gameHints';
 import { Goal } from './Goal';
 import { Heart } from './Heart';
 import { on } from './kontra';
+import { levels } from './levels';
 import { showOverlay } from './menu';
 import { Player } from './Player';
 import { Saw } from './Saw';
@@ -22,7 +22,6 @@ export class Level {
   goals = [];
   hearts = [];
   bricks = [];
-  bounceBoards = [];
   isLevelLoaded = false;
   isFirstRopeCut = false;
   isStopMotion = false;
@@ -60,26 +59,18 @@ export class Level {
     this.createGoals(levelData);
     this.createHearts(levelData);
     this.createBricks(levelData);
-    this.createBounceBoards(levelData);
     this.isLevelLoaded = true;
     initGameHints(this.levelId);
   }
 
   loadLevel(levelId) {
     return new Promise((resolve, reject) => {
-      let httpRequest = new XMLHttpRequest();
-      httpRequest.open('GET', `/level/${levelId}.json`, true);
-      httpRequest.send();
-      httpRequest.addEventListener('readystatechange', function () {
-        if (this.readyState == this.DONE) {
-          try {
-            const levelData = JSON.parse(this.response);
-            resolve(levelData);
-          } catch (err) {
-            reject(err);
-          }
-        }
-      });
+      if (levels[levelId] && levels[levelId].p) {
+        const levelData = levels[levelId];
+        resolve(levelData);
+      } else {
+        reject(null);
+      }
     });
   }
 
@@ -95,9 +86,6 @@ export class Level {
     });
     this.bricks.forEach((brick) => {
       brick.render(ctx);
-    });
-    this.bounceBoards.forEach((board) => {
-      board.render(ctx);
     });
     this.player.render(ctx);
     this.goals.forEach((goal) => {
@@ -129,9 +117,6 @@ export class Level {
     });
     this.bricks.forEach((brick) => {
       brick.update();
-    });
-    this.bounceBoards.forEach((board) => {
-      board.update();
     });
   }
 
@@ -178,15 +163,6 @@ export class Level {
           distance: brick.d,
           level: this,
         })
-      );
-    });
-  }
-
-  createBounceBoards(levelData) {
-    if (!levelData.bb) return;
-    levelData.bb.forEach((board) => {
-      this.bounceBoards.push(
-        new BounceBoard({ p1: board.p1, p2: board.p2, level: this })
       );
     });
   }

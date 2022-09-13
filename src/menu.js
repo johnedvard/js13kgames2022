@@ -14,20 +14,15 @@ import {
 } from './gameEvents';
 import { fetchArcadianHeads } from './arcadianApi';
 import { isSubscriber, setNearLevel, setSelectedArcadian } from './store';
-import { IPFS_BASE_PATH } from './near/nearConnection';
+import { IPFS_BASE_PATH } from './nearConnection';
 import { doesOwnNft, getNearLevel } from './utils';
 import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
+import { levels } from './levels';
 
-const overlayIds = [
-  'main',
-  'bonus',
-  'levels',
-  'level-dialog',
-  'near-levels',
-  'thanks',
-];
-const levels = 8;
+const overlayIds = ['main', 'bonus', 'levels', 'level-d', 'n-l', 'thanks'];
+
+const numLevels = Object.keys(levels).length;
 
 let hasRemovedDisableOnBonusEls = false;
 
@@ -43,15 +38,15 @@ const focusLevelSelectButton = () => {
 };
 
 const initLevels = () => {
-  const levelsGridEl = document.getElementById('levels-grid');
+  const levelsGridEl = document.getElementById('levels-g');
   levelsGridEl.innerHTML = '';
-  for (let i = 1; i < levels + 1; i++) {
+  for (let i = 1; i < numLevels + 1; i++) {
     const collectedHearts = localStorage.getItem('hearts-' + i) || 0;
     const levelEl = document.createElement('button');
 
     levelEl.textContent = i;
     const heartContainerEl = document.createElement('div');
-    heartContainerEl.classList.add('heart-container');
+    heartContainerEl.classList.add('heart-wrap');
     for (let i = 0; i < 2; i++) {
       const heartEl = document.createElement('img');
       heartEl.setAttribute('src', heart);
@@ -71,9 +66,9 @@ const initNearLevels = ({
   nftTokensForOwner,
   nftCollections,
 }) => {
-  const nearLoadingEl = document.getElementById('loadingNearLevels');
+  const nearLoadingEl = document.getElementById('lnl');
   if (nearLoadingEl) nearLoadingEl.remove();
-  const levelsGridEl = document.getElementById('near-levels-grid');
+  const levelsGridEl = document.getElementById('nlg');
   nftCollections.forEach((collection) => {
     setNearLevel(collection.token_series_id, collection.metadata.description);
     const levelEl = document.createElement('button');
@@ -106,7 +101,7 @@ const initNearLevels = ({
 };
 
 const initBonusContent = () => {
-  const bonusGridEl = document.getElementById('bonus-grid');
+  const bonusGridEl = document.getElementById('bonus-g');
   pouplateBonusGrid(bonusGridEl);
   listenForBonusGridEvents(bonusGridEl);
 };
@@ -150,7 +145,7 @@ const listenForBonusGridEvents = (bonusGridEl) => {
 };
 
 const addButtonListeners = () => {
-  const containerEl = document.getElementById('container');
+  const containerEl = document.getElementById('wrap');
   containerEl.addEventListener('click', onContainerClick);
 };
 
@@ -170,7 +165,7 @@ const onContainerClick = (e) => {
       showOverlay('main');
       break;
     case 'near':
-      showOverlay('near-levels');
+      showOverlay('n-l');
       break;
     case 'nextBtn':
       showOverlay();
@@ -238,7 +233,7 @@ const onToggleMusic = () => {
   musicBtnEl.textContent = getIsPlaying() ? 'Music is ON' : 'Music is OFF';
 };
 const onLevelComplete = () => {
-  showOverlay('level-dialog');
+  showOverlay('level-d');
   document.getElementById('nextBtn').focus();
 };
 const onNearTokensAdded = ({

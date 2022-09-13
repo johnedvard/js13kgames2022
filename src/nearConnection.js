@@ -1,11 +1,8 @@
-import { on } from '../kontra';
-import { NFT_BUY } from '../gameEvents';
-import getConfig from './config';
+import { on } from './kontra';
+import { NFT_BUY } from './gameEvents';
+import { getConfig } from './config';
 
 export const HANG_BY_A_THREAD_SERIES_TESTNET = '2036';
-export const MIRRORS_SERIES_TESTNET = '494';
-export const PARAS_BASE_PATH_TESTNET =
-  'https://testnet.paras.id/token/paras-token-v2.testnet::';
 export const IPFS_BASE_PATH = 'https://ipfs.fleek.co/ipfs/';
 export const PARAS_COLLECTION_API =
   'https://api-v3-marketplace-testnet.paras.id/token-series?collection_id=hang-by-a-thread-by-johnonymtestnet';
@@ -16,14 +13,18 @@ export class NearConnection {
   accountId;
   userName;
   ready; //promise
-  nearConfig = getConfig('development');
+  nearConfig = getConfig();
   resolveContract;
 
   constructor() {
     this.listenForGameEvents();
-    this.ready = new Promise((resolve, reject) => {
+    this.ready = new Promise((resolve) => {
       this.resolveContract = resolve;
     });
+  }
+
+  isSignedIn() {
+    return this && this.walletConnection && this.walletConnection.isSignedIn();
   }
 
   // Initialize contract & set global variables
