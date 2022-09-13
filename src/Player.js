@@ -25,6 +25,7 @@ export class Player {
   sprite = { render: () => {}, x: 0, y: 0 };
   headSprite = { render: () => {}, x: 0, y: 0 }; // From Arcadian API
   hasWon = false;
+  hasSetListeners = false;
   headImg;
   headOffset = { x: 10, y: 38 };
   isLeft = false;
@@ -184,6 +185,7 @@ export class Player {
     }
   }
   handleDeadInAir() {
+    if (this.hasWon) return;
     if (!this.isRopeCut || this.playerState == PLAYER_DEAD) return;
     this.deadInAirTimer += 1;
     if (this.deadInAirTimer >= this.deadInAirLimit) {
@@ -243,9 +245,11 @@ export class Player {
   }
   resetHearts() {}
   listenForGameEvents() {
+    if (this.hasSetListeners) return;
     on(GOAL_COLLISION, this.onGoalCollision);
     on(ARCADIAN_HEAD_SELECTED, this.onArcadianAdded);
     on(CUT_ROPE, this.onCutRope);
+    this.hasSetListeners = true;
   }
   onGoalCollision = () => {
     this.hasWon = true;
