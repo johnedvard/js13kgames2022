@@ -28,7 +28,9 @@ export class PlayerControls {
   }
 
   initControls() {
-    onInput(['s'], () => this.player.rope.cutRope(0));
+    onInput(['s'], () =>
+      this.player.rope.cutRope(Math.floor(this.player.rope.length / 2))
+    );
     onInput(['z'], () => emit(RESTART_LEVEL));
   }
 }
