@@ -1,6 +1,6 @@
 {
   "name": "js13kgames2022",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "skeleton rope physics game",
   "source": "src/index.html",
   "scripts": {
@@ -9,7 +9,8 @@
     "zip": "cd dist && zip game.zip *.html *.js",
     "build:zip": "npm run build && cd dist && zip game.zip *.html *.js",
     "build:roadroller": "npm run build && roadroller dist/index.*.js -o dist/index.*.js && npm run zip",
-    "roadroller": "roadroller dist/index.*.js -o dist/index.*.js"
+    "roadroller": "roadroller dist/index.*.js -o dist/index.*.js",
+    "release": "standard-version release"
   },
   "author": "johnedvard",
   "license": "ISC",
@@ -18,7 +19,8 @@
     "@parcel/transformer-inline-string": "^2.7.0",
     "parcel": "^2.7.0",
     "parcel-reporter-static-files-copy": "^1.4.0",
-    "roadroller": "^2.1.0"
+    "roadroller": "^2.1.0",
+    "standard-version": "^9.5.0"
   },
   "staticFiles": {
     "staticPath": "src/level",
