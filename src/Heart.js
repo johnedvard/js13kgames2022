@@ -38,7 +38,7 @@ export class Heart {
     this.checkCollision();
   }
   updateIdlePos() {
-    if (this.direction == 'n') {
+    if (this.direction === 'n') {
       this.sprite.y -= this.idleSpeed;
       this.sprite.scaleY += this.idleSpeed / 10;
       this.sprite.scaleX += this.idleSpeed / 10;
@@ -46,7 +46,7 @@ export class Heart {
         this.direction = 's';
       }
     }
-    if (this.direction == 's') {
+    if (this.direction === 's') {
       this.sprite.y += this.idleSpeed;
       this.sprite.scaleY -= this.idleSpeed / 10;
       this.sprite.scaleX -= this.idleSpeed / 10;

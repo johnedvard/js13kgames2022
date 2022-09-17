@@ -21,7 +21,7 @@ import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
 import { levels } from './levels/levels';
 
-const overlayIds = ['main', 'bonus', 'levels', 'level-d', 'n-l', 'thanks'];
+const overlayIds = ['main', 'bonus', 'levels', 'level-dialog', 'n-l', 'thanks'];
 
 const numLevels = Object.keys(levels).length;
 
@@ -216,7 +216,7 @@ export const showOverlay = (id) => {
     if (!overlayEl.classList.contains('hide')) {
       overlayEl.classList.add('hide');
     }
-    if (o == id) {
+    if (o === id) {
       overlayEl.classList.remove('hide');
     }
   });
@@ -234,7 +234,7 @@ const onToggleMusic = () => {
   musicBtnEl.textContent = getIsPlaying() ? 'Music is ON' : 'Music is OFF';
 };
 const onLevelComplete = () => {
-  showOverlay('level-d');
+  showOverlay('level-dialog');
   document.getElementById('nextBtn').focus();
 };
 const onNearTokensAdded = ({

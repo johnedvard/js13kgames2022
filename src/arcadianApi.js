@@ -14,16 +14,16 @@ export async function queryArcadian(id) {
     // create a GET request
     var xhr = new XMLHttpRequest();
     xhr.onload = () => {
-      if (xhr.readyState == xhr.DONE) {
+      if (xhr.readyState === xhr.DONE) {
         if (xhr.status !== 200) reject(null);
         let gender = 'female';
         var data = JSON.parse(xhr.response);
 
         const headPart = data.attributes.find(
-          (trait) => trait.trait_type == 'Head'
+          (trait) => trait.trait_type === 'Head'
         );
         const genderPart = data.attributes.find(
-          (trait) => trait.trait_type == 'Class'
+          (trait) => trait.trait_type === 'Class'
         );
         if (genderPart.value.match('Male')) gender = 'male';
         const headUrl = headPart.value.toLowerCase().replaceAll(' ', '-');
@@ -52,7 +52,7 @@ export const fetchArcadianHeads = () => {
     promises.push(queryArcadian(101));
     promises.push(queryArcadian(110));
     for (let i = 1; i < 46; i++) {
-      if (i == 2 || i == 13) continue;
+      if (i === 2 || i === 13) continue;
       const promise = queryArcadian(i);
       promises.push(promise);
     }
