@@ -191,7 +191,7 @@ export class Level {
     this.capturedHearts.push(heart);
   };
   flashScreen() {
-    const canvasEl = document.getElementById('c');
+    const canvasEl = document.getElementById('game-canvas');
     canvasEl.classList.add('flash');
 
     setTimeout(() => {

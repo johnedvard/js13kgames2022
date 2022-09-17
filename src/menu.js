@@ -21,7 +21,14 @@ import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
 import { levels } from './levels/levels';
 
-const overlayIds = ['main', 'bonus', 'levels', 'level-dialog', 'n-l', 'thanks'];
+const overlayIds = [
+  'main',
+  'bonus',
+  'levels',
+  'level-dialog',
+  'near-levels',
+  'thanks',
+];
 
 const numLevels = Object.keys(levels).length;
 
@@ -35,11 +42,11 @@ export const initMenu = () => {
 };
 
 const focusLevelSelectButton = () => {
-  document.getElementById('lv').focus();
+  document.getElementById('select-level-btn').focus();
 };
 
 const initLevels = () => {
-  const levelsGridEl = document.getElementById('levels-g');
+  const levelsGridEl = document.getElementById('levels-grid');
   levelsGridEl.innerHTML = '';
   for (let i = 1; i < numLevels + 1; i++) {
     const collectedHearts = localStorage.getItem('hearts-' + i) || 0;
@@ -67,9 +74,9 @@ const initNearLevels = ({
   nftTokensForOwner,
   nftCollections,
 }) => {
-  const nearLoadingEl = document.getElementById('lnl');
+  const nearLoadingEl = document.getElementById('loading-near-levels');
   if (nearLoadingEl) nearLoadingEl.remove();
-  const levelsGridEl = document.getElementById('nlg');
+  const levelsGridEl = document.getElementById('near-levels-grid');
   nftCollections.forEach((collection) => {
     setNearLevel(collection.token_series_id, collection.metadata.description);
     const levelEl = document.createElement('button');
@@ -102,7 +109,7 @@ const initNearLevels = ({
 };
 
 const initBonusContent = () => {
-  const bonusGridEl = document.getElementById('bonus-g');
+  const bonusGridEl = document.getElementById('bonus-grid');
   pouplateBonusGrid(bonusGridEl);
   listenForBonusGridEvents(bonusGridEl);
 };
@@ -154,29 +161,29 @@ const onContainerClick = (e) => {
   const id = e.target.id;
   const classList = e.target.classList;
   switch (id) {
-    case 'lv':
+    case 'select-level-btn':
       initLevels();
       showOverlay('levels');
       document.getElementsByClassName('level-item')[0].focus();
       break;
-    case 'bo':
+    case 'bonus-content-btn':
       showOverlay('bonus');
       break;
     case 'hamburger':
       showOverlay('main');
       break;
-    case 'near':
-      showOverlay('n-l');
+    case 'near-level-btn':
+      showOverlay('near-levels');
       break;
-    case 'nextBtn':
+    case 'next-btn':
       showOverlay();
       emit(START_NEXT_LEVEL);
       break;
-    case 'replayBtn':
+    case 'replay-btn':
       showOverlay();
       emit(RESTART_LEVEL);
       break;
-    case 'mu':
+    case 'music-btn':
       emit(TOGGLE_MUSIC, { isMusicOn: !getIsPlaying() });
       break;
   }
@@ -230,12 +237,12 @@ const listenForGameEvents = () => {
 };
 
 const onToggleMusic = () => {
-  const musicBtnEl = document.getElementById('mu');
+  const musicBtnEl = document.getElementById('music-btn');
   musicBtnEl.textContent = getIsPlaying() ? 'Music is ON' : 'Music is OFF';
 };
 const onLevelComplete = () => {
   showOverlay('level-dialog');
-  document.getElementById('nextBtn').focus();
+  document.getElementById('next-btn').focus();
 };
 const onNearTokensAdded = ({
   nftTokensBySeries,
@@ -248,7 +255,7 @@ const onNearTokensAdded = ({
 const onMonetizationProgress = () => {
   if (hasRemovedDisableOnBonusEls) return;
   const coilSubEl = document.getElementById('coil-subscriber');
-  const coilBtnEl = document.getElementById('coilBtn');
+  const coilBtnEl = document.getElementById('coil-btn');
   if (coilBtnEl) coilBtnEl.remove();
   if (coilSubEl) coilSubEl.classList.remove('hide');
   const bonusItemEls = document.getElementsByClassName('bonus-item');

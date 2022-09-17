@@ -27,7 +27,7 @@ body,
 canvas {
   background-color: var(--bgc);
 }
-#c {
+#game-canvas {
   border: 3px solid var(--fgc2);
 }
 .menu {
@@ -45,7 +45,7 @@ canvas {
   top: 0;
   right: 0;
 }
-#mu {
+#music-btn {
   margin-top: 50px;
 }
 .flat {
@@ -109,7 +109,7 @@ button:hover img {
 #coil-subscriber {
   height: 50px;
 }
-#coilBtn {
+#coil-btn {
   width: 400px;
   height: 50px;
   text-decoration: none;
@@ -163,9 +163,9 @@ button:hover img {
   object-fit: contain;
   image-rendering: pixelated;
 }
-#levels-g,
-#bonus-g,
-#nlg {
+#levels-grid,
+#bonus-grid,
+#near-levels-grid {
   width: 640px;
   height: 440px;
   min-height: 440px;
@@ -178,17 +178,17 @@ button:hover img {
   display: grid;
   justify-items: center;
 }
-#nlg {
+#near-levels-grid {
   grid-template-columns: repeat(2, 1fr);
 }
-#nlg .level-item {
+#near-levels-grid .level-item {
   flex-flow: column;
   width: 250px;
   height: 300px;
   cursor: pointer;
 }
 
-#bonus-g {
+#bonus-grid {
   row-gap: 0px;
 }
 
@@ -214,7 +214,7 @@ button:hover img {
   cursor: not-allowed;
 }
 
-#bonus-g > canvas {
+#bonus-grid > canvas {
   width: 200px;
   height: 200px;
 }

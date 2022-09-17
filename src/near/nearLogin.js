@@ -10,10 +10,10 @@ export const loginout = (loginoutEl, nearConnection) => {
 };
 
 export const initLoginLogout = (nearConnection) => {
-  const loginoutEl = document.getElementById('lo');
+  const loginoutEl = document.getElementById('loading-btn');
   if (nearConnection && nearConnection.isSignedIn()) {
     loginoutEl.innerHTML = 'Logout from NEAR';
-    const nearLevelBtn = document.getElementById('near');
+    const nearLevelBtn = document.getElementById('near-level-btn');
     nearLevelBtn.classList.remove('disabled');
     nearLevelBtn.removeAttribute('disabled');
   } else {
