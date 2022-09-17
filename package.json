@@ -22,10 +22,6 @@
     "roadroller": "^2.1.0",
     "standard-version": "^9.5.0"
   },
-  "staticFiles": {
-    "staticPath": "src/level",
-    "staticOutPath": "level"
-  },
   "dependencies": {
     "kontra": "^8.0.0"
   }
