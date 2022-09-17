@@ -218,11 +218,11 @@ button:hover img {
   width: 200px;
   height: 200px;
 }
-#loader-wrapper {
+#loading-wrapper {
   z-index: 99;
   background-color: #211e2055;
 }
-#loader {
+#loading {
   border: 16px solid var(--fgc2);
   border-top: 16px solid var(--acc);
   border-radius: 50%;

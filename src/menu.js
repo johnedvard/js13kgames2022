@@ -20,6 +20,7 @@ import { doesOwnNft, getNearLevel } from './utils';
 import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
 import { levels } from './levels/levels';
+import { LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
 
 const overlayIds = [
   'main',
@@ -37,6 +38,7 @@ let hasRemovedDisableOnBonusEls = false;
 export const initMenu = () => {
   addButtonListeners();
   listenForGameEvents();
+  listenForUiEvents();
   initBonusContent();
   focusLevelSelectButton();
 };
@@ -229,6 +231,21 @@ export const showOverlay = (id) => {
   });
 };
 
+const listenForUiEvents = () => {
+  on(LOGIN_NEAR, onNearLogin);
+  on(LOGOUT_NEAR, onNearLogout);
+};
+
+const onNearLogin = () => {
+  showLoading();
+};
+
+const onNearLogout = () => {
+  const nearLevelBtnEl = document.getElementById('near-level-btn');
+  nearLevelBtnEl.classList.add('disabled');
+  nearLevelBtnEl.setAttribute('disabled', 'true');
+};
+
 const listenForGameEvents = () => {
   on(LEVEL_COMPLETE, onLevelComplete);
   on(NEAR_TOKENS_ADDED, onNearTokensAdded);
@@ -268,6 +285,6 @@ const onMonetizationProgress = () => {
 };
 
 const showLoading = () => {
-  const loadingWrapper = document.getElementById('loader-wrapper');
+  const loadingWrapper = document.getElementById('loading-wrapper');
   loadingWrapper.classList.remove('hide');
 };
