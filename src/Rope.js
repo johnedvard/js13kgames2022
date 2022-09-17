@@ -1,4 +1,4 @@
-import { emit, Vector } from './kontra';
+import { emit, Vector } from 'kontra';
 
 import { fgc2, gravity, RESTING_DISTANCE } from './constants';
 import { CUT_ROPE } from './gameEvents';

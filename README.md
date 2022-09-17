@@ -1,4 +1,6 @@
-# Don't cut the rope, a js13kgames game
+# Hang by a thread, a js13kgames game
+
+The state of the repo when I submitted the game to js13kgames can be found on tag [js13kgames](https://github.com/johnedvard/js13kgames2022/tree/js13kgames).
 
 This is my game entry for [js13kgames](https://js13kgames.com/) 2022 game jam. This years theme is "DEATH". I decided to create a rope physics game with a death theme. The game prototype can be played here https://js13kgames2022.netlify.app/ (It's subject to change as the game is still in development)
 

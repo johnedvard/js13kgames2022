@@ -1,3 +1,5 @@
+import { on } from 'kontra';
+
 import { Brick } from './Brick';
 import {
   CUT_ROPE,
@@ -8,8 +10,7 @@ import {
 import { initGameHints } from './gameHints';
 import { Goal } from './Goal';
 import { Heart } from './Heart';
-import { on } from './kontra';
-import { levels } from './levels';
+import { levels } from './levels/levels';
 import { showOverlay } from './menu';
 import { Player } from './Player';
 import { Saw } from './Saw';

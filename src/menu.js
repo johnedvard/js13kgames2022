@@ -1,7 +1,8 @@
 import skull from 'data-url:./assets/img/skull.png';
 import heart from 'data-url:./assets/img/heart.png';
 
-import { emit, on } from './kontra';
+import { emit, on } from 'kontra';
+
 import {
   LEVEL_COMPLETE,
   MONETIZATION_PROGRESS,
@@ -14,11 +15,11 @@ import {
 } from './gameEvents';
 import { fetchArcadianHeads } from './arcadianApi';
 import { isSubscriber, setNearLevel, setSelectedArcadian } from './store';
-import { IPFS_BASE_PATH } from './nearConnection';
+import { IPFS_BASE_PATH } from './near/nearConnection';
 import { doesOwnNft, getNearLevel } from './utils';
 import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
-import { levels } from './levels';
+import { levels } from './levels/levels';
 
 const overlayIds = ['main', 'bonus', 'levels', 'level-d', 'n-l', 'thanks'];
 

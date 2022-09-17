@@ -1,4 +1,5 @@
-import { init, initInput, GameLoop, on } from './kontra';
+import { init, initInput, GameLoop, on } from 'kontra';
+
 import {
   RESTART_LEVEL,
   START_LEVEL,

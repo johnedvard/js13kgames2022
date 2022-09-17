@@ -1,6 +1,6 @@
 import skull from 'data-url:./assets/img/skull.png';
 
-import { Sprite, on, Vector, emit } from './kontra';
+import { Sprite, on, Vector, emit } from 'kontra';
 
 import { PlayerControls } from './PlayerControls';
 import { fgc2 } from './constants';

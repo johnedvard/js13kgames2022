@@ -1,11 +1,11 @@
 import cssText from 'bundle-text:./styles.css';
 
 import { Game } from './Game';
-import { initLoginLogout } from './nearLogin';
+import { initLoginLogout } from './near/nearLogin';
 import {
   HANG_BY_A_THREAD_SERIES_TESTNET,
   NearConnection,
-} from './nearConnection';
+} from './near/nearConnection';
 import { initMenu } from './menu';
 import { setNftTokens } from './store';
 import { initMonetization } from './monetization';

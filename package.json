@@ -25,5 +25,8 @@
   "staticFiles": {
     "staticPath": "src/level",
     "staticOutPath": "level"
+  },
+  "dependencies": {
+    "kontra": "^8.0.0"
   }
 }

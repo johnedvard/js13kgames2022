@@ -1,5 +1,6 @@
+import { Pool, Sprite } from 'kontra';
+
 import { fgc2 } from './constants';
-import { Pool, Sprite } from './kontra';
 import { playBubble } from './sound';
 
 export class BubbleEffect {

@@ -1,5 +1,5 @@
-import { zzfxP, zzfx } from './zzfx';
-import { zzfxM } from './zzfxm';
+import { zzfxP, zzfx } from './lib/zzfx';
+import { zzfxM } from './lib/zzfxm';
 
 let myAudioNode = null;
 let isPlaying = false;

@@ -1,4 +1,5 @@
-import { emit } from './kontra';
+import { emit } from 'kontra';
+
 import { MONETIZATION_PROGRESS } from './gameEvents';
 import { setIsSubscriber } from './store';
 
