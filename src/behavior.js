@@ -1,6 +1,8 @@
 export const BACK_FORTH = 'ew';
 export const UP_DOWN = 'ns';
-
+/**
+ * If distance is -1, or 1, only move in one direction if the object has a behavior.
+ */
 export const moveBehavior = ({
   behavior,
   direction,

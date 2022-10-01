@@ -94,7 +94,7 @@ export class Level {
     });
   }
 
-  update() {
+  update(dt) {
     if (!this.isLevelLoaded) return;
 
     if (this.isStopMotion) {
@@ -106,18 +106,18 @@ export class Level {
     }
     this.checkCollisions();
 
-    this.player.update();
+    this.player.update(dt);
     this.saws.forEach((saw) => {
-      saw.update();
+      saw.update(dt);
     });
     this.goals.forEach((goal) => {
-      goal.update();
+      goal.update(dt);
     });
     this.hearts.forEach((heart) => {
-      heart.update();
+      heart.update(dt);
     });
     this.bricks.forEach((brick) => {
-      brick.update();
+      brick.update(dt);
     });
   }
 

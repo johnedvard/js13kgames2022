@@ -7,6 +7,8 @@ export class Brick {
   width = 32;
   height = 32;
   speed = 1;
+  phase = 1 - Math.random() * 2;
+  waveDir = 1;
   constructor(x, y, { level, behavior, distance }) {
     this.direction = getDirection(behavior, distance);
     this.distance = Math.abs(distance);
@@ -26,7 +28,7 @@ export class Brick {
       height: 12,
     };
   }
-  update() {
+  update(dt) {
     const { axis, newDirection, multiplier } = moveBehavior({
       behavior: this.behavior,
       distance: this.distance,
@@ -38,15 +40,42 @@ export class Brick {
     });
     this.direction = newDirection;
     this[axis] += this.speed * multiplier;
+    this.updateWaterBlur(dt);
+  }
+  updateWaterBlur(dt) {
+    if (this.phase <= -2) {
+      this.waveDir = 1;
+    } else if (this.phase >= 2) {
+      this.waveDir = -1;
+    }
+    this.phase += dt * this.waveDir * 3;
   }
 
   render(ctx) {
     if (!ctx) return;
     ctx.lineWidth = 4;
     ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.quadraticCurveTo(
+      this.x + this.phase * 2,
+      this.y + this.height / 4 + Math.abs(this.phase * 5),
+      this.x,
+      this.y + this.height
+    );
+    ctx.moveTo(this.x + this.width, this.y);
+    ctx.quadraticCurveTo(
+      this.x + +this.width + this.phase * 2,
+      this.y + this.height / 4 + Math.abs(this.phase * 5),
+      this.x + this.width,
+      this.y + this.height
+    );
+    ctx.moveTo(this.x + this.phase / 5, this.y);
+    ctx.lineTo(this.x + this.phase / 5 + this.width, this.y);
+    ctx.moveTo(this.x + this.phase / 5, this.y + this.height);
+    ctx.lineTo(this.x + this.phase / 5 + this.width, this.y + this.height);
 
-    ctx.rect(this.x, this.y, this.width, this.height); // Render collision box
-    ctx.rect(this.x + 10, this.y + 10, 12, 12);
+    // ctx.rect(this.x, this.y, this.width, this.height); // Render collision box
+    // ctx.rect(this.x + 10 + this.phase / 5, this.y + 10, 12, 12);
     ctx.stroke();
   }
 }

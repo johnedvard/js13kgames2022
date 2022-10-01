@@ -1,3 +1,11 @@
+/**
+ * p = player
+ * r = rope length
+ * b = bricks
+ * s = saws (shurikens)
+ * g = goals
+ * h = hearts
+ */
 export default {
   p: { x: 400, y: 255 },
   r: 30,

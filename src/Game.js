@@ -20,6 +20,10 @@ export class Game {
   constructor() {
     const game = this;
     let { canvas, context } = init();
+    context.textBaseline = 'middle';
+    context.lineJoin = 'round';
+    context.lineCap = 'round';
+    context.imageSmoothingEnabled = false;
     this.canvas = canvas;
     this.context = context;
     initInput();
@@ -27,14 +31,14 @@ export class Game {
     setGameWidth(canvas.width);
 
     let loop = GameLoop({
-      update: function () {
+      update: function (dt) {
         if (!game.level) return;
-        game.level.update();
+        game.level.update(dt);
       },
       render: function () {
         if (!game.level) return;
         context.save();
-        game.level.render(game.context);
+        game.level.render(context);
       },
     });
 
