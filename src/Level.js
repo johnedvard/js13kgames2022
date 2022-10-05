@@ -149,6 +149,8 @@ export class Level {
   }
 
   createHearts(levelData) {
+    this.capturedHearts.length = 0;
+    this.hearts.length = 0;
     if (!levelData.h) return;
     levelData.h.forEach((heart) => {
       this.hearts.push(new Heart(heart.x, heart.y, { level: this }));
