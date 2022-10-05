@@ -145,8 +145,9 @@ button:hover img {
   flex-flow: column;
   align-items: center;
   justify-content: center;
-  width: 120px;
-  height: 120px;
+  align-self: center;
+  width: 60%;
+  height: 30%;
   border-radius: 4px;
   background-color: var(--fgc);
 }
@@ -171,17 +172,18 @@ button:hover img {
 #levels-grid,
 #bonus-grid,
 #near-levels-grid {
-  width: 640px;
-  height: 440px;
-  min-height: 440px;
+  width: 100%;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  grid-template-columns: repeat(4, 150px);
+  grid-template-columns: repeat(4, minmax(auto, 150px));
   justify-content: center;
-  row-gap: 60px;
   display: grid;
   justify-items: center;
+}
+#bonus-grid {
+  row-gap: 60px;
 }
 #near-levels-grid {
   grid-template-columns: repeat(2, 1fr);
@@ -222,6 +224,9 @@ button:hover img {
 #bonus-grid > canvas {
   width: 200px;
   height: 200px;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 #loading-wrapper {
   z-index: 99;
@@ -245,8 +250,8 @@ button:hover img {
 }
 .bone {
   position: absolute;
-  top: 100px;
-  right: 100px;
+  top: 1%;
+  right: 1%;
   cursor: pointer;
   font-size: 32px;
   cursor: pointer;
