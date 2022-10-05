@@ -121,6 +121,8 @@ const pouplateBonusGrid = (bonusGridEl) => {
   skullImg.src = skull;
   fetchArcadianHeads().then((res) => {
     for (let i = 0; i < res.length; i++) {
+      // TODO (johnedvard) add slot for hat that failed to load instead of skipping
+      if (res[i].status !== 'fulfilled') continue;
       const img = res[i].value.img;
       const bonusEl = document.createElement('canvas');
       bonusEl.setAttribute('height', img.height * 4);

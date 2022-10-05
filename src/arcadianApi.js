@@ -27,8 +27,17 @@ export async function queryArcadian(id) {
         );
         if (genderPart.value.match('Male')) gender = 'male';
         const headUrl = headPart.value.toLowerCase().replaceAll(' ', '-');
+
         var img = new Image();
         img.src = `${partsUrl}/${gender}/head/${headUrl}.png`;
+        img.addEventListener(
+          'error',
+          (err) => {
+            console.log('err', err);
+            reject(null);
+          },
+          false
+        );
         img.addEventListener(
           'load',
           () => {
@@ -57,7 +66,6 @@ export const fetchArcadianHeads = () => {
       promises.push(promise);
     }
     Promise.allSettled(promises).then((res) => {
-      emit(ARCADIAN_HEAD_SELECTED, { img: res[0].value });
       resolve(res);
     });
   });
