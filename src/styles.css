@@ -67,10 +67,11 @@ canvas {
 }
 
 #hint {
-  bottom: 250px;
+  bottom: 20%;
   position: absolute;
   white-space: pre-wrap;
   text-align: center;
+  font-size: 2vmin;
 }
 
 #hamburger,
