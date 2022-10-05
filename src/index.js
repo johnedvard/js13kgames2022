@@ -15,6 +15,7 @@ const init = () => {
   new Game();
   initNear();
   initMenu();
+  initCrazyGamesSdk();
   initMonetization();
 };
 
@@ -47,16 +48,32 @@ const initNear = () => {
   });
 };
 
-const loadNearApi = () => {
+const initCrazyGamesSdk = () => {
+  loadCrazyGamesSdk().then(() => {
+    const crazyGameSdk = window.CrazyGames.CrazySDK.getInstance();
+    crazyGameSdk.init();
+    crazyGameSdk.requestAd();
+  });
+};
+
+const loadScript = (url) => {
   return new Promise((resolve) => {
     if (window.nearApi) resolve();
     const script = document.createElement('script');
     script.onload = () => {
       resolve();
     };
-    script.src = 'https://js13kgames.com/src/near-api-js.js';
+    script.src = url;
     document.head.appendChild(script);
   });
+};
+
+const loadNearApi = () => {
+  return loadScript('https://js13kgames.com/src/near-api-js.js');
+};
+
+const loadCrazyGamesSdk = () => {
+  return loadScript('https://sdk.crazygames.com/crazygames-sdk-v1.js');
 };
 
 init();
