@@ -47,6 +47,9 @@ export class Game {
   }
 
   loadLevel({ levelId, levelData }) {
+    if (this.level) {
+      this.level.destroy();
+    }
     if (levelId) {
       this.level = new Level({ levelId, game: this });
     } else if (levelData) {
@@ -78,9 +81,6 @@ export class Game {
     }
   };
   onStartLevel = ({ levelId, levelData }) => {
-    if (this.level) {
-      this.level.destroy();
-    }
     this.loadLevel({ levelId, levelData });
   };
   onReStartLevel = () => {

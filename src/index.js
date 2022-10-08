@@ -13,7 +13,8 @@ import { initMonetization } from './monetization';
 const init = () => {
   addStyles();
   new Game();
-  initNear();
+  // TODO (johnedvard) add build flag to prevent adding NEAR if we build for crazy games
+  // initNear();
   initMenu();
   initCrazyGamesSdk();
   initMonetization();

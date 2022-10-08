@@ -1,4 +1,4 @@
-import { on } from 'kontra';
+import { on, off } from 'kontra';
 
 import { Brick } from './Brick';
 import {
@@ -246,6 +246,6 @@ export class Level {
   }
 
   destroy() {
-    console.log('destroy level');
+    off(LEVEL_COMPLETE, this.onLevelComplete);
   }
 }
