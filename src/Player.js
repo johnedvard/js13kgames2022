@@ -1,6 +1,6 @@
 import skull from 'data-url:./assets/img/skull.png';
 
-import { Sprite, on, Vector, emit } from 'kontra';
+import { Sprite, on, Vector, emit, off } from 'kontra';
 
 import { PlayerControls } from './PlayerControls';
 import { fgc2 } from './constants';
@@ -260,6 +260,13 @@ export class Player {
   };
   onCutRope = ({ rope }) => {
     this.isRopeCut = true;
+  };
+
+  destroy = () => {
+    if (this.playerControls) this.playerControls.destroy();
+    off(GOAL_COLLISION, this.onGoalCollision);
+    off(ARCADIAN_HEAD_SELECTED, this.onArcadianAdded);
+    off(CUT_ROPE, this.onCutRope);
   };
 
   get currPos() {

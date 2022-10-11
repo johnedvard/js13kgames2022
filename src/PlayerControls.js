@@ -3,6 +3,8 @@ import {
   gamepadAxis,
   gamepadPressed,
   keyPressed,
+  offGamepad,
+  offInput,
   onGamepad,
   onInput,
 } from 'kontra';
@@ -48,13 +50,22 @@ export class PlayerControls {
     }
   }
 
-  cutRope() {
+  cutRope = () => {
     this.player.rope.cutRope(Math.floor(this.player.rope.length / 2));
-  }
+  };
 
   initControls() {
-    onInput(['s'], () => this.cutRope());
-    onGamepad('west', () => this.cutRope());
-    onInput(['z'], () => emit(RESTART_LEVEL));
+    onInput(['s'], this.cutRope);
+    onGamepad('west', this.cutRope);
+    onInput(['z'], this.restartLevel);
   }
+  restartLevel = () => {
+    emit(RESTART_LEVEL);
+  };
+
+  destroy = () => {
+    offInput(['s'], this.cutRope());
+    offGamepad('west', this.cutRope);
+    offInput(['z'], this.restartLevel);
+  };
 }

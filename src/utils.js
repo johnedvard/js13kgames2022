@@ -58,3 +58,15 @@ export const createSprite = ({ x, y, scale, imgSrc }) => {
     };
   });
 };
+
+export const loadScript = (url) => {
+  return new Promise((resolve) => {
+    if (window.nearApi) resolve();
+    const script = document.createElement('script');
+    script.onload = () => {
+      resolve();
+    };
+    script.src = url;
+    document.head.appendChild(script);
+  });
+};

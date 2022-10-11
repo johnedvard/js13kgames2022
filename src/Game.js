@@ -1,6 +1,7 @@
 import { init, initInput, GameLoop, on } from 'kontra';
 
 import {
+  LEVEL_QUIT,
   RESTART_LEVEL,
   START_LEVEL,
   START_NEXT_LEVEL,
@@ -62,6 +63,7 @@ export class Game {
     on(START_LEVEL, this.onStartLevel);
     on(RESTART_LEVEL, this.onReStartLevel);
     on(TOGGLE_MUSIC, this.onToggleMusic);
+    on(LEVEL_QUIT, this.onLevelQuit);
   }
   onToggleMusic = ({ isMusicOn = false }) => {
     if (isMusicOn) {
@@ -88,5 +90,10 @@ export class Game {
       levelId: this.level.levelId,
       levelData: this.level.levelData,
     });
+  };
+  onLevelQuit = () => {
+    if (this.level) {
+      this.level.destroy();
+    }
   };
 }

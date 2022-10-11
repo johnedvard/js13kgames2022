@@ -9,6 +9,8 @@ import {
 import { initMenu } from './menu';
 import { setNftTokens } from './store';
 import { initMonetization } from './monetization';
+import { loadScript } from './utils';
+import { initCrazyGamesSdk } from './crazyGames';
 
 const init = () => {
   addStyles();
@@ -49,32 +51,8 @@ const initNear = () => {
   });
 };
 
-const initCrazyGamesSdk = () => {
-  loadCrazyGamesSdk().then(() => {
-    const crazyGameSdk = window.CrazyGames.CrazySDK.getInstance();
-    crazyGameSdk.init();
-    crazyGameSdk.requestAd();
-  });
-};
-
-const loadScript = (url) => {
-  return new Promise((resolve) => {
-    if (window.nearApi) resolve();
-    const script = document.createElement('script');
-    script.onload = () => {
-      resolve();
-    };
-    script.src = url;
-    document.head.appendChild(script);
-  });
-};
-
 const loadNearApi = () => {
   return loadScript('https://js13kgames.com/src/near-api-js.js');
-};
-
-const loadCrazyGamesSdk = () => {
-  return loadScript('https://sdk.crazygames.com/crazygames-sdk-v1.js');
 };
 
 init();

@@ -246,6 +246,12 @@ export class Level {
   }
 
   destroy() {
+    off(PLAYER_DIED, this.onPlayerDied);
+    off(HEART_PICKUP, this.onHeartPickup);
     off(LEVEL_COMPLETE, this.onLevelComplete);
+    off(CUT_ROPE, this.onCutRope);
+    if (this.player) {
+      this.player.destroy();
+    }
   }
 }

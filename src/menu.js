@@ -5,6 +5,7 @@ import { emit, on } from 'kontra';
 
 import {
   LEVEL_COMPLETE,
+  LEVEL_QUIT,
   MONETIZATION_PROGRESS,
   NEAR_TOKENS_ADDED,
   NFT_BUY,
@@ -221,6 +222,7 @@ const onNearLevelClick = (btn) => {
 };
 
 export const showOverlay = (id) => {
+  emit(LEVEL_QUIT, {});
   initGameHints(null);
   overlayIds.forEach((o) => {
     const overlayEl = document.getElementById(o);
