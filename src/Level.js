@@ -171,7 +171,11 @@ export class Level {
   }
 
   storeCapturedHearts() {
-    localStorage.setItem('hearts-' + this.levelId, this.capturedHearts.length);
+    const id = 'hearts-' + this.levelId;
+    const existingScore = localStorage.getItem(id);
+    if (existingScore <= this.capturedHearts.length) {
+      localStorage.setItem(id, this.capturedHearts.length);
+    }
   }
 
   listenForGameEvents() {
