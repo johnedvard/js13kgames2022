@@ -1,5 +1,13 @@
-import { emit } from 'kontra';
-import { AD_FINISHED, AD_PLAYING } from './gameEvents';
+import { emit, on } from 'kontra';
+import {
+  AD_FINISHED,
+  AD_PLAYING,
+  GOAL_COLLISION,
+  START_LEVEL,
+  START_NEXT_LEVEL,
+} from './gameEvents';
+import { getIsPlaying, getIsMusicEnabled, playSong, stopSong } from './sound';
+import { CLICK_HAMBURGER } from './uiEvents';
 import { loadScript } from './utils';
 
 let crazyGameSdk;
@@ -21,12 +29,14 @@ const loadCrazyGamesSdk = () => {
 };
 
 const adStarted = () => {
-  emit(AD_PLAYING, {});
+  stopMusic();
 };
 const adFinished = () => {
+  startMusic();
   emit(AD_FINISHED, {});
 };
 const adError = () => {
+  startMusic();
   emit(AD_FINISHED, {});
 };
 
