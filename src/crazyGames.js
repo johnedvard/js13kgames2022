@@ -3,7 +3,6 @@ import {
   AD_FINISHED,
   AD_PLAYING,
   GOAL_COLLISION,
-  LEVEL_QUIT,
   START_LEVEL,
   START_NEXT_LEVEL,
 } from './gameEvents';
@@ -63,14 +62,14 @@ const stopMusic = () => {
   }
 };
 const adStarted = () => {
-  startMusic();
+  stopMusic();
 };
 const adFinished = () => {
-  stopMusic();
+  startMusic();
   emit(AD_FINISHED, {});
 };
 const adError = () => {
-  stopMusic();
+  startMusic();
   emit(AD_FINISHED, {});
 };
 

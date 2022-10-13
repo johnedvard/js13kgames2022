@@ -10,7 +10,7 @@ import {
   TOGGLE_MUSIC,
 } from './gameEvents';
 import { Level } from './Level';
-import { playSong, stopSong } from './sound';
+import { toggleSound } from './sound';
 import { setGameHeight, setGameWidth } from './store';
 import { showOverlay } from './menu';
 
@@ -78,12 +78,8 @@ export class Game {
   onAdFinished = () => {
     this.isAdPlaying = false;
   };
-  onToggleMusic = ({ isMusicOn = false }) => {
-    if (isMusicOn) {
-      playSong();
-    } else {
-      stopSong();
-    }
+  onToggleMusic = () => {
+    toggleSound();
   };
   onStartNextLevel = () => {
     this.level.destroy();

@@ -191,7 +191,7 @@ const onContainerClick = (e) => {
       emit(RESTART_LEVEL);
       break;
     case 'music-btn':
-      emit(TOGGLE_MUSIC, { isMusicOn: !getIsPlaying() });
+      emit(TOGGLE_MUSIC);
       break;
   }
 

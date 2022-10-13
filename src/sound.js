@@ -13,11 +13,11 @@ export const getIsPlaying = () => {
   return isPlaying;
 };
 export const stopSong = () => {
-  isMusicEnabled = false;
+  isPlaying = false;
   audioContext.suspend();
 };
-export const toggleSond = () => {
-  if (isMusicEnabled) {
+export const toggleSound = () => {
+  if (isPlaying) {
     isMusicEnabled = false;
     stopSong();
   } else {
