@@ -1,6 +1,5 @@
 import {
   emit,
-  gamepadAxis,
   gamepadPressed,
   keyPressed,
   offGamepad,
@@ -64,7 +63,7 @@ export class PlayerControls {
   };
 
   destroy = () => {
-    offInput(['s'], this.cutRope());
+    offInput(['s'], this.cutRope);
     offGamepad('west', this.cutRope);
     offInput(['z'], this.restartLevel);
   };
