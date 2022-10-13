@@ -181,12 +181,16 @@ button:hover img {
   scroll-behavior: smooth;
   grid-template-columns: repeat(4, minmax(auto, 150px));
   grid-auto-rows: minmax(120px, min-content);
-  justify-content: center;
   display: grid;
+  align-items: center;
   justify-items: center;
+  justify-content: center;
+  align-items: stretch;
+  align-content: center;
 }
 #bonus-grid {
   row-gap: 60px;
+  align-content: stretch;
 }
 #near-levels-grid {
   grid-template-columns: repeat(2, 1fr);
