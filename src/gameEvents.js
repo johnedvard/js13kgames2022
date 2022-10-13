@@ -13,3 +13,6 @@ export const NFT_BUY = 'b';
 export const MONETIZATION_PROGRESS = 'p';
 export const PLAYER_DIED = 'd';
 export const TOGGLE_MUSIC = 't';
+
+export const AD_PLAYING = 'adPlaying';
+export const AD_FINISHED = 'adFinished';

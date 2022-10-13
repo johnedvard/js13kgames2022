@@ -75,8 +75,9 @@ export class Goal {
         this.level.player.sprite
       )
     ) {
-      this.hasWon = true;
+      if (this.hasWon) return;
       emit(GOAL_COLLISION);
+      this.hasWon = true;
     }
   }
 }

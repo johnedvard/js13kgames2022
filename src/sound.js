@@ -1,13 +1,31 @@
 import { zzfxP, zzfx } from './lib/zzfx';
 import { zzfxM } from './lib/zzfxm';
 
+let isMusicEnabled = false;
 let myAudioNode = null;
 let isPlaying = false;
 let audioContext = window.zzfxX;
 
+export const getIsMusicEnabled = () => {
+  return isMusicEnabled;
+};
 export const getIsPlaying = () => {
   return isPlaying;
 };
+export const stopSong = () => {
+  isMusicEnabled = false;
+  audioContext.suspend();
+};
+export const toggleSond = () => {
+  if (isMusicEnabled) {
+    isMusicEnabled = false;
+    stopSong();
+  } else {
+    isMusicEnabled = true;
+    playSong();
+  }
+};
+
 export const playBubble = () => {
   zzfx(
     ...[, 1, 7, 0.02, 0.01, 0.02, 4, 0.5, , , 1, 0.01, , , 150, , 0.21, , 0.01]
@@ -1265,16 +1283,4 @@ export const playSong = () => {
   myAudioNode = zzfxP(zzfxX, ...mySongData);
   myAudioNode.loop = true;
   return;
-};
-
-export const stopSong = () => {
-  isPlaying = false;
-  audioContext.suspend();
-};
-export const toggleSond = () => {
-  if (isPlaying) {
-    stopSong();
-  } else {
-    playSong();
-  }
 };

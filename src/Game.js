@@ -1,6 +1,8 @@
 import { init, initInput, GameLoop, on } from 'kontra';
 
 import {
+  AD_FINISHED,
+  AD_PLAYING,
   LEVEL_QUIT,
   RESTART_LEVEL,
   START_LEVEL,
@@ -18,6 +20,7 @@ export class Game {
   player;
   saw;
   level;
+  isAdPlaying;
   constructor() {
     const game = this;
     let { canvas, context } = init();
@@ -33,10 +36,12 @@ export class Game {
 
     let loop = GameLoop({
       update: function (dt) {
+        if (game.isAdPlaying) return;
         if (!game.level) return;
         game.level.update(dt);
       },
       render: function () {
+        if (game.isAdPlaying) return;
         if (!game.level) return;
         context.save();
         game.level.render(context);
@@ -64,7 +69,15 @@ export class Game {
     on(RESTART_LEVEL, this.onReStartLevel);
     on(TOGGLE_MUSIC, this.onToggleMusic);
     on(LEVEL_QUIT, this.onLevelQuit);
+    on(AD_FINISHED, this.onAdFinished);
+    on(AD_PLAYING, this.onAdPlaying);
   }
+  onAdPlaying = () => {
+    this.isAdPlaying = true;
+  };
+  onAdFinished = () => {
+    this.isAdPlaying = false;
+  };
   onToggleMusic = ({ isMusicOn = false }) => {
     if (isMusicOn) {
       playSong();

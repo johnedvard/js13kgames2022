@@ -21,7 +21,8 @@ import { doesOwnNft, getNearLevel } from './utils';
 import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
 import { levels } from './levels/levels';
-import { LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
+import { CLICK_HAMBURGER, LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
+import { crazyGameplayStop, playLevelAd } from './crazyGames';
 
 const overlayIds = [
   'main',
@@ -175,6 +176,7 @@ const onContainerClick = (e) => {
       showOverlay('bonus');
       break;
     case 'hamburger':
+      emit(CLICK_HAMBURGER);
       showOverlay('main');
       break;
     case 'near-level-btn':
@@ -202,6 +204,7 @@ const onContainerClick = (e) => {
   if (btn && btn.getAttribute('near')) {
     onNearLevelClick(btn);
   } else if (btn && btn.classList.contains('level-item')) {
+    playLevelAd();
     showOverlay();
     emit(START_LEVEL, { levelId: +btn.textContent });
   }
