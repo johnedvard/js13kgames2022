@@ -57,7 +57,7 @@ export const fetchArcadianHeads = () => {
     promises.push(queryArcadian(92));
     promises.push(queryArcadian(101));
     promises.push(queryArcadian(110));
-    for (let i = 1; i < 46; i++) {
+    for (let i = 1; i < 22; i++) {
       if (i === 2 || i === 13) continue;
       const promise = queryArcadian(i);
       promises.push(promise);
