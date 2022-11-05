@@ -47,7 +47,7 @@ export class Saw {
       orgY: this.orgY,
     });
     this.direction = newDirection;
-    this[axis] += this.speed * smoothSpeed;
+    this[axis] += this.speed * smoothSpeed[axis];
     this.sprite.x = this.x;
     this.sprite.y = this.y;
     this.sprite.rotation += this.rotSpeed;

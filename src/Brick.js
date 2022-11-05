@@ -40,7 +40,7 @@ export class Brick {
       dt,
     });
     this.direction = newDirection;
-    this[axis] += this.speed * smoothSpeed;
+    this[axis] += this.speed * smoothSpeed[axis];
     this.updateWaterBlur(dt);
   }
   updateWaterBlur(dt) {

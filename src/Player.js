@@ -212,7 +212,7 @@ export class Player {
       orgY: this.anchorNodeOrgPos.y,
     });
     this.anchorNodeDirection = newDirection;
-    anchorNode.pos[axis] += this.anchorNodeSpeed * smoothSpeed;
+    anchorNode.pos[axis] += this.anchorNodeSpeed * smoothSpeed[axis];
   }
 
   climbRope() {

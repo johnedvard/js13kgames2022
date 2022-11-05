@@ -30,6 +30,8 @@ export const moveBehavior = ({
   let newDirection = direction;
   const westEdge = orgX - distance;
   const eastEdge = orgX + distance;
+  const northEdge = orgY - distance;
+  const southEdge = orgY + distance;
   const edgeOffset = 35; // smoothstep will never reach the edge, add offset to make the behavior change direction
   switch (behavior) {
     case UP_DOWN:
@@ -40,32 +42,43 @@ export const moveBehavior = ({
       break;
   }
 
-  let smoothSpeed = smoothstep(westEdge, eastEdge, x);
-  // swing between 0 and 0.5, making the center point 0.5, and the edges 0 (e.g [0 <-> 0.5 <-> 0])
-  if (x > orgX) smoothSpeed = Math.abs(1 - smoothSpeed);
+  let smoothSpeed = {
+    x: smoothstep(westEdge, eastEdge, x),
+    y: smoothstep(northEdge, southEdge, y),
+  };
 
   switch (direction) {
     case 'n':
       multiplier = -1;
+      if (smoothSpeed.y < 0.05) {
+        newDirection = 's';
+      }
       break;
     case 's':
       multiplier = 1;
+      if (smoothSpeed.y > 0.95) {
+        newDirection = 'n';
+      }
       break;
     case 'e':
       multiplier = 1;
-      if (eastEdge - x < edgeOffset) {
+      if (smoothSpeed.x > 0.95) {
         newDirection = 'w';
       }
       break;
     case 'w':
       multiplier = -1;
-      if (x - westEdge < edgeOffset) {
+      if (smoothSpeed.x < 0.05) {
         newDirection = 'e';
       }
       break;
   }
 
-  smoothSpeed = smoothSpeed * multiplier * 5;
+  // swing between 0 and 0.5, making the center point 0.5, and the edges 0 (e.g [0 <-> 0.5 <-> 0])
+  if (x > orgX) smoothSpeed.x = Math.abs(1 - smoothSpeed.x);
+  if (y > orgY) smoothSpeed.y = Math.abs(1 - smoothSpeed.y);
+  smoothSpeed.x = smoothSpeed.x * multiplier * 5;
+  smoothSpeed.y = smoothSpeed.y * multiplier * 5;
 
   return { axis, newDirection, smoothSpeed };
 };
