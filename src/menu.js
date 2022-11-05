@@ -36,6 +36,7 @@ const overlayIds = [
 const numLevels = Object.keys(levels).length;
 
 let hasRemovedDisableOnBonusEls = false;
+export let isMenuVisible = true;
 
 export const initMenu = () => {
   addButtonListeners();
@@ -225,6 +226,11 @@ const onNearLevelClick = (btn) => {
 };
 
 export const showOverlay = (id) => {
+  if (!id) {
+    isMenuVisible = false;
+  } else {
+    isMenuVisible = true;
+  }
   emit(LEVEL_QUIT, {});
   initGameHints(null);
   overlayIds.forEach((o) => {

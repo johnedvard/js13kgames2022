@@ -29,7 +29,7 @@ export class Brick {
     };
   }
   update(dt) {
-    const { axis, newDirection, multiplier } = moveBehavior({
+    const { axis, newDirection, smoothSpeed } = moveBehavior({
       behavior: this.behavior,
       distance: this.distance,
       direction: this.direction,
@@ -37,9 +37,10 @@ export class Brick {
       y: this.y,
       orgX: this.orgX,
       orgY: this.orgY,
+      dt,
     });
     this.direction = newDirection;
-    this[axis] += this.speed * multiplier;
+    this[axis] += this.speed * smoothSpeed;
     this.updateWaterBlur(dt);
   }
   updateWaterBlur(dt) {

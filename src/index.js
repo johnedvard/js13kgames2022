@@ -11,6 +11,7 @@ import { setNftTokens } from './store';
 import { initMonetization } from './monetization';
 import { loadScript } from './utils';
 import { initCrazyGamesSdk } from './crazyGames';
+import { initMenuControls } from './menuControls';
 
 const init = () => {
   addStyles();
@@ -18,6 +19,7 @@ const init = () => {
   // TODO (johnedvard) add build flag to prevent adding NEAR if we build for crazy games
   // initNear();
   initMenu();
+  initMenuControls();
   initCrazyGamesSdk();
   initMonetization();
 };

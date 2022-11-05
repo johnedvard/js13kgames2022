@@ -37,7 +37,7 @@ export class Saw {
   }
 
   update() {
-    const { axis, newDirection, multiplier } = moveBehavior({
+    const { axis, newDirection, smoothSpeed } = moveBehavior({
       behavior: this.behavior,
       distance: this.distance,
       direction: this.direction,
@@ -47,10 +47,10 @@ export class Saw {
       orgY: this.orgY,
     });
     this.direction = newDirection;
-    this[axis] += this.speed * multiplier;
+    this[axis] += this.speed * smoothSpeed;
     this.sprite.x = this.x;
     this.sprite.y = this.y;
-    this.sprite.rotation += this.rotSpeed * multiplier;
+    this.sprite.rotation += this.rotSpeed;
   }
   render(_ctx) {
     this.sprite.render();

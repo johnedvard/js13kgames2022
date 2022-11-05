@@ -202,7 +202,7 @@ export class Player {
 
   updateAnchorNode() {
     const anchorNode = this.rope.anchorNode;
-    const { axis, newDirection, multiplier } = moveBehavior({
+    const { axis, newDirection, smoothSpeed } = moveBehavior({
       behavior: this.behavior,
       distance: this.distance,
       direction: this.anchorNodeDirection,
@@ -212,7 +212,7 @@ export class Player {
       orgY: this.anchorNodeOrgPos.y,
     });
     this.anchorNodeDirection = newDirection;
-    anchorNode.pos[axis] += this.anchorNodeSpeed * multiplier;
+    anchorNode.pos[axis] += this.anchorNodeSpeed * smoothSpeed;
   }
 
   climbRope() {

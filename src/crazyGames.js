@@ -14,10 +14,10 @@ let crazyGameSdk;
 
 export const initCrazyGamesSdk = () => {
   loadCrazyGamesSdk().then(() => {
-    crazyGameSdk = window.CrazyGames.CrazySDK.getInstance();
-    crazyGameSdk.init();
-    listenForAdEvents();
-    listenForGameEvents();
+    // crazyGameSdk = window.CrazyGames.CrazySDK.getInstance();
+    // crazyGameSdk.init();
+    // listenForAdEvents();
+    // listenForGameEvents();
   });
 };
 

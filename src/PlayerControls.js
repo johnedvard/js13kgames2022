@@ -9,6 +9,7 @@ import {
 } from 'kontra';
 
 import { RESTART_LEVEL } from './gameEvents';
+import { isMenuVisible } from './menu';
 
 export class PlayerControls {
   player;
@@ -58,6 +59,7 @@ export class PlayerControls {
     onGamepad('west', this.cutRope);
     onInput(['z'], this.restartLevel);
   }
+
   restartLevel = () => {
     emit(RESTART_LEVEL);
   };
