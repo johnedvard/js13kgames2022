@@ -240,7 +240,7 @@ export class Player {
     });
     this.playerState = PLAYER_ALIVE;
   }
-  resetHearts() {}
+
   listenForGameEvents() {
     if (this.hasSetListeners) return;
     on(GOAL_COLLISION, this.onGoalCollision);

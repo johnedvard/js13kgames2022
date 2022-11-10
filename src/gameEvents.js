@@ -2,7 +2,6 @@ export const GOAL_COLLISION = 'g';
 export const ARCADIAN_ADDED = 'a';
 export const LEVEL_COMPLETE = 'l';
 export const LEVEL_QUIT = 'levelQuit';
-export const HEART_PICKUP = 'h';
 export const CUT_ROPE = 'c';
 export const START_LEVEL = 's';
 export const RESTART_LEVEL = 'r';

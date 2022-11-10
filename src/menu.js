@@ -1,5 +1,4 @@
 import skull from 'data-url:./assets/img/skull.png';
-import heart from 'data-url:./assets/img/heart.png';
 
 import { emit, on } from 'kontra';
 
@@ -54,21 +53,10 @@ const initLevels = () => {
   const levelsGridEl = document.getElementById('levels-grid');
   levelsGridEl.innerHTML = '';
   for (let i = 1; i < numLevels + 1; i++) {
-    const collectedHearts = localStorage.getItem('hearts-' + i) || 0;
     const levelEl = document.createElement('button');
 
     levelEl.textContent = i;
-    const heartContainerEl = document.createElement('div');
-    heartContainerEl.classList.add('heart-wrap');
-    for (let i = 0; i < 2; i++) {
-      const heartEl = document.createElement('img');
-      heartEl.setAttribute('src', heart);
-      if (collectedHearts > i) {
-        heartEl.classList.add('collected');
-      }
-      heartContainerEl.appendChild(heartEl);
-    }
-    levelEl.appendChild(heartContainerEl);
+
     levelEl.classList.add('level-item');
     levelsGridEl.appendChild(levelEl);
   }

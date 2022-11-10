@@ -2,15 +2,10 @@ import { on, off } from 'kontra';
 
 import { Brick } from './Brick';
 import { happytime } from './crazyGames';
-import {
-  CUT_ROPE,
-  HEART_PICKUP,
-  LEVEL_COMPLETE,
-  PLAYER_DIED,
-} from './gameEvents';
+import { CUT_ROPE, LEVEL_COMPLETE, PLAYER_DIED } from './gameEvents';
 import { initGameHints } from './gameHints';
 import { Goal } from './Goal';
-import { Heart } from './Heart';
+
 import { levels } from './levels/levels';
 import { showOverlay } from './menu';
 import { Player } from './Player';
@@ -22,14 +17,12 @@ export class Level {
   player;
   saws = [];
   goals = [];
-  hearts = [];
   bricks = [];
   isLevelLoaded = false;
   isFirstRopeCut = false;
   isStopMotion = false;
   levelId;
   levelData;
-  capturedHearts = [];
   stopMotionTime = 10;
   stopMotionEllapsed = 0;
   constructor({ game, levelId, levelData }) {
@@ -60,7 +53,6 @@ export class Level {
     this.createPlayer(levelData);
     this.createSaws(levelData);
     this.createGoals(levelData);
-    this.createHearts(levelData);
     this.createBricks(levelData);
     this.isLevelLoaded = true;
     initGameHints(this.levelId);
@@ -83,9 +75,6 @@ export class Level {
     // TODO (johnedvard) Add to same array if pressing for space
     this.saws.forEach((saw) => {
       saw.render(ctx);
-    });
-    this.hearts.forEach((heart) => {
-      heart.render(ctx);
     });
     this.bricks.forEach((brick) => {
       brick.render(ctx);
@@ -114,9 +103,6 @@ export class Level {
     });
     this.goals.forEach((goal) => {
       goal.update(dt);
-    });
-    this.hearts.forEach((heart) => {
-      heart.update(dt);
     });
     this.bricks.forEach((brick) => {
       brick.update(dt);
@@ -150,15 +136,6 @@ export class Level {
     });
   }
 
-  createHearts(levelData) {
-    this.capturedHearts.length = 0;
-    this.hearts.length = 0;
-    if (!levelData.h) return;
-    levelData.h.forEach((heart) => {
-      this.hearts.push(new Heart(heart.x, heart.y, { level: this }));
-    });
-  }
-
   createBricks(levelData) {
     if (!levelData.b) return;
     levelData.b.forEach((brick) => {
@@ -172,17 +149,8 @@ export class Level {
     });
   }
 
-  storeCapturedHearts() {
-    const id = 'hearts-' + this.levelId;
-    const existingScore = localStorage.getItem(id);
-    if (existingScore <= this.capturedHearts.length) {
-      localStorage.setItem(id, this.capturedHearts.length);
-    }
-  }
-
   listenForGameEvents() {
     on(PLAYER_DIED, this.onPlayerDied);
-    on(HEART_PICKUP, this.onHeartPickup);
     on(LEVEL_COMPLETE, this.onLevelComplete);
     on(CUT_ROPE, this.onCutRope);
   }
@@ -192,12 +160,8 @@ export class Level {
     this.isFirstRopeCut = true;
     this.flashScreen();
   };
-  onLevelComplete = () => {
-    this.storeCapturedHearts();
-  };
-  onHeartPickup = ({ heart }) => {
-    this.capturedHearts.push(heart);
-  };
+  onLevelComplete = () => {};
+
   flashScreen() {
     const canvasEl = document.getElementById('game-canvas');
     canvasEl.classList.add('flash');
@@ -213,7 +177,6 @@ export class Level {
     this.isFirstRopeCut = false;
     this.stopMotionEllapsed = 0;
     this.player.respawnPlayer();
-    this.resetHearts();
     this.resertSaws();
     this.resetBricks();
   };
@@ -223,11 +186,6 @@ export class Level {
     this.createBricks(this.levelData);
   }
 
-  resetHearts() {
-    this.capturedHearts.length = 0;
-    this.hearts.length = 0;
-    this.createHearts(this.levelData);
-  }
   resertSaws() {
     this.saws.length = 0;
     this.createSaws(this.levelData);
@@ -253,7 +211,6 @@ export class Level {
 
   destroy() {
     off(PLAYER_DIED, this.onPlayerDied);
-    off(HEART_PICKUP, this.onHeartPickup);
     off(LEVEL_COMPLETE, this.onLevelComplete);
     off(CUT_ROPE, this.onCutRope);
     if (this.player) {

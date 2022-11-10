@@ -44,4 +44,3 @@ The goal is to reach your grave, the circle.
 
 - Use the arrow keys to move back and forth
 - Press space to get a boost upwards
-- Try to collect hearts
