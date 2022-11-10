@@ -170,7 +170,7 @@ button:hover img {
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  grid-template-columns: repeat(4, minmax(auto, 150px));
+  grid-template-columns: repeat(3, minmax(auto, 150px));
   grid-auto-rows: minmax(120px, min-content);
   display: grid;
   align-items: center;
