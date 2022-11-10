@@ -42,9 +42,6 @@ export class PlayerControls {
       this.player.applyForce(1.5, -1);
       this.player.changePlayerDirection(false);
     }
-    if (keyPressed('arrowup') || keyPressed('w') || gamepadPressed('dpadup')) {
-      this.player.climbRope();
-    }
     if (keyPressed('space') || gamepadPressed('south')) {
       this.player.applyForce(0, -5);
     }

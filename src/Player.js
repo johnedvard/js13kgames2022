@@ -215,9 +215,6 @@ export class Player {
     anchorNode.pos[axis] += this.anchorNodeSpeed * smoothSpeed[axis];
   }
 
-  climbRope() {
-    this.rope.climbRope();
-  }
   reArrangeRope() {
     this.rope.splice(this.rope.length - 2, 1);
     const newLastPointWithLink = this.rope[this.rope.length - 2];

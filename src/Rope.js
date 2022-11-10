@@ -125,20 +125,7 @@ export class Rope {
       }
     });
   }
-  climbRope() {
-    if (!this.nodes || this.nodes.length <= 2) {
-      this.cutRope(0);
-      return;
-    }
 
-    const factor = 0.3;
-    const lastLink = this.links[this.links.length - 1];
-    lastLink.restingDistance -= RESTING_DISTANCE * factor;
-    if (lastLink.restingDistance <= 0) {
-      this.links.pop();
-      this.nodes.pop();
-    }
-  }
   cutRope(index) {
     if (index >= this.nodes.length - 1) index = this.nodes.length - 2; // Make sure we can cut the rope if we pass the wrong index
     this.links.splice(index, 1);
