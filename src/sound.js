@@ -1,10 +1,18 @@
-import { zzfxP, zzfx } from './lib/zzfx';
+import { zzfxP, zzfx, initZzfx } from './lib/zzfx';
 import { zzfxM } from './lib/zzfxm';
 
 let isMusicEnabled = false;
 let myAudioNode = null;
 let isPlaying = false;
-let audioContext = window.zzfxX;
+let audioContext;
+
+/** should only be called once, inside init game */
+export const initSound = () => {
+  initZzfx();
+  if (typeof window !== 'undefined') {
+    audioContext = window.zzfxX;
+  }
+};
 
 export const getIsMusicEnabled = () => {
   return isMusicEnabled;

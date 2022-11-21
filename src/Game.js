@@ -10,9 +10,10 @@ import {
   TOGGLE_MUSIC,
 } from './gameEvents';
 import { Level } from './Level';
-import { toggleSound } from './sound';
+import { initSound, toggleSound } from './sound';
 import { setGameHeight, setGameWidth } from './store';
 import { showOverlay } from './menu';
+import { PLAYER_DEAD } from './PlayerState';
 
 export class Game {
   canvas;
@@ -21,7 +22,11 @@ export class Game {
   saw;
   level;
   isAdPlaying;
-  constructor() {
+  deathCount;
+  setDeathCount;
+  constructor({ deathCount, setDeathCount }) {
+    this.deathCount = deathCount;
+    this.setDeathCount = setDeathCount;
     const game = this;
     let { canvas, context } = init();
     context.textBaseline = 'middle';
@@ -31,6 +36,7 @@ export class Game {
     this.canvas = canvas;
     this.context = context;
     initInput();
+    initSound();
     setGameHeight(canvas.height);
     setGameWidth(canvas.width);
 
@@ -71,7 +77,11 @@ export class Game {
     on(LEVEL_QUIT, this.onLevelQuit);
     on(AD_FINISHED, this.onAdFinished);
     on(AD_PLAYING, this.onAdPlaying);
+    on(PLAYER_DEAD, this.onPlayerDead);
   }
+  onPlayerDead = () => {
+    this.setDeathCount(++this.deathCount);
+  };
   onAdPlaying = () => {
     this.isAdPlaying = true;
   };

@@ -3,9 +3,19 @@
   "version": "1.1.0",
   "description": "skeleton rope physics game",
   "source": "src/index.html",
+  "main": "dist/main.js",
+  "module": "dist/game.js",
+  "targets": {
+    "module": {
+      "includeNodeModules": [
+        "kontra"
+      ],
+      "optimize": true
+    }
+  },
   "scripts": {
     "start": "parcel serve --no-cache",
-    "build": "rm -rf dist && parcel build --no-cache src/index.html --public-url ./",
+    "build": "rm -rf dist && parcel build --no-cache src/index.js --public-url ./",
     "zip": "cd dist && zip game.zip *.html *.js",
     "build:zip": "npm run build && cd dist && zip game.zip *.html *.js",
     "build:roadroller": "npm run build && roadroller dist/index.*.js -o dist/index.*.js && npm run zip",

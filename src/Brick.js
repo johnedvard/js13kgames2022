@@ -1,4 +1,4 @@
-import { getDirection, moveBehavior, setBehavior } from './behavior';
+import { getDirection, moveBehavior } from './behavior';
 
 export class Brick {
   x;

@@ -21,7 +21,7 @@ import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
 import { levels } from './levels/levels';
 import { CLICK_HAMBURGER, LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
-import { crazyGameplayStop, playLevelAd } from './crazyGames';
+import { playLevelAd } from './crazyGames';
 
 const overlayIds = [
   'main',

@@ -12,12 +12,14 @@ import { initMonetization } from './monetization';
 import { loadScript } from './utils';
 import { initCrazyGamesSdk } from './crazyGames';
 import { initMenuControls } from './menuControls';
+import { initHtml } from './html';
 
-const init = () => {
+export const initGame = ({ deathCount = 0, setDeathCount = () => {} }) => {
   addStyles();
-  new Game();
+  new Game({ deathCount, setDeathCount });
   // TODO (johnedvard) add build flag to prevent adding NEAR if we build for crazy games
   // initNear();
+  initHtml();
   initMenu();
   initMenuControls();
   initCrazyGamesSdk();
@@ -56,5 +58,3 @@ const initNear = () => {
 const loadNearApi = () => {
   return loadScript('https://js13kgames.com/src/near-api-js.js');
 };
-
-init();
