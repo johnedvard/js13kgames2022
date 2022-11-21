@@ -15,7 +15,8 @@
   },
   "scripts": {
     "start": "parcel serve --no-cache",
-    "build": "rm -rf dist && parcel build --no-cache src/index.js --public-url ./",
+    "build": "rm -rf dist && parcel build --no-cache src/index.html --public-url ./",
+    "build:lib": "rm -rf dist && parcel build --no-cache src/index.js --public-url ./",
     "zip": "cd dist && zip game.zip *.html *.js",
     "build:zip": "npm run build && cd dist && zip game.zip *.html *.js",
     "build:roadroller": "npm run build && roadroller dist/index.*.js -o dist/index.*.js && npm run zip",
