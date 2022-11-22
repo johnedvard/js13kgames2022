@@ -19,7 +19,7 @@
     }
   },
   "scripts": {
-    "start": "parcel serve --no-cache",
+    "start": "parcel serve --no-cache --target=app",
     "build": "rm -rf dist && parcel build --no-cache --target=app --public-url ./",
     "build:lib": "rm -rf dist && parcel build --no-cache src/index.js --public-url ./",
     "zip": "cd dist && zip game.zip *.html *.js",
