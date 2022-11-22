@@ -183,7 +183,7 @@ const onContainerClick = (e) => {
       break;
   }
 
-  if (classList.contains('bone') || classList.contains('inverse')) {
+  if (classList.contains('inverse')) {
     showOverlay('main');
     return;
   }

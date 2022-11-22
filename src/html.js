@@ -23,25 +23,12 @@ export const initHtml = () => {
         </div>
 
         <span id="coil-btn">Access more hats for Coil subscribers</span>
-
-        <div class="bone">
-          🦴
-          <div class="inverse">🦴</div>
-        </div>
         <div id="bonus-grid"></div>
       </div>
       <div id="levels" class="overlay hide">
-        <div class="bone">
-          🦴
-          <div class="inverse">🦴</div>
-        </div>
         <div id="levels-grid"></div>
       </div>
       <div id="near-levels" class="overlay hide">
-        <div class="bone">
-          🦴
-          <div class="inverse">🦴</div>
-        </div>
         <div id="loading-near-levels">Loading NEAR levels..</div>
         <div id="near-levels-grid"></div>
       </div>

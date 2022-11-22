@@ -33,6 +33,7 @@
   "devDependencies": {
     "@parcel/optimizer-data-url": "^2.7.0",
     "@parcel/transformer-inline-string": "^2.7.0",
+    "@parcel/transformer-sass": "^2.7.0",
     "parcel": "^2.7.0",
     "parcel-reporter-static-files-copy": "^1.4.0",
     "roadroller": "^2.1.0",
