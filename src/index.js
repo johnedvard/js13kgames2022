@@ -14,7 +14,7 @@ import { initCrazyGamesSdk } from './crazyGames';
 import { initMenuControls } from './menuControls';
 import { initHtml } from './html';
 
-export const initGame = ({ deathCount = 0, setDeathCount = () => {} }) => {
+export const initGame = ({ deathCount, setDeathCount }) => {
   addStyles();
   new Game({ deathCount, setDeathCount });
   // TODO (johnedvard) add build flag to prevent adding NEAR if we build for crazy games

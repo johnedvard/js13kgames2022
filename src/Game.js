@@ -25,8 +25,8 @@ export class Game {
   deathCount;
   setDeathCount;
   constructor({ deathCount, setDeathCount }) {
-    this.deathCount = deathCount;
-    this.setDeathCount = setDeathCount;
+    this.deathCount = deathCount || 0;
+    this.setDeathCount = setDeathCount || (() => {});
     const game = this;
     let { canvas, context } = init();
     context.textBaseline = 'middle';
