@@ -21,7 +21,6 @@ import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
 import { levels } from './levels/levels';
 import { CLICK_HAMBURGER, LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
-import { playLevelAd } from './crazyGames';
 
 const overlayIds = [
   'main',
@@ -193,7 +192,6 @@ const onContainerClick = (e) => {
   if (btn && btn.getAttribute('near')) {
     onNearLevelClick(btn);
   } else if (btn && btn.classList.contains('level-item')) {
-    playLevelAd();
     showOverlay();
     emit(START_LEVEL, { levelId: +btn.textContent });
   }

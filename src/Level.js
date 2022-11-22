@@ -1,7 +1,6 @@
 import { on, off } from 'kontra';
 
 import { Brick } from './Brick';
-import { happytime } from './crazyGames';
 import { CUT_ROPE, LEVEL_COMPLETE, PLAYER_DIED } from './gameEvents';
 import { initGameHints } from './gameHints';
 import { Goal } from './Goal';
@@ -41,7 +40,6 @@ export class Level {
         })
         .catch(() => {
           showOverlay('thanks');
-          happytime();
           // TODO (johnedvard) improve error handling, not always assume last level
         });
     }

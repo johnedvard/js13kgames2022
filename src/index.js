@@ -10,7 +10,6 @@ import { initMenu } from './menu';
 import { setNftTokens } from './store';
 import { initMonetization } from './monetization';
 import { loadScript } from './utils';
-import { initCrazyGamesSdk } from './crazyGames';
 import { initMenuControls } from './menuControls';
 import { initHtml } from './html';
 
@@ -22,7 +21,6 @@ export const initGame = ({ deathCount, setDeathCount }) => {
   initHtml();
   initMenu();
   initMenuControls();
-  initCrazyGamesSdk();
   initMonetization();
 };
 
