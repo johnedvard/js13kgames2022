@@ -10,8 +10,8 @@ import { initMenu } from './menu';
 import { setNftTokens } from './store';
 import { initMonetization } from './monetization';
 import { loadScript } from './utils';
-import { initCrazyGamesSdk } from './crazyGames';
 import { initMenuControls } from './menuControls';
+import { initAdManager } from './adManager';
 
 const init = () => {
   addStyles();
@@ -20,7 +20,7 @@ const init = () => {
   // initNear();
   initMenu();
   initMenuControls();
-  initCrazyGamesSdk();
+  initAdManager();
   initMonetization();
 };
 

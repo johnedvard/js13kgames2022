@@ -22,7 +22,8 @@ import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
 import { levels } from './levels/levels';
 import { CLICK_HAMBURGER, LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
-import { crazyGameplayStop, playLevelAd } from './crazyGames';
+import { playLevelAd } from './adManager';
+import { getItem } from './storage';
 
 const overlayIds = [
   'main',
@@ -54,7 +55,7 @@ const initLevels = () => {
   const levelsGridEl = document.getElementById('levels-grid');
   levelsGridEl.innerHTML = '';
   for (let i = 1; i < numLevels + 1; i++) {
-    const collectedHearts = localStorage.getItem('hearts-' + i) || 0;
+    const collectedHearts = getItem('hearts-' + i) || 0;
     const levelEl = document.createElement('button');
 
     levelEl.textContent = i;

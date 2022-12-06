@@ -16,6 +16,7 @@ import { showOverlay } from './menu';
 import { Player } from './Player';
 import { Saw } from './Saw';
 import { playDead } from './sound';
+import { getItem, setItem } from './storage';
 import { isBoxCollision } from './utils';
 
 export class Level {
@@ -174,9 +175,9 @@ export class Level {
 
   storeCapturedHearts() {
     const id = 'hearts-' + this.levelId;
-    const existingScore = localStorage.getItem(id);
+    const existingScore = getItem(id);
     if (existingScore <= this.capturedHearts.length) {
-      localStorage.setItem(id, this.capturedHearts.length);
+      setItem(id, this.capturedHearts.length);
     }
   }
 
