@@ -2,8 +2,8 @@ import { loadScript } from './utils';
 
 let pokiSdk;
 export const initPokiSdk = () => {
-  if (!location.href.match('poki') && !location.href.match('localhost')) {
-    return Promise.reject();
+  if (!location.href.match('poki')) {
+    return Promise.reject(null);
   }
   return loadPokiSdk().then(() => {
     pokiSdk = window.PokiSDK;

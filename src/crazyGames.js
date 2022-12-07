@@ -1,19 +1,11 @@
-import { emit, on } from 'kontra';
-import {
-  AD_FINISHED,
-  AD_PLAYING,
-  GOAL_COLLISION,
-  START_LEVEL,
-  START_NEXT_LEVEL,
-} from './gameEvents';
-import { getIsPlaying, getIsMusicEnabled, playSong, stopSong } from './sound';
-import { CLICK_HAMBURGER } from './uiEvents';
+import { emit } from 'kontra';
+import { AD_FINISHED, AD_PLAYING } from './gameEvents';
 import { loadScript } from './utils';
 
 let crazyGameSdk;
 
 export const initCrazyGamesSdk = () => {
-  if (!location.href.match('crazygames') && !location.href.match('localhost')) {
+  if (!location.href.match('crazygames')) {
     return Promise.reject();
   }
   return loadCrazyGamesSdk().then(() => {

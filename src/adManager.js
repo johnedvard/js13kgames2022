@@ -79,6 +79,7 @@ const gameplayStop = () => {
 };
 
 export const playLevelAd = () => {
+  if (!crazyGameSdk && !pokiSdk) return; // return early to prevent emitting playing ad
   emit(AD_PLAYING, {});
   crazyGameSdk?.requestAd('midgame');
   pokiSdk?.commercialBreak().finally(() => {
