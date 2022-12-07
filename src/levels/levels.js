@@ -13,3 +13,5 @@ export const levels = {
   level5,
   level6,
 };
+
+export const numLevels = Object.keys(levels).length;

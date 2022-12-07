@@ -19,7 +19,7 @@ import { IPFS_BASE_PATH } from './near/nearConnection';
 import { doesOwnNft, getNearLevel } from './utils';
 import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
-import { levels } from './levels/levels';
+import { numLevels } from './levels/levels';
 import { CLICK_HAMBURGER, LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
 
 const overlayIds = [
@@ -30,8 +30,6 @@ const overlayIds = [
   'near-levels',
   'thanks',
 ];
-
-const numLevels = Object.keys(levels).length;
 
 let hasRemovedDisableOnBonusEls = false;
 export let isMenuVisible = true;
@@ -51,6 +49,7 @@ const focusLevelSelectButton = () => {
 const initLevels = () => {
   const levelsGridEl = document.getElementById('levels-grid');
   levelsGridEl.innerHTML = '';
+
   for (let i = 1; i < numLevels + 1; i++) {
     const levelEl = document.createElement('button');
 

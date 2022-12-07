@@ -3,6 +3,7 @@ import { init, initInput, GameLoop, on } from 'kontra';
 import {
   AD_FINISHED,
   AD_PLAYING,
+  LEVEL_COMPLETE,
   LEVEL_QUIT,
   RESTART_LEVEL,
   START_LEVEL,
@@ -24,8 +25,10 @@ export class Game {
   isAdPlaying;
   deathCount;
   setDeathCount;
-  constructor({ deathCount, setDeathCount }) {
+  updateLevelsCompleted;
+  constructor({ deathCount, setDeathCount, updateLevelsCompleted }) {
     this.deathCount = deathCount || 0;
+    this.updateLevelsCompleted = updateLevelsCompleted || (() => {});
     this.setDeathCount = setDeathCount || (() => {});
     const game = this;
     let { canvas, context } = init();
@@ -78,7 +81,13 @@ export class Game {
     on(AD_FINISHED, this.onAdFinished);
     on(AD_PLAYING, this.onAdPlaying);
     on(PLAYER_DEAD, this.onPlayerDead);
+    on(LEVEL_COMPLETE, this.onLevelComplete);
   }
+  onLevelComplete = () => {
+    const levelKey = `level${this.level.levelId}`;
+    localStorage.setItem(levelKey, true);
+    this.updateLevelsCompleted({ [levelKey]: true });
+  };
   onPlayerDead = () => {
     this.setDeathCount(++this.deathCount);
   };
