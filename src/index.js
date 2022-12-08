@@ -6,6 +6,8 @@ import { initMonetization } from './monetization';
 import { initMenuControls } from './menuControls';
 import { initHtml } from './html';
 import { numLevels } from './levels/levels';
+import { initMenuControls } from './menuControls';
+import { initAdManager } from './adManager';
 
 export const initGame = ({
   deathCount,
@@ -21,6 +23,7 @@ export const initGame = ({
 
   initMenu();
   initMenuControls();
+  initAdManager();
   initMonetization();
 };
 

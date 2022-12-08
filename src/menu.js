@@ -21,6 +21,8 @@ import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
 import { numLevels } from './levels/levels';
 import { CLICK_HAMBURGER, LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
+import { playLevelAd } from './adManager';
+import { getItem } from './storage';
 
 const overlayIds = [
   'main',

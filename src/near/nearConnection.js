@@ -2,7 +2,6 @@ import { on } from 'kontra';
 
 import { NFT_BUY } from '../gameEvents';
 import { getConfig } from '../config';
-import { LOGOUT_NEAR } from '../uiEvents';
 
 export const HANG_BY_A_THREAD_SERIES_TESTNET = '2036';
 export const IPFS_BASE_PATH = 'https://ipfs.fleek.co/ipfs/';

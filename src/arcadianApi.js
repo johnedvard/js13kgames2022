@@ -1,3 +1,4 @@
+import { setItem } from './storage';
 import { setArcadianData } from './store';
 
 export async function queryArcadian(id) {
@@ -38,7 +39,7 @@ export async function queryArcadian(id) {
         img.addEventListener(
           'load',
           () => {
-            localStorage.setItem('Arcadian #' + id, img);
+            setItem('Arcadian #' + id, img);
             setArcadianData({ id, data, img });
             resolve({ id, data, img });
           },

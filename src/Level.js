@@ -10,7 +10,9 @@ import { showOverlay } from './menu';
 import { Player } from './Player';
 import { Saw } from './Saw';
 import { playDead } from './sound';
-import { isBoxCollision } from './utils';
+import { getItem, setItem } from './storage';
+import { ongoingTouches } from './touchControls';
+import { isBoxCollision, lineIntersection } from './utils';
 
 export class Level {
   player;
@@ -189,6 +191,25 @@ export class Level {
     this.createSaws(this.levelData);
   }
 
+  checkTouchCollision() {
+    if (!ongoingTouches.length) return;
+    const rope = this.player.rope;
+    for (let i = 0; i < ongoingTouches.length - 1; i++) {
+      for (let j = 0; j < rope.length - 1; j++) {
+        if (
+          lineIntersection(
+            ongoingTouches[i],
+            ongoingTouches[i + 1],
+            rope.nodes[j],
+            rope.nodes[j + 1]
+          )
+        ) {
+          this.player.rope.cutRope(j);
+        }
+      }
+    }
+  }
+
   // TODO (johnedvard) Move collisions to own file?
   checkCollisions() {
     const rope = this.player.rope;
@@ -205,6 +226,7 @@ export class Level {
         }
       });
     }
+    this.checkTouchCollision();
   }
 
   destroy() {

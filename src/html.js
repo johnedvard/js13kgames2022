@@ -42,6 +42,11 @@ export const initHtml = () => {
         Thank you for playing
       </div>
       <div id="hint"></div>
+      <div id="touch-controls">
+        <button id="touch-left">Left</button>
+        <button id="touch-boost">Boost</button>
+        <button id="touch-right">Right</button>
+      </div>
     </div>`;
   document.getElementById('hang-by-a-thread').innerHTML = html;
 };

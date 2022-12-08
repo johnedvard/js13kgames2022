@@ -15,6 +15,7 @@ import { initSound, toggleSound } from './sound';
 import { setGameHeight, setGameWidth } from './store';
 import { showOverlay } from './menu';
 import { PLAYER_DEAD } from './PlayerState';
+import { drawDragline, initTouchControls } from './touchControls';
 
 export class Game {
   canvas;
@@ -40,6 +41,7 @@ export class Game {
     this.context = context;
     initInput();
     initSound();
+    initTouchControls();
     setGameHeight(canvas.height);
     setGameWidth(canvas.width);
 
@@ -54,6 +56,7 @@ export class Game {
         if (!game.level) return;
         context.save();
         game.level.render(context);
+        drawDragline(context);
       },
     });
 

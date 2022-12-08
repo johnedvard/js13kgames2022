@@ -7,6 +7,7 @@
 }
 
 #hang-by-a-thread {
+  user-select: none;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -63,7 +64,7 @@
   }
 
   #hint {
-    bottom: 5%;
+    bottom: 20%;
     position: absolute;
     white-space: pre-wrap;
     text-align: center;
@@ -253,5 +254,24 @@
   }
   .flash {
     background-color: var(--bgc2);
+  }
+  #touch-controls {
+    display: flex;
+    height: auto;
+    margin-top: 50px;
+    width: 100%;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+  }
+  #touch-controls button {
+    display: flex;
+    height: 120px;
+    width: 120px;
+    border: 2px solid var(--fgc2);
+    text-align: center;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
   }
 }
