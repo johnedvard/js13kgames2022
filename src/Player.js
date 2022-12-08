@@ -16,6 +16,7 @@ import { createSprite } from './utils';
 import { getDirection, moveBehavior } from './behavior';
 import { BubbleEffect } from './BubbleEffect';
 import { PLAYER_ALIVE, PLAYER_DEAD } from './PlayerState';
+import { handleTouchControls, updateTouchControls } from './touchControls';
 
 export class Player {
   game;
@@ -61,6 +62,7 @@ export class Player {
     }).then((sprite) => (this.sprite = sprite));
     this.createHeadSprite(this.headImg);
     this.playerControls = new PlayerControls(this);
+    handleTouchControls();
     this.listenForGameEvents();
     this.particleEffect = new BubbleEffect();
   }
@@ -167,6 +169,7 @@ export class Player {
     this.updateRope();
     this.updateAnchorNode();
     this.handlePlayerState();
+    updateTouchControls(this);
     this.playerControls.updateControls();
   }
 

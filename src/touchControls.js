@@ -4,6 +4,8 @@ import { gameWidth, gameHeight } from './store';
 export const ongoingTouches = [];
 let isDragging;
 const maxDraws = 6;
+let isLeftBtnDown = false;
+let isRightBtnDown = false;
 
 const handleMove = (evt) => {
   const touches = evt.changedTouches;
@@ -42,6 +44,32 @@ const removeTouches = () => {
   }
 };
 
+export const handleTouchControls = () => {
+  const leftBtnEl = document.getElementById('touch-left');
+  const rightBtnEl = document.getElementById('touch-right');
+
+  leftBtnEl.addEventListener('mousedown', () => (isLeftBtnDown = true));
+  rightBtnEl.addEventListener('mousedown', () => (isRightBtnDown = true));
+  leftBtnEl.addEventListener('touchstart', () => (isLeftBtnDown = true));
+  rightBtnEl.addEventListener('touchstart', () => (isRightBtnDown = true));
+  leftBtnEl.addEventListener('touchend', () => (isLeftBtnDown = false));
+  rightBtnEl.addEventListener('touchend', () => (isRightBtnDown = false));
+  leftBtnEl.addEventListener('mouseout', () => (isLeftBtnDown = false));
+  rightBtnEl.addEventListener('mouseout', () => (isRightBtnDown = false));
+  leftBtnEl.addEventListener('mouseup', () => (isLeftBtnDown = false));
+  rightBtnEl.addEventListener('mouseup', () => (isRightBtnDown = false));
+};
+
+export const updateTouchControls = (player) => {
+  if (isLeftBtnDown) {
+    player.applyForce(-1.5, -1);
+    player.changePlayerDirection(true);
+  }
+  if (isRightBtnDown) {
+    player.applyForce(1.5, -1);
+    player.changePlayerDirection(false);
+  }
+};
 export const initTouchControls = () => {
   const el = document.getElementById('game-canvas');
   el.addEventListener('touchmove', handleMove);
