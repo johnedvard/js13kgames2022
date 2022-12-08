@@ -13,6 +13,7 @@ import { Level } from './Level';
 import { toggleSound } from './sound';
 import { setGameHeight, setGameWidth } from './store';
 import { showOverlay } from './menu';
+import { drawDragline, initTouchControls } from './touchControls';
 
 export class Game {
   canvas;
@@ -31,6 +32,7 @@ export class Game {
     this.canvas = canvas;
     this.context = context;
     initInput();
+    initTouchControls();
     setGameHeight(canvas.height);
     setGameWidth(canvas.width);
 
@@ -45,6 +47,7 @@ export class Game {
         if (!game.level) return;
         context.save();
         game.level.render(context);
+        drawDragline(context);
       },
     });
 
