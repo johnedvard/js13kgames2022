@@ -24,6 +24,7 @@ body,
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  user-select: none;
 }
 canvas {
   height: auto;
@@ -296,5 +297,4 @@ button:hover img {
   border-radius: 50%;
   align-items: center;
   justify-content: center;
-  user-select: none;
 }
