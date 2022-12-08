@@ -6,6 +6,7 @@ let isDragging;
 const maxDraws = 6;
 let isLeftBtnDown = false;
 let isRightBtnDown = false;
+let isBoostBtnDown = false;
 
 const handleMove = (evt) => {
   const touches = evt.changedTouches;
@@ -47,16 +48,22 @@ const removeTouches = () => {
 export const handleTouchControls = () => {
   const leftBtnEl = document.getElementById('touch-left');
   const rightBtnEl = document.getElementById('touch-right');
+  const boostBtnEl = document.getElementById('touch-boost');
 
   leftBtnEl.addEventListener('mousedown', () => (isLeftBtnDown = true));
+  boostBtnEl.addEventListener('mousedown', () => (isBoostBtnDown = true));
   rightBtnEl.addEventListener('mousedown', () => (isRightBtnDown = true));
   leftBtnEl.addEventListener('touchstart', () => (isLeftBtnDown = true));
+  boostBtnEl.addEventListener('touchstart', () => (isBoostBtnDown = true));
   rightBtnEl.addEventListener('touchstart', () => (isRightBtnDown = true));
   leftBtnEl.addEventListener('touchend', () => (isLeftBtnDown = false));
+  boostBtnEl.addEventListener('touchend', () => (isBoostBtnDown = false));
   rightBtnEl.addEventListener('touchend', () => (isRightBtnDown = false));
   leftBtnEl.addEventListener('mouseout', () => (isLeftBtnDown = false));
+  boostBtnEl.addEventListener('mouseout', () => (isBoostBtnDown = false));
   rightBtnEl.addEventListener('mouseout', () => (isRightBtnDown = false));
   leftBtnEl.addEventListener('mouseup', () => (isLeftBtnDown = false));
+  boostBtnEl.addEventListener('mouseup', () => (isBoostBtnDown = false));
   rightBtnEl.addEventListener('mouseup', () => (isRightBtnDown = false));
 };
 
@@ -68,6 +75,9 @@ export const updateTouchControls = (player) => {
   if (isRightBtnDown) {
     player.applyForce(1.5, -1);
     player.changePlayerDirection(false);
+  }
+  if (isBoostBtnDown) {
+    player.applyForce(0, -5);
   }
 };
 export const initTouchControls = () => {
