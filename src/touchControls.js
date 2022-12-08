@@ -1,4 +1,5 @@
 import { fgc2 } from './constants';
+import { gameWidth, gameHeight } from './store';
 
 export const ongoingTouches = [];
 let isDragging;
@@ -8,10 +9,14 @@ const handleMove = (evt) => {
   const touches = evt.changedTouches;
   if (!touches.length) return;
   const canvas = document.getElementById('game-canvas');
+
+  // @see https://stackoverflow.com/a/53405390/2124254
   let rect = canvas.getBoundingClientRect(); // assume there's no padding to the canvas element
+  let transformScaleX = parseFloat(gameWidth / rect.width); // account for scaling
+  let transformScaleY = parseFloat(gameHeight / rect.height);
   const pos = {
-    x: touches[0].pageX - rect.left,
-    y: touches[0].pageY - rect.top,
+    x: (touches[0].pageX - rect.left) * transformScaleX,
+    y: (touches[0].pageY - rect.top) * transformScaleY,
   };
   ongoingTouches.push({ x: pos.x, y: pos.y, draws: maxDraws });
 };
