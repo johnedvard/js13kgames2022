@@ -296,4 +296,5 @@ button:hover img {
   border-radius: 50%;
   align-items: center;
   justify-content: center;
+  user-select: none;
 }
