@@ -169,6 +169,7 @@ export class Player {
     this.updateRope();
     this.updateAnchorNode();
     this.handlePlayerState();
+    if (this.hasWon || this.isRopeCut || this.rope.length <= 0) return;
     updateTouchControls(this);
     this.playerControls.updateControls();
   }

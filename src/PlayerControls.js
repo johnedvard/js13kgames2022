@@ -20,13 +20,6 @@ export class PlayerControls {
 
   updateControls() {
     if (
-      this.player.hasWon ||
-      this.player.isRopeCut ||
-      this.player.rope.length <= 0
-    )
-      return;
-    // TODO (johnedvard) add support for touch gesture and gamepad (if enough space)
-    if (
       keyPressed('arrowleft') ||
       keyPressed('a') ||
       gamepadPressed('dpadleft')
