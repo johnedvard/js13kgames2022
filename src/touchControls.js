@@ -1,3 +1,4 @@
+import { getPointer } from 'kontra';
 import { fgc2 } from './constants';
 import { gameWidth, gameHeight } from './store';
 
@@ -9,19 +10,10 @@ let isRightBtnDown = false;
 let isBoostBtnDown = false;
 
 const handleMove = (evt) => {
-  const touches = evt.changedTouches;
-  if (!touches.length) return;
-  const canvas = document.getElementById('game-canvas');
-
-  // @see https://stackoverflow.com/a/53405390/2124254
-  let rect = canvas.getBoundingClientRect(); // assume there's no padding to the canvas element
-  let transformScaleX = parseFloat(gameWidth / rect.width); // account for scaling
-  let transformScaleY = parseFloat(gameHeight / rect.height);
-  const pos = {
-    x: (touches[0].pageX - rect.left) * transformScaleX,
-    y: (touches[0].pageY - rect.top) * transformScaleY,
-  };
-  ongoingTouches.push({ x: pos.x, y: pos.y, draws: maxDraws });
+  const pointer = getPointer();
+  if (!pointer.touches.length) return;
+  const touch = pointer.touches[0];
+  ongoingTouches.push({ x: touch.x, y: touch.y, draws: maxDraws });
 };
 
 const handleStart = (evt) => {
@@ -78,6 +70,21 @@ export const updateTouchControls = (player) => {
   }
   if (isBoostBtnDown) {
     player.applyForce(0, -5);
+  }
+  const pointer = getPointer();
+  if (pointer.touches.length) {
+    const touch = pointer.touches[0] || {};
+    if (touch.y > gameHeight - gameHeight / 5) {
+      player.applyForce(0, -5);
+    }
+    if (touch.x > gameWidth - gameWidth / 5) {
+      player.applyForce(1.5, -1);
+      player.changePlayerDirection(false);
+    }
+    if (touch.x <= gameWidth / 5) {
+      player.applyForce(-1.5, -1);
+      player.changePlayerDirection(true);
+    }
   }
 };
 export const initTouchControls = () => {
