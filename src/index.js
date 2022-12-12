@@ -1,4 +1,4 @@
-import cssText from 'bundle-text:./styles.css';
+import cssText from 'bundle-text:./styles.scss';
 
 import { Game } from './Game';
 import { initLoginLogout } from './near/nearLogin';
