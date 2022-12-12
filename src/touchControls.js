@@ -3,12 +3,12 @@ import { fgc2 } from './constants';
 import { gameWidth, gameHeight } from './store';
 
 export const ongoingTouches = [];
+const ongoingControls = [];
 let isDragging;
 const maxDraws = 6;
 let isLeftBtnDown = false;
 let isRightBtnDown = false;
 let isBoostBtnDown = false;
-let currTouchPos = null;
 
 const getPosFromTouches = (touches) => {
   if (!touches || !touches.length) return;
@@ -17,35 +17,57 @@ const getPosFromTouches = (touches) => {
   let rect = canvas.getBoundingClientRect(); // assume there's no padding to the canvas element
   const transformScaleX = parseFloat(gameWidth / rect.width); // account for scaling
   const transformScaleY = parseFloat(gameHeight / rect.height);
-  return {
-    x: (touches[0].pageX - rect.left) * transformScaleX,
-    y: (touches[0].pageY - rect.top) * transformScaleY,
-  };
+  const res = [];
+  for (let i = 0; i < touches.length; i++) {
+    res.push({
+      id: touches[i].identifier,
+      x: (touches[i].pageX - rect.left) * transformScaleX,
+      y: (touches[i].pageY - rect.top) * transformScaleY,
+      draws: maxDraws,
+    });
+  }
+  return res;
 };
 const handleMove = (evt) => {
   const touches = evt.changedTouches;
   if (!touches.length) return;
-  currTouchPos = getPosFromTouches(touches);
-  ongoingTouches.push({
-    x: currTouchPos.x,
-    y: currTouchPos.y,
-    draws: maxDraws,
-  });
+  const pos = getPosFromTouches(touches);
+  ongoingTouches.splice(ongoingTouches.length, 0, ...pos);
+};
+
+const ongoingTouchIndexById = (idToFind) => {
+  for (let i = 0; i < ongoingControls.length; i++) {
+    const id = ongoingControls[i].identifier;
+
+    if (id === idToFind) {
+      return i;
+    }
+  }
+  return -1; // not found
 };
 
 const handleStart = (evt) => {
   isDragging = true;
-  currTouchPos = getPosFromTouches(evt.changedTouches);
+  const pos = getPosFromTouches(evt.changedTouches);
+  ongoingControls.push(...pos);
   console.log('handle start', evt);
+};
+const removeOngoingControl = (evt) => {
+  const touches = evt.changedTouches;
+
+  for (let i = 0; i < touches.length; i++) {
+    let idx = ongoingTouchIndexById(touches[i].identifier);
+    ongoingControls.splice(idx, 1); // remove it; we're done
+  }
 };
 const handleEnd = (evt) => {
   isDragging = false;
-  currTouchPos = null;
+  removeOngoingControl(evt);
   console.log('handle end ', evt);
 };
 const handleCancel = (evt) => {
   isDragging = false;
-  currTouchPos = null;
+  removeOngoingControl(evt);
   console.log('handle cancel', evt);
 };
 
@@ -94,18 +116,19 @@ const updateSoftButtons = (player) => {
 };
 
 const updateCanvasTouchArea = (player) => {
-  if (!currTouchPos) return;
-  if (currTouchPos.y > gameHeight - gameHeight / 5) {
-    player.applyForce(0, -5);
-  }
-  if (currTouchPos.x > gameWidth - gameWidth / 5) {
-    player.applyForce(1.5, -1);
-    player.changePlayerDirection(false);
-  }
-  if (currTouchPos.x <= gameWidth / 5) {
-    player.applyForce(-1.5, -1);
-    player.changePlayerDirection(true);
-  }
+  ongoingControls.forEach((touch) => {
+    if (touch.y > gameHeight - gameHeight / 5) {
+      player.applyForce(0, -5);
+    }
+    if (touch.x > gameWidth - gameWidth / 5) {
+      player.applyForce(1.5, -1);
+      player.changePlayerDirection(false);
+    }
+    if (touch.x <= gameWidth / 5) {
+      player.applyForce(-1.5, -1);
+      player.changePlayerDirection(true);
+    }
+  });
 };
 export const updateTouchControls = (player) => {
   updateSoftButtons(player);
