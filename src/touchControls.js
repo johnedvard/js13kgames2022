@@ -10,10 +10,19 @@ let isRightBtnDown = false;
 let isBoostBtnDown = false;
 
 const handleMove = (evt) => {
-  const pointer = getPointer();
-  if (!pointer.touches.length) return;
-  const touch = pointer.touches[0];
-  ongoingTouches.push({ x: touch.x, y: touch.y, draws: maxDraws });
+  const touches = evt.changedTouches;
+  if (!touches.length) return;
+  const canvas = document.getElementById('game-canvas');
+
+  // @see https://stackoverflow.com/a/53405390/2124254
+  let rect = canvas.getBoundingClientRect(); // assume there's no padding to the canvas element
+  let transformScaleX = parseFloat(gameWidth / rect.width); // account for scaling
+  let transformScaleY = parseFloat(gameHeight / rect.height);
+  const pos = {
+    x: (touches[0].pageX - rect.left) * transformScaleX,
+    y: (touches[0].pageY - rect.top) * transformScaleY,
+  };
+  ongoingTouches.push({ x: pos.x, y: pos.y, draws: maxDraws });
 };
 
 const handleStart = (evt) => {
