@@ -1,3 +1,4 @@
+import { getPointer } from 'kontra';
 import { fgc2 } from './constants';
 import { gameWidth, gameHeight } from './store';
 
@@ -7,33 +8,44 @@ const maxDraws = 6;
 let isLeftBtnDown = false;
 let isRightBtnDown = false;
 let isBoostBtnDown = false;
+let currTouchPos = null;
 
-const handleMove = (evt) => {
-  const touches = evt.changedTouches;
-  if (!touches.length) return;
+const getPosFromTouches = (touches) => {
+  if (!touches || !touches.length) return;
   const canvas = document.getElementById('game-canvas');
-
   // @see https://stackoverflow.com/a/53405390/2124254
   let rect = canvas.getBoundingClientRect(); // assume there's no padding to the canvas element
-  let transformScaleX = parseFloat(gameWidth / rect.width); // account for scaling
-  let transformScaleY = parseFloat(gameHeight / rect.height);
-  const pos = {
+  const transformScaleX = parseFloat(gameWidth / rect.width); // account for scaling
+  const transformScaleY = parseFloat(gameHeight / rect.height);
+  return {
     x: (touches[0].pageX - rect.left) * transformScaleX,
     y: (touches[0].pageY - rect.top) * transformScaleY,
   };
-  ongoingTouches.push({ x: pos.x, y: pos.y, draws: maxDraws });
+};
+const handleMove = (evt) => {
+  const touches = evt.changedTouches;
+  if (!touches.length) return;
+  currTouchPos = getPosFromTouches(touches);
+  ongoingTouches.push({
+    x: currTouchPos.x,
+    y: currTouchPos.y,
+    draws: maxDraws,
+  });
 };
 
 const handleStart = (evt) => {
   isDragging = true;
+  currTouchPos = getPosFromTouches(evt.changedTouches);
   console.log('handle start', evt);
 };
 const handleEnd = (evt) => {
   isDragging = false;
+  currTouchPos = null;
   console.log('handle end ', evt);
 };
 const handleCancel = (evt) => {
   isDragging = false;
+  currTouchPos = null;
   console.log('handle cancel', evt);
 };
 
@@ -67,7 +79,7 @@ export const handleTouchControls = () => {
   rightBtnEl.addEventListener('mouseup', () => (isRightBtnDown = false));
 };
 
-export const updateTouchControls = (player) => {
+const updateSoftButtons = (player) => {
   if (isLeftBtnDown) {
     player.applyForce(-1.5, -1);
     player.changePlayerDirection(true);
@@ -79,6 +91,25 @@ export const updateTouchControls = (player) => {
   if (isBoostBtnDown) {
     player.applyForce(0, -5);
   }
+};
+
+const updateCanvasTouchArea = (player) => {
+  if (!currTouchPos) return;
+  if (currTouchPos.y > gameHeight - gameHeight / 5) {
+    player.applyForce(0, -5);
+  }
+  if (currTouchPos.x > gameWidth - gameWidth / 5) {
+    player.applyForce(1.5, -1);
+    player.changePlayerDirection(false);
+  }
+  if (currTouchPos.x <= gameWidth / 5) {
+    player.applyForce(-1.5, -1);
+    player.changePlayerDirection(true);
+  }
+};
+export const updateTouchControls = (player) => {
+  updateSoftButtons(player);
+  updateCanvasTouchArea(player);
 };
 export const initTouchControls = () => {
   const el = document.getElementById('game-canvas');
