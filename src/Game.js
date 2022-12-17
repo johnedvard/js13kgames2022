@@ -19,6 +19,7 @@ import {
   initMouseControls,
   updateMouseControls,
 } from './mouseControls';
+import { scaleToFitHandler } from './utils';
 
 export class Game {
   canvas;
@@ -40,6 +41,7 @@ export class Game {
     initSound();
     initTouchControls();
     initMouseControls();
+    scaleToFitHandler();
     setGameHeight(canvas.height);
     setGameWidth(canvas.width);
 

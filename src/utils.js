@@ -2,7 +2,24 @@ import { Vector, Sprite } from 'kontra';
 
 import { nearLevelData } from './store';
 
-export const scaleToFit = () => {
+let isResizeListenerSet = false;
+const onResize = () => {
+  const wrapperEl = document.querySelector('#hang-by-a-thread #wrap');
+
+  if (window.innerHeight < window.innerWidth) {
+    wrapperEl.classList.add('autoWidth');
+    wrapperEl.classList.remove('autoHeight');
+  } else {
+    wrapperEl.classList.add('autoHeight');
+    wrapperEl.classList.remove('autoWidth');
+  }
+};
+export const scaleToFitHandler = () => {
+  onResize();
+  if (isResizeListenerSet) return;
+  isResizeListenerSet = true;
+  window.addEventListener('resize', onResize);
+
   // TODO (johnedvard) listen for window resize, debounce, and scale to fit mac height and width whilst keeping aspect ratio
 };
 export const isBoxCollision = (sprite1, sprite2) => {
