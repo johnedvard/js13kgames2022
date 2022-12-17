@@ -1,4 +1,5 @@
 import { fgc2 } from './constants';
+import { playSilentSound } from './sound';
 import { gameWidth, gameHeight } from './store';
 
 export const ongoingTouches = [];
@@ -43,6 +44,7 @@ const ongoingTouchIndexById = (idToFind) => {
 };
 
 const handleStart = (evt) => {
+  playSilentSound(); // force to play sfx on mobile in response to an event
   isDragging = true;
   const pos = getPosFromTouches(evt.changedTouches);
   ongoingControls.push(...pos);

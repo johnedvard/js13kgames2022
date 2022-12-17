@@ -10,7 +10,7 @@ import {
   TOGGLE_MUSIC,
 } from './gameEvents';
 import { Level } from './Level';
-import { toggleSound } from './sound';
+import { initSound, toggleSound } from './sound';
 import { setGameHeight, setGameWidth } from './store';
 import { showOverlay } from './menu';
 import { drawDragline, initTouchControls } from './touchControls';
@@ -37,6 +37,7 @@ export class Game {
     this.canvas = canvas;
     this.context = context;
     initInput();
+    initSound();
     initTouchControls();
     initMouseControls();
     setGameHeight(canvas.height);
