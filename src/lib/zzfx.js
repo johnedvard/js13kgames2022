@@ -3,13 +3,12 @@ const zzfxV = 0.3;
 
 // zzfxR - global sample rate
 const zzfxR = 44100;
-let sfxContext;
 
 /** should only be called once, inside sound.js */
 export const initZzfx = () => {
   if (typeof window !== 'undefined') {
     // Client-side-only code
-    sfxContext = new (window.AudioContext || webkitAudioContext)();
+    window.sfxContext = new (window.AudioContext || webkitAudioContext)();
     window.zzfxR = zzfxR;
 
     // zzfxX - the common audio context
@@ -103,7 +102,7 @@ export const initZzfx = () => {
 };
 
 // zzfx() - the universal entry point -- returns a AudioBufferSourceNode
-export const zzfx = (...t) => zzfxP(sfxContext, zzfxG(...t));
+export const zzfx = (ctx, ...t) => zzfxP(ctx, zzfxG(...t));
 
 // zzfxP() - the sound player -- returns a AudioBufferSourceNode
 export const zzfxP = (ctx, ...t) => {

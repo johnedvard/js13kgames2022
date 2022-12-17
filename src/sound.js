@@ -34,17 +34,25 @@ export const toggleSound = () => {
   }
 };
 
+export const playSilentSound = () => {
+  zzfx(window.sfxContext, ...[0]);
+};
 export const playBubble = () => {
   zzfx(
+    window.sfxContext,
     ...[, 1, 7, 0.02, 0.01, 0.02, 4, 0.5, , , 1, 0.01, , , 150, , 0.21, , 0.01]
   ); // Blip 273
 };
 export const playDead = () => {
-  zzfx(...[, , 326, , 0.06, 0.08, 1, 0.95, -6.8, , , , , , , , , 0.45, 0.08]); // Jump 299
+  zzfx(
+    window.sfxContext,
+    ...[, , 326, , 0.06, 0.08, 1, 0.95, -6.8, , , , , , , , , 0.45, 0.08]
+  ); // Jump 299
 };
 
 export const playGoal = () => {
   zzfx(
+    window.sfxContext,
     ...[
       ,
       ,
@@ -70,6 +78,7 @@ export const playGoal = () => {
 };
 export const playPickup = () => {
   zzfx(
+    window.sfxContext,
     ...[
       ,
       ,
@@ -95,7 +104,9 @@ export const playPickup = () => {
   ); // Pickup 368
 };
 export const playCutRope = () => {
+  console.log('play cut rope');
   zzfx(
+    window.sfxContext,
     ...[, , 1081, 0.01, 0.01, 0.02, 4, 1.1, 14, 32, , , , 0.8, , , 0.06, 0.66]
   ); // Blip 329
 };
@@ -1288,7 +1299,7 @@ export const playSong = () => {
   ];
   let mySongData = zzfxM(...song);
 
-  myAudioNode = zzfxP(zzfxX, ...mySongData);
+  myAudioNode = zzfxP(window.zzfxX, ...mySongData);
   myAudioNode.loop = true;
   return;
 };
