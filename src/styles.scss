@@ -21,6 +21,15 @@
     font-family: sans-serif;
     height: 100%;
     width: 100vw;
+    max-height: 100vh;
+    &.autoWidth {
+      width: 100vw;
+      max-width: 100vh;
+    }
+    &.autoHeight {
+      height: auto;
+      max-height: 100vw;
+    }
   }
 
   canvas {

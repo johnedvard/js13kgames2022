@@ -16,6 +16,7 @@ import { setGameHeight, setGameWidth } from './store';
 import { showOverlay } from './menu';
 import { PLAYER_DEAD } from './PlayerState';
 import { drawDragline, initTouchControls } from './touchControls';
+import { scaleToFitHandler } from './utils';
 
 export class Game {
   canvas;
@@ -42,6 +43,7 @@ export class Game {
     initInput();
     initSound();
     initTouchControls();
+    scaleToFitHandler();
     setGameHeight(canvas.height);
     setGameWidth(canvas.width);
 
