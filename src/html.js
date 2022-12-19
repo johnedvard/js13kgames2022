@@ -34,7 +34,6 @@ export const initHtml = () => {
       </div>
       <menu id="level-dialog" class="overlay hide">
         <button id="next-btn">Play next level</button>
-        <button id="replay-btn">Replay level</button>
       </menu>
       <div id="thanks" class="overlay hide">
         Rest in peace my soul

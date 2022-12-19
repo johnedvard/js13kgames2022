@@ -56,6 +56,10 @@ const initLevels = () => {
     const levelEl = document.createElement('button');
 
     levelEl.textContent = i;
+    if (!Boolean(getItem(`level${i - 1}`)) && i > 1) {
+      levelEl.setAttribute('disabled', true);
+      levelEl.classList.add('disabled');
+    }
 
     levelEl.classList.add('level-item');
     levelsGridEl.appendChild(levelEl);
