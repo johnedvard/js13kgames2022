@@ -10,7 +10,6 @@ import { showOverlay } from './menu';
 import { Player } from './Player';
 import { Saw } from './Saw';
 import { playDead } from './sound';
-import { getItem, setItem } from './storage';
 import { ongoingTouches } from './touchControls';
 import { isBoxCollision, lineIntersection } from './utils';
 

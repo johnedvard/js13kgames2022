@@ -8,18 +8,16 @@ import { initHtml } from './html';
 import { numLevels } from './levels/levels';
 import { initMenuControls } from './menuControls';
 import { initAdManager } from './adManager';
+import { getItem } from './storage';
 
-export const initGame = ({
-  deathCount,
-  setDeathCount,
-  updateLevelsCompleted,
-}) => {
+export const initGame = ({ setDeathCount, updateLevelsCompleted }) => {
   initHtml();
   addStyles();
-  new Game({ deathCount, setDeathCount, updateLevelsCompleted });
+  new Game({ setDeathCount, updateLevelsCompleted });
   // TODO (johnedvard) add build flag to prevent adding NEAR if we build for crazy games
   // initNear();
   setLevelsCompleteInParent(updateLevelsCompleted);
+  setDeathCountInParent(setDeathCount);
 
   initMenu();
   initMenuControls();
@@ -27,11 +25,17 @@ export const initGame = ({
   initMonetization();
 };
 
+const setDeathCountInParent = (setDeathCount = () => {}) => {
+  const deathCount = Number(getItem('deathCount'));
+  if (!Number.isNaN(deathCount)) {
+    setDeathCount(deathCount);
+  }
+};
 const setLevelsCompleteInParent = (updateLevelsCompleted = () => {}) => {
   const completedLevels = {};
   for (let i = 1; i < numLevels + 1; i++) {
     const levelKey = `level${i}`;
-    const levelCompleted = Boolean(localStorage.getItem(levelKey));
+    const levelCompleted = Boolean(getItem(levelKey));
     if (levelCompleted) completedLevels[levelKey] = levelCompleted;
   }
   updateLevelsCompleted(completedLevels);

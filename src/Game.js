@@ -17,6 +17,7 @@ import { showOverlay } from './menu';
 import { PLAYER_DEAD } from './PlayerState';
 import { drawDragline, initTouchControls } from './touchControls';
 import { scaleToFitHandler } from './utils';
+import { getItem, setItem } from './storage';
 
 export class Game {
   canvas;
@@ -28,8 +29,8 @@ export class Game {
   deathCount;
   setDeathCount;
   updateLevelsCompleted;
-  constructor({ deathCount, setDeathCount, updateLevelsCompleted }) {
-    this.deathCount = deathCount || 0;
+  constructor({ setDeathCount, updateLevelsCompleted }) {
+    this.initDeathCount();
     this.updateLevelsCompleted = updateLevelsCompleted || (() => {});
     this.setDeathCount = setDeathCount || (() => {});
     const game = this;
@@ -66,6 +67,16 @@ export class Game {
     this.listenForGameEvents();
   }
 
+  /** Use death count from parent first, or from local storage if paremt is 0 */
+  initDeathCount = () => {
+    const storedDeathCount = Number(getItem('deathCount'));
+    if (!Number.isNaN(storedDeathCount)) {
+      this.deathCount = storedDeathCount;
+    } else {
+      this.deathCount = 0;
+    }
+  };
+
   loadLevel({ levelId, levelData }) {
     if (this.level) {
       this.level.destroy();
@@ -90,11 +101,13 @@ export class Game {
   }
   onLevelComplete = () => {
     const levelKey = `level${this.level.levelId}`;
-    localStorage.setItem(levelKey, true);
+    setItem(levelKey, true);
     this.updateLevelsCompleted({ [levelKey]: true });
   };
   onPlayerDead = () => {
-    this.setDeathCount(++this.deathCount);
+    this.deathCount++;
+    setItem('deathCount', this.deathCount);
+    this.setDeathCount(this.deathCount);
   };
   onAdPlaying = () => {
     this.isAdPlaying = true;
