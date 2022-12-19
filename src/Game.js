@@ -18,6 +18,11 @@ import { PLAYER_DEAD } from './PlayerState';
 import { drawDragline, initTouchControls } from './touchControls';
 import { scaleToFitHandler } from './utils';
 import { getItem, setItem } from './storage';
+import {
+  drawMouseLine,
+  initMouseControls,
+  updateMouseControls,
+} from './mouseControls';
 
 export class Game {
   canvas;
@@ -44,6 +49,7 @@ export class Game {
     initInput();
     initSound();
     initTouchControls();
+    initMouseControls();
     scaleToFitHandler();
     setGameHeight(canvas.height);
     setGameWidth(canvas.width);
@@ -52,6 +58,7 @@ export class Game {
       update: function (dt) {
         if (game.isAdPlaying) return;
         if (!game.level) return;
+        updateMouseControls(dt);
         game.level.update(dt);
       },
       render: function () {
@@ -60,6 +67,7 @@ export class Game {
         context.save();
         game.level.render(context);
         drawDragline(context);
+        drawMouseLine(context);
       },
     });
 

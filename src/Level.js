@@ -7,6 +7,7 @@ import { Goal } from './Goal';
 
 import { levels } from './levels/levels';
 import { showOverlay } from './menu';
+import { mousePoints } from './mouseControls';
 import { Player } from './Player';
 import { Saw } from './Saw';
 import { playDead } from './sound';
@@ -209,6 +210,25 @@ export class Level {
     }
   }
 
+  checkMouseCollision() {
+    if (!mousePoints.length) return;
+    const rope = this.player.rope;
+    for (let i = 0; i < mousePoints.length - 1; i++) {
+      for (let j = 0; j < rope.length - 1; j++) {
+        if (
+          lineIntersection(
+            mousePoints[i],
+            mousePoints[i + 1],
+            rope.nodes[j],
+            rope.nodes[j + 1]
+          )
+        ) {
+          this.player.rope.cutRope(j);
+        }
+      }
+    }
+  }
+
   // TODO (johnedvard) Move collisions to own file?
   checkCollisions() {
     const rope = this.player.rope;
@@ -226,6 +246,7 @@ export class Level {
       });
     }
     this.checkTouchCollision();
+    this.checkMouseCollision();
   }
 
   destroy() {
