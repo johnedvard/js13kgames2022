@@ -14,6 +14,11 @@ import { toggleSound } from './sound';
 import { setGameHeight, setGameWidth } from './store';
 import { showOverlay } from './menu';
 import { drawDragline, initTouchControls } from './touchControls';
+import {
+  drawMouseLine,
+  initMouseControls,
+  updateMouseControls,
+} from './mouseControls';
 
 export class Game {
   canvas;
@@ -33,6 +38,7 @@ export class Game {
     this.context = context;
     initInput();
     initTouchControls();
+    initMouseControls();
     setGameHeight(canvas.height);
     setGameWidth(canvas.width);
 
@@ -40,6 +46,7 @@ export class Game {
       update: function (dt) {
         if (game.isAdPlaying) return;
         if (!game.level) return;
+        updateMouseControls(dt);
         game.level.update(dt);
       },
       render: function () {
@@ -48,6 +55,7 @@ export class Game {
         context.save();
         game.level.render(context);
         drawDragline(context);
+        drawMouseLine(context);
       },
     });
 

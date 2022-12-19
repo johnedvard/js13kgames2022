@@ -1,4 +1,3 @@
-import { getPointer } from 'kontra';
 import { fgc2 } from './constants';
 import { gameWidth, gameHeight } from './store';
 
@@ -6,9 +5,6 @@ export const ongoingTouches = [];
 const ongoingControls = [];
 let isDragging;
 const maxDraws = 6;
-let isLeftBtnDown = false;
-let isRightBtnDown = false;
-let isBoostBtnDown = false;
 
 const getPosFromTouches = (touches) => {
   if (!touches || !touches.length) return;
