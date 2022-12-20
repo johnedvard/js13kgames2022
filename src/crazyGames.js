@@ -5,7 +5,7 @@ import { loadScript } from './utils';
 let crazyGameSdk;
 
 export const initCrazyGamesSdk = () => {
-  if (!location.href.match('crazygames')) {
+  if (!location.href.match('crazygames') || location.href.match('netlify')) {
     return Promise.reject();
   }
   return loadCrazyGamesSdk().then(() => {
