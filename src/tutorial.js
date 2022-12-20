@@ -35,7 +35,7 @@ const initText = () => {
     font: '20px Arial',
     color: fgc2,
     x: 620,
-    y: 300,
+    y: 420,
     anchor: { x: 0.5, y: 0.5 },
     textAlign: 'center',
   });
