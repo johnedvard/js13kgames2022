@@ -16,7 +16,6 @@ const handleEnd = () => {
 export const updateMouseControls = (dt) => {
   if (!isDragging) return;
   const pos = getPointer();
-  console.log('pointer', pos);
 
   mousePoints.splice(mousePoints.length, 0, {
     x: pos.x,

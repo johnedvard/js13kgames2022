@@ -12,6 +12,7 @@ import { Player } from './Player';
 import { Saw } from './Saw';
 import { playDead } from './sound';
 import { ongoingTouches } from './touchControls';
+import { renderTutorial, updateTutorial } from './tutorial';
 import { isBoxCollision, lineIntersection } from './utils';
 
 export class Level {
@@ -83,6 +84,7 @@ export class Level {
     this.goals.forEach((goal) => {
       goal.render(ctx);
     });
+    renderTutorial(this, ctx);
   }
 
   update(dt) {
@@ -107,6 +109,7 @@ export class Level {
     this.bricks.forEach((brick) => {
       brick.update(dt);
     });
+    updateTutorial(dt, this);
   }
 
   createGoals(levelData) {
