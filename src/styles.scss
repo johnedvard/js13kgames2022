@@ -7,6 +7,7 @@
 }
 body {
   margin: 0px;
+  background-color: var(--bgc);
 }
 #hang-by-a-thread {
   user-select: none;
@@ -37,6 +38,7 @@ body {
   canvas {
     height: auto;
     background-color: var(--bgc);
+    border: 3px solid var(--fgc2);
   }
   .menu {
     display: flex;
