@@ -5,7 +5,9 @@
   --fgc2: #e9efec;
   --acc: #e20fa0;
 }
-
+body {
+  margin: 0px;
+}
 #hang-by-a-thread {
   user-select: none;
   display: flex;
@@ -69,7 +71,7 @@
   }
 
   #hint {
-    bottom: 20%;
+    bottom: 10%;
     position: absolute;
     white-space: pre-wrap;
     text-align: center;
