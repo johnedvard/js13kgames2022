@@ -6,6 +6,9 @@ export const ongoingTouches = [];
 const ongoingControls = [];
 let isDragging;
 const maxDraws = 6;
+export const getBottomTouchArea = () => gameHeight - gameHeight / 5;
+export const getRightTouchArea = () => gameWidth - gameWidth / 5;
+export const getLeftTouchArea = () => gameWidth / 5;
 
 const getPosFromTouches = (touches) => {
   if (!touches || !touches.length) return;
@@ -79,14 +82,14 @@ const removeTouches = () => {
 
 const updateCanvasTouchArea = (player) => {
   ongoingControls.forEach((touch) => {
-    if (touch.y > gameHeight - gameHeight / 5) {
+    if (touch.y > getBottomTouchArea()) {
       player.applyForce(0, -5);
     }
-    if (touch.x > gameWidth - gameWidth / 5) {
+    if (touch.x > getRightTouchArea()) {
       player.applyForce(1.5, -1);
       player.changePlayerDirection(false);
     }
-    if (touch.x <= gameWidth / 5) {
+    if (touch.x <= getLeftTouchArea()) {
       player.applyForce(-1.5, -1);
       player.changePlayerDirection(true);
     }

@@ -2,7 +2,6 @@ import { on, off } from 'kontra';
 
 import { Brick } from './Brick';
 import { CUT_ROPE, LEVEL_COMPLETE, PLAYER_DIED } from './gameEvents';
-import { initGameHints } from './gameHints';
 import { Goal } from './Goal';
 
 import { levels } from './levels/levels';
@@ -56,7 +55,6 @@ export class Level {
     this.createGoals(levelData);
     this.createBricks(levelData);
     this.isLevelLoaded = true;
-    initGameHints(this.levelId);
   }
 
   loadLevel(levelId) {
