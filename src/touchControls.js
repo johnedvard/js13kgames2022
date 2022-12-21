@@ -64,12 +64,10 @@ const removeOngoingControl = (evt) => {
 const handleEnd = (evt) => {
   isDragging = false;
   removeOngoingControl(evt);
-  console.log('handle end ', evt);
 };
 const handleCancel = (evt) => {
   isDragging = false;
   removeOngoingControl(evt);
-  console.log('handle cancel', evt);
 };
 
 const removeTouches = () => {
