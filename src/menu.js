@@ -18,7 +18,6 @@ import { fetchArcadianHeads } from './arcadianApi';
 import { isSubscriber, setNearLevel, setSelectedArcadian } from './store';
 import { IPFS_BASE_PATH } from './near/nearConnection';
 import { doesOwnNft, getNearLevel } from './utils';
-import { initGameHints } from './gameHints';
 import { getIsPlaying } from './sound';
 import { levels } from './levels/levels';
 import { CLICK_HAMBURGER, LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
@@ -233,7 +232,6 @@ export const showOverlay = (id) => {
     isMenuVisible = true;
   }
   emit(LEVEL_QUIT, {});
-  initGameHints(null);
   overlayIds.forEach((o) => {
     const overlayEl = document.getElementById(o);
     if (!overlayEl.classList.contains('hide')) {

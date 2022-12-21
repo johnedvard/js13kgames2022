@@ -8,7 +8,6 @@ import {
   LEVEL_COMPLETE,
   PLAYER_DIED,
 } from './gameEvents';
-import { initGameHints } from './gameHints';
 import { Goal } from './Goal';
 import { Heart } from './Heart';
 import { levels } from './levels/levels';
@@ -67,7 +66,6 @@ export class Level {
     this.createHearts(levelData);
     this.createBricks(levelData);
     this.isLevelLoaded = true;
-    initGameHints(this.levelId);
   }
 
   loadLevel(levelId) {
