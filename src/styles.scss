@@ -8,6 +8,11 @@
 body {
   margin: 0px;
   background-color: var(--bgc);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #hang-by-a-thread {
   user-select: none;
@@ -158,6 +163,7 @@ body {
     justify-content: center;
     align-self: center;
     aspect-ratio: 1/1;
+    margin: 0px;
     width: 60%;
     height: auto;
     max-height: 70%;
@@ -191,13 +197,11 @@ body {
     overflow-x: hidden;
     scroll-behavior: smooth;
     grid-template-columns: repeat(3, minmax(auto, 150px));
-    grid-auto-rows: minmax(120px, min-content);
     display: grid;
     align-items: center;
     justify-items: center;
     justify-content: center;
     align-items: stretch;
-    align-content: center;
   }
   #bonus-grid {
     row-gap: 60px;
@@ -247,6 +251,7 @@ body {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    border: none;
   }
   #loading-wrapper {
     z-index: 99;
