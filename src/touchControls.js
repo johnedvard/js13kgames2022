@@ -113,17 +113,33 @@ export const drawDragline = (ctx) => {
     ongoingTouches[0].draws--;
   }
   ctx.strokeStyle = fgc2;
-  for (let i = 0; i < ongoingTouches.length - 1; i++) {
-    const prev = ongoingTouches[i];
-    const next = ongoingTouches[i + 1];
-    if (prev.draws > 0 && next.draws > 0) {
-      ctx.lineWidth = prev.draws * 2;
-      ctx.beginPath();
-      ctx.moveTo(prev.x, prev.y);
-      ctx.lineTo(next.x, next.y);
-      ctx.stroke();
+  const touchesById = getTouchesById();
+  for (let id in touchesById) {
+    const touches = touchesById[id];
+    for (let i = 0; i < touches.length - 1; i++) {
+      const prev = touches[i];
+      const next = touches[i + 1];
+      if (prev.draws > 0 && next.draws > 0) {
+        ctx.lineWidth = prev.draws * 2;
+        ctx.beginPath();
+        ctx.moveTo(prev.x, prev.y);
+        ctx.lineTo(next.x, next.y);
+        ctx.stroke();
+      }
+      prev.draws--;
     }
-    prev.draws--;
   }
   removeTouches();
+};
+
+export const getTouchesById = () => {
+  const touchesById = {};
+  for (let i = 0; i < ongoingTouches.length; i++) {
+    if (touchesById[ongoingTouches[i].id]) {
+      touchesById[ongoingTouches[i].id].push(ongoingTouches[i]);
+    } else {
+      touchesById[ongoingTouches[i].id] = [ongoingTouches[i]];
+    }
+  }
+  return touchesById;
 };

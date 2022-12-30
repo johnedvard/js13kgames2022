@@ -17,7 +17,7 @@ import { Player } from './Player';
 import { Saw } from './Saw';
 import { playDead } from './sound';
 import { getItem, setItem } from './storage';
-import { ongoingTouches } from './touchControls';
+import { getTouchesById, ongoingTouches } from './touchControls';
 import { renderTutorial, updateTutorial } from './tutorial';
 import { isBoxCollision, lineIntersection } from './utils';
 
@@ -239,18 +239,22 @@ export class Level {
 
   checkTouchCollision() {
     if (!ongoingTouches.length) return;
+    const touchesById = getTouchesById();
     const rope = this.player.rope;
-    for (let i = 0; i < ongoingTouches.length - 1; i++) {
-      for (let j = 0; j < rope.length - 1; j++) {
-        if (
-          lineIntersection(
-            ongoingTouches[i],
-            ongoingTouches[i + 1],
-            rope.nodes[j],
-            rope.nodes[j + 1]
-          )
-        ) {
-          this.player.rope.cutRope(j);
+    for (let id in touchesById) {
+      const touches = touchesById[id];
+      for (let i = 0; i < touches.length - 1; i++) {
+        for (let j = 0; j < rope.length - 1; j++) {
+          if (
+            lineIntersection(
+              touches[i],
+              touches[i + 1],
+              rope.nodes[j],
+              rope.nodes[j + 1]
+            )
+          ) {
+            this.player.rope.cutRope(j);
+          }
         }
       }
     }
