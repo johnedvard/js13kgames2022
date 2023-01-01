@@ -1,5 +1,6 @@
-import { getPointer } from 'kontra';
+import { getPointer, pointerPressed } from 'kontra';
 import { fgc2 } from './constants';
+import { gameHeight, gameWidth } from './store';
 
 let isDragging = false;
 export const mousePoints = [];
@@ -16,7 +17,6 @@ const handleEnd = () => {
 export const updateMouseControls = (dt) => {
   if (!isDragging) return;
   const pos = getPointer();
-  console.log('pointer', pos);
 
   mousePoints.splice(mousePoints.length, 0, {
     x: pos.x,
@@ -60,4 +60,21 @@ export const drawMouseLine = (ctx) => {
     prev.draws--;
   }
   removeMouseDraggings();
+};
+
+export const updateCanvasMouseArea = (player) => {
+  if (pointerPressed('left')) {
+    const pointer = getPointer();
+    if (pointer.y > gameHeight - gameHeight / 5) {
+      player.applyForce(0, -5);
+    }
+    if (pointer.x > gameWidth - gameWidth / 5) {
+      player.applyForce(1.5, -1);
+      player.changePlayerDirection(false);
+    }
+    if (pointer.x <= gameWidth / 5) {
+      player.applyForce(-1.5, -1);
+      player.changePlayerDirection(true);
+    }
+  }
 };
