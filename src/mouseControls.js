@@ -65,6 +65,7 @@ export const drawMouseLine = (ctx) => {
 export const updateCanvasMouseArea = (player) => {
   if (pointerPressed('left')) {
     const pointer = getPointer();
+    if (pointer.touches.length) return; // don't move if we touch with finger
     if (pointer.y > gameHeight - gameHeight / 5) {
       player.applyForce(0, -5);
     }
