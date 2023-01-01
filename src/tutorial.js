@@ -53,7 +53,7 @@ const initTextLevel1 = () => {
 const initTextLevel2 = () => {
   if (textsLevel2.length) return;
   const part1 = Text({
-    text: 'Tap here or\npress "right"\nto move',
+    text: 'Tap here or\npress "a"\nto move',
     font: '20px Arial',
     color: fgc2,
     x: 720,
@@ -62,7 +62,7 @@ const initTextLevel2 = () => {
     textAlign: 'center',
   });
   const part3 = Text({
-    text: 'Tap here or\npress "left"\nto move',
+    text: 'Tap here or\npress "d"\nto move',
     font: '20px Arial',
     color: fgc2,
     x: 80,
