@@ -17,6 +17,7 @@ import { getDirection, moveBehavior } from './behavior';
 import { BubbleEffect } from './BubbleEffect';
 import { PLAYER_ALIVE, PLAYER_DEAD } from './PlayerState';
 import { updateTouchControls } from './touchControls';
+import { updateCanvasMouseArea } from './mouseControls';
 
 export class Player {
   game;
@@ -170,6 +171,7 @@ export class Player {
     this.handlePlayerState();
     if (this.hasWon || this.isRopeCut || this.rope.length <= 0) return;
     updateTouchControls(this);
+    updateCanvasMouseArea(this);
     this.playerControls.updateControls();
   }
 
