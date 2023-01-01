@@ -8,11 +8,14 @@ import {
 } from './touchControls';
 let phaseLevel1 = 0; // cumulative delta time
 let phaseLevel2 = 0; // cumulative delta time
+let phaseLevel3 = 0; // cumulative delta time
 const level1Guidelines = 16;
 let hideLevel1GuideNumber = 0;
 let textLevel1;
 let textsLevel2 = [];
+let textsLevel3 = [];
 let strokeWidthLevel2 = 0;
+let strokeWidthLevel3 = 0;
 
 export const updateTutorial = (dt, level) => {
   if (!level || !level.levelId) return;
@@ -22,6 +25,9 @@ export const updateTutorial = (dt, level) => {
       break;
     case 2:
       updateLevel2(dt);
+      break;
+    case 3:
+      updateLevel3(dt);
       break;
   }
 };
@@ -35,6 +41,10 @@ export const renderTutorial = (level, ctx) => {
     case 2:
       initTextLevel2();
       renderLevel2(ctx);
+      break;
+    case 3:
+      initTextLevel3();
+      renderLevel3(ctx);
       break;
   }
 };
@@ -81,6 +91,28 @@ const initTextLevel2 = () => {
   });
   textsLevel2.push(part1, part2, part3);
 };
+const initTextLevel3 = () => {
+  if (textsLevel3.length) return;
+  const part1 = Text({
+    text: 'Tap here\nto move\nand boost up',
+    font: '20px Arial',
+    color: fgc2,
+    x: 80,
+    y: 720,
+    anchor: { x: 0.5, y: 0.5 },
+    textAlign: 'center',
+  });
+  const part2 = Text({
+    text: 'Tap here\nto move\nand boost up',
+    font: '20px Arial',
+    color: fgc2,
+    x: 720,
+    y: 720,
+    anchor: { x: 0.5, y: 0.5 },
+    textAlign: 'center',
+  });
+  textsLevel3.push(part1, part2);
+};
 const updateLevel1 = (dt) => {
   phaseLevel1 = phaseLevel1 += dt * 10;
   hideLevel1GuideNumber = phaseLevel1.toFixed(0) % level1Guidelines;
@@ -121,6 +153,35 @@ const renderLevel2 = (ctx) => {
   ctx.stroke();
 
   textsLevel2.forEach((part) => {
+    part.render();
+  });
+};
+const updateLevel3 = (dt) => {
+  phaseLevel3 = phaseLevel3 += dt * 2;
+  strokeWidthLevel3 = Math.abs(Math.sin(phaseLevel3.toFixed(1))) * 3;
+};
+const renderLevel3 = (ctx) => {
+  if (!ctx) return;
+
+  ctx.beginPath();
+  ctx.lineWidth = strokeWidthLevel3;
+  ctx.moveTo(0, getBottomTouchArea());
+  ctx.rect(
+    0,
+    getBottomTouchArea(),
+    getLeftTouchArea(),
+    gameHeight - getBottomTouchArea()
+  );
+  ctx.moveTo(getRightTouchArea(), getBottomTouchArea());
+  ctx.rect(
+    getRightTouchArea(),
+    getBottomTouchArea(),
+    getLeftTouchArea(),
+    gameHeight - getBottomTouchArea()
+  );
+  ctx.stroke();
+
+  textsLevel3.forEach((part) => {
     part.render();
   });
 };
