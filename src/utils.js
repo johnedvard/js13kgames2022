@@ -56,7 +56,15 @@ export const getNearLevel = (tokenSeriesId) => {
   return nearLevelData[tokenSeriesId];
 };
 
-export const createSprite = ({ x, y, scale, imgSrc }) => {
+export const createSprite = ({
+  x,
+  y,
+  scale,
+  imgSrc,
+  width = 8,
+  height = 8,
+  anchor = { x: 0.5, y: 0.5 },
+}) => {
   return new Promise((resolve) => {
     const image = new Image();
     image.src = imgSrc;
@@ -64,9 +72,9 @@ export const createSprite = ({ x, y, scale, imgSrc }) => {
       const sprite = Sprite({
         x: x,
         y: y,
-        anchor: { x: 0.5, y: 0.5 },
-        width: 8,
-        height: 8,
+        anchor,
+        width,
+        height,
         image: image,
         scaleX: scale,
         scaleY: scale,

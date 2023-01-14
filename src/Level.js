@@ -78,10 +78,10 @@ export class Level {
     this.bricks.forEach((brick) => {
       brick.render(ctx);
     });
-    this.player.render(ctx);
     this.goals.forEach((goal) => {
       goal.render(ctx);
     });
+    this.player.render(ctx);
     renderTutorial(this, ctx);
   }
 

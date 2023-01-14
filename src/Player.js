@@ -1,4 +1,4 @@
-import skull from 'data-url:./assets/img/skull.png';
+import skull from 'data-url:./assets/img/sage_head_game_large.png';
 
 import { Sprite, on, Vector, emit, off } from 'kontra';
 
@@ -23,7 +23,7 @@ export class Player {
   game;
   rope = [];
   playerControls;
-  scale = 4;
+  scale = 0.8;
   sprite = { render: () => {}, x: 0, y: 0 };
   headSprite = { render: () => {}, x: 0, y: 0 }; // From Arcadian API
   hasWon = false;
@@ -59,7 +59,10 @@ export class Player {
       x: startX,
       y: startY,
       scale: this.scale,
+      anchor: { x: 0.5, y: 0.5 },
       imgSrc: skull,
+      width: 72,
+      height: 81,
     }).then((sprite) => (this.sprite = sprite));
     this.createHeadSprite(this.headImg);
     this.playerControls = new PlayerControls(this);
