@@ -1,3 +1,5 @@
+import { numLevels } from './levels/levels';
+
 // localStorage does not work in ingognito mode, so we need to wrap it in try catch, ref https://sdk.poki.com/requirements.html#incognito-support
 export const setItem = (key, value) => {
   try {
@@ -13,4 +15,21 @@ export const getItem = (key) => {
   } catch (err) {
     console.error(err);
   }
+};
+
+export const getLevelStates = () => {
+  const levelStates = [];
+  for (let i = 1; i < numLevels + 1; i++) {
+    levelStates.push(isLevelCompleted(i));
+  }
+  console.log('states', levelStates);
+  return levelStates;
+};
+
+export const getLastCompletedLevel = () => {
+  return getLevelStates().reduce((prev, curr) => prev + curr, 0);
+};
+
+const isLevelCompleted = (i) => {
+  return Boolean(getItem(`level${i}`));
 };

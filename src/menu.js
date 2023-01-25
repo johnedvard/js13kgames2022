@@ -21,7 +21,7 @@ import { getIsPlaying } from './sound';
 import { numLevels } from './levels/levels';
 import { CLICK_HAMBURGER, LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
 import { playLevelAd } from './adManager';
-import { getItem } from './storage';
+import { getItem, getLastCompletedLevel, getLevelStates } from './storage';
 
 const overlayIds = [
   'main',
@@ -41,8 +41,14 @@ export const initMenu = () => {
   listenForUiEvents();
   initBonusContent();
   focusPlayNowBtn();
+  changeNameOfPlayButton();
 };
 
+const changeNameOfPlayButton = () => {
+  if (getLastCompletedLevel() > 0) {
+    document.getElementById('play-now-btn').textContent = 'Continue';
+  }
+};
 const focusPlayNowBtn = () => {
   document.getElementById('play-now-btn').focus();
 };
@@ -161,8 +167,7 @@ const onContainerClick = (e) => {
   switch (id) {
     case 'play-now-btn':
       showOverlay();
-      // TODO (johnedvard) Load level based on progress.
-      emit(START_LEVEL, { levelId: 1 });
+      emit(START_LEVEL, { levelId: getLastCompletedLevel() + 1 });
       break;
     case 'select-level-btn':
       initLevels();
