@@ -40,11 +40,11 @@ export const initMenu = () => {
   listenForGameEvents();
   listenForUiEvents();
   initBonusContent();
-  focusLevelSelectButton();
+  focusPlayNowBtn();
 };
 
-const focusLevelSelectButton = () => {
-  document.getElementById('select-level-btn').focus();
+const focusPlayNowBtn = () => {
+  document.getElementById('play-now-btn').focus();
 };
 
 const initLevels = () => {
@@ -159,6 +159,11 @@ const onContainerClick = (e) => {
   const id = e.target.id;
   const classList = e.target.classList;
   switch (id) {
+    case 'play-now-btn':
+      showOverlay();
+      // TODO (johnedvard) Load level based on progress.
+      emit(START_LEVEL, { levelId: 1 });
+      break;
     case 'select-level-btn':
       initLevels();
       showOverlay('levels');

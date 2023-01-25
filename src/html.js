@@ -9,13 +9,14 @@ export const initHtml = () => {
         <div id="hamburger">––</div>
       </div>
       <menu id="main" class="overlay">
-        <button id="select-level-btn">Select Level</button>
+        <!-- <button id="select-level-btn">Select Level</button> -->
+        <button id="play-now-btn">Play Now</button>
         <!-- <button id="near-login-loading-btn">Loading..</button>
         <button id="near-level-btn" class="disabled" disabled>
           NEAR Levels
         </button> -->
         <!-- <button id="bonus-content-btn">Bonus Content</button> -->
-        <button id="music-btn" class="flat">Music is OFF</button>
+        <button id="music-btn">Music is OFF</button>
       </menu>
       <div id="bonus" class="overlay hide">
         <div id="coil-subscriber" class="hide">
