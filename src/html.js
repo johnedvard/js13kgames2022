@@ -10,13 +10,9 @@ export const initHtml = () => {
       </div>
       <menu id="main" class="overlay">
         <!-- <button id="select-level-btn">Select Level</button> -->
-        <button id="play-now-btn">Play Now</button>
-        <!-- <button id="near-login-loading-btn">Loading..</button>
-        <button id="near-level-btn" class="disabled" disabled>
-          NEAR Levels
-        </button> -->
+        <div id="play-now-btn" class="svg-btn"><div class="svg-placeholder"></div><span id="play-now-txt">Play Now</span></div>
         <!-- <button id="bonus-content-btn">Bonus Content</button> -->
-        <button id="music-btn">Music is OFF</button>
+        <div id="music-btn" class="svg-btn"><div class="svg-placeholder"></div><span id="music-on-off">Music is OFF</span></div>
       </menu>
       <div id="bonus" class="overlay hide">
         <div id="coil-subscriber" class="hide">
@@ -34,7 +30,7 @@ export const initHtml = () => {
         <div id="near-levels-grid"></div>
       </div>
       <menu id="level-dialog" class="overlay hide">
-        <button id="next-btn">Play next level</button>
+      <div id="next-btn" class="svg-btn"><div class="svg-placeholder"></div><span id="play-next-txt">Play next level</span></div>
       </menu>
       <div id="thanks" class="overlay hide">
         Rest in peace my soul

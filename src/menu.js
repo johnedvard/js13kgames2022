@@ -1,4 +1,6 @@
 import skull from 'data-url:./assets/img/skull.png';
+import btnHover from 'data-url:./assets/img/btn-hover.png';
+import btnDefault from 'data-url:./assets/img/btn-default.png';
 
 import { emit, on } from 'kontra';
 
@@ -42,11 +44,29 @@ export const initMenu = () => {
   initBonusContent();
   focusPlayNowBtn();
   changeNameOfPlayButton();
+  setButtonImg();
+  setSvgBtnListener();
 };
 
+const setSvgBtnListener = () => {
+  document.querySelectorAll('.svg-btn').forEach((el) => {
+    el.addEventListener('mouseover', function () {
+      this.classList.add('show-hover');
+    });
+    el.addEventListener('mouseleave', function () {
+      this.classList.remove('show-hover');
+    });
+  });
+};
+
+const setButtonImg = () => {
+  document.querySelectorAll('.svg-placeholder').forEach((el) => {
+    el.innerHTML = `<img id='btn-hover' src="${btnHover}"><img id='btn-default' src="${btnDefault}">`;
+  });
+};
 const changeNameOfPlayButton = () => {
   if (getLastCompletedLevel() > 0) {
-    document.getElementById('play-now-btn').textContent = 'Continue';
+    document.getElementById('play-now-txt').textContent = 'Continue';
   }
 };
 const focusPlayNowBtn = () => {
@@ -162,8 +182,17 @@ const addButtonListeners = () => {
 };
 
 const onContainerClick = (e) => {
-  const id = e.target.id;
+  let id = e.target.id;
   const classList = e.target.classList;
+  console.log('id', id);
+
+  let closest = e.target.closest('#play-now-btn');
+  if (closest) id = 'play-now-btn';
+  closest = e.target.closest('#music-btn');
+  if (closest) id = 'music-btn';
+  closest = e.target.closest('#next-btn');
+  if (closest) id = 'next-btn';
+
   switch (id) {
     case 'play-now-btn':
       showOverlay();
@@ -178,6 +207,7 @@ const onContainerClick = (e) => {
       showOverlay('bonus');
       break;
     case 'hamburger':
+      changeNameOfPlayButton();
       emit(CLICK_HAMBURGER);
       showOverlay('main');
       break;
@@ -266,7 +296,7 @@ const listenForGameEvents = () => {
 };
 
 const onToggleMusic = () => {
-  const musicBtnEl = document.getElementById('music-btn');
+  const musicBtnEl = document.getElementById('music-on-off');
   musicBtnEl.textContent = getIsPlaying() ? 'Music is ON' : 'Music is OFF';
 };
 const onLevelComplete = () => {

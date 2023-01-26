@@ -86,58 +86,7 @@
   #hamburger:hover {
     filter: drop-shadow(0 0 12px var(--acc));
   }
-  button,
-  .btn {
-    width: 300px;
-    height: 60px;
-    transform: skew(-12deg); /* Equal to skewX(10deg) */
-    margin-top: 20px;
-    border: none;
-    border-radius: 0px 0px 4px 4px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Rigid Square';
-    font-style: italic;
-    font-weight: 800;
-    font-size: 21.6px;
-    line-height: 26px;
-    text-align: center;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
 
-    /* Gradient */
-
-    background: linear-gradient(180deg, #35394b 0%, #040406 100%);
-    border: 3px solid #d3f2ff;
-
-    /* Text/Body */
-    color: #ffffff;
-    text-shadow: 7.2px 7.2px 0px #000000;
-
-    &:focus {
-      box-shadow: 1.44px 2.88px 14.4px #d3f2ff;
-      border: 0.6px solid rgba(201, 201, 201, 0.06);
-      text-shadow: 1.8px 1.8px 3.6px rgba(255, 255, 255, 0.5);
-    }
-    &:hover {
-      border: 0.72px solid #feb6ff;
-      box-shadow: 1.44px 2.88px 14.4px #9b50e6;
-      text-shadow: 2.4px 2.4px 0px #000000;
-    }
-  }
-  button.disabled {
-    background-color: lightgray;
-    color: darkgray;
-    cursor: not-allowed;
-  }
-  button.disabled img {
-    filter: contrast(0.5);
-  }
-
-  button:hover img {
-    filter: none;
-  }
   #coil-subscriber {
     height: 50px;
   }
@@ -287,5 +236,34 @@
   }
   .flash {
     background-color: var(--bgc2);
+  }
+  .svg-btn {
+    width: 276px;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #btn-hover {
+      display: none;
+    }
+    &.show-hover {
+      #btn-hover {
+        display: inline;
+      }
+    }
+
+    div,
+    div img {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    span {
+      position: absolute;
+      z-index: 10;
+    }
   }
 }
