@@ -237,6 +237,9 @@
   .flash {
     background-color: var(--bgc2);
   }
+  button {
+    all: unset;
+  }
   .svg-btn {
     width: 276px;
     height: 75px;
