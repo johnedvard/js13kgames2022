@@ -241,6 +241,7 @@
     all: unset;
   }
   .svg-btn {
+    position: relative;
     width: 276px;
     height: 75px;
     display: flex;
@@ -248,11 +249,18 @@
     align-items: center;
 
     #btn-hover {
+      position: absolute;
+
+      top: -42px;
+      left: -151px;
       display: none;
     }
     &.show-hover {
       #btn-hover {
         display: inline;
+      }
+      #btn-default {
+        display: none;
       }
     }
 

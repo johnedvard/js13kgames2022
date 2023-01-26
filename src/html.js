@@ -12,7 +12,7 @@ export const initHtml = () => {
         <!-- <button id="select-level-btn">Select Level</button> -->
         <button id="play-now-btn" class="svg-btn"><div class="svg-placeholder"></div><span id="play-now-txt">Play Now</span></button>
         <!-- <button id="bonus-content-btn">Bonus Content</button> -->
-        <button id="music-btn" class="svg-btn"><div class="svg-placeholder"></div><span id="music-on-off">Music is OFF</span></button>
+        <button id="music-btn" class="svg-btn show-hover"><div class="svg-placeholder"></div><span id="music-on-off">Music is OFF</span></button>
       </menu>
       <div id="bonus" class="overlay hide">
         <div id="coil-subscriber" class="hide">
