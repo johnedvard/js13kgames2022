@@ -35,7 +35,7 @@ export class Goal {
     }).then((sprite) => (this.sprite = sprite));
   }
   update(dt) {
-    if (this.hasVanished) return;
+    if (this.hasVanished || !this.sprite) return;
     this.checkCollision();
     this.sprite.rotation += dt * 4;
   }
