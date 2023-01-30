@@ -1,4 +1,4 @@
-import swirl from 'data-url:./assets/img/Portal_game_large.png';
+import swirl from 'data-url:./assets/img/swirl-medium.png';
 
 import { emit } from 'kontra';
 
@@ -9,8 +9,8 @@ import { playGoal } from './sound';
 export class Goal {
   level;
   scale = 1;
-  width = 45;
-  height = 36;
+  width = 48;
+  height = 48;
   originalRadius = { x: 15, y: 30 };
   radiusX = 15;
   radiusY = 30;
@@ -21,13 +21,13 @@ export class Goal {
   sprite;
 
   constructor(x, y, { level }) {
-    this.x = x + 6; // make up for size adjustment to swirl
+    this.x = x; // make up for size adjustment to swirl
     this.y = y;
     this.level = level;
     createSprite({
-      x: x + 26,
-      y: y + 20,
-      scale: 1.5,
+      x: x + 24,
+      y: y + 24,
+      scale: 1.33,
       imgSrc: swirl,
       width: this.width,
       height: this.height,
@@ -42,13 +42,11 @@ export class Goal {
   render(ctx) {
     if (!ctx || this.hasVanished) return;
     this.sprite.render(ctx);
-    // ctx.lineWidth = 4;
-    // ctx.beginPath();
 
     if (this.hasWon) {
       this.startVanishing();
     }
-    // ctx.rect(this.x, this.y, this.width, this.height); // Render collision box
+
     // ctx.ellipse(
     //   this.x + this.width / 2,
     //   this.y + this.height / 2,
@@ -58,7 +56,13 @@ export class Goal {
     //   0,
     //   Math.PI * 2
     // );
-    // ctx.stroke();
+    //this.renderCollisionBox(ctx);
+  }
+  renderCollisionBox(ctx) {
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.rect(this.x, this.y, this.width, this.height);
+    ctx.stroke();
   }
 
   startVanishing() {
