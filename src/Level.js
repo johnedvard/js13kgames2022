@@ -14,6 +14,7 @@ import { renderTutorial, updateTutorial } from './tutorial';
 import { getTouchesById, ongoingTouches } from './touchControls';
 import { isBoxCollision, lineIntersection } from './utils';
 import { HeartBar } from './HeartBar';
+import { ProgressBar } from './ProgressBar';
 
 export class Level {
   player;
@@ -62,6 +63,7 @@ export class Level {
 
   createUiBars() {
     this.uiBars.push(new HeartBar({ level: this }));
+    this.uiBars.push(new ProgressBar({ level: this }));
   }
 
   loadLevel(levelId) {
