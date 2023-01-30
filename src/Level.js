@@ -13,12 +13,14 @@ import { playDead } from './sound';
 import { renderTutorial, updateTutorial } from './tutorial';
 import { getTouchesById, ongoingTouches } from './touchControls';
 import { isBoxCollision, lineIntersection } from './utils';
+import { HeartBar } from './HeartBar';
 
 export class Level {
   player;
   saws = [];
   goals = [];
   bricks = [];
+  uiBars = [];
   isLevelLoaded = false;
   isFirstRopeCut = false;
   isStopMotion = false;
@@ -54,7 +56,12 @@ export class Level {
     this.createSaws(levelData);
     this.createGoals(levelData);
     this.createBricks(levelData);
+    this.createUiBars();
     this.isLevelLoaded = true;
+  }
+
+  createUiBars() {
+    this.uiBars.push(new HeartBar({ level: this }));
   }
 
   loadLevel(levelId) {
@@ -81,7 +88,11 @@ export class Level {
     this.goals.forEach((goal) => {
       goal.render(ctx);
     });
+    this.uiBars.forEach((bar) => {
+      bar.render(ctx);
+    });
     this.player.render(ctx);
+
     renderTutorial(this, ctx);
   }
 
@@ -106,6 +117,9 @@ export class Level {
     });
     this.bricks.forEach((brick) => {
       brick.update(dt);
+    });
+    this.uiBars.forEach((bar) => {
+      bar.update(dt);
     });
     updateTutorial(dt, this);
   }
@@ -180,7 +194,13 @@ export class Level {
     this.player.respawnPlayer();
     this.resertSaws();
     this.resetBricks();
+    this.resetUiBars();
   };
+
+  resetUiBars() {
+    this.uiBars.length = 0;
+    this.createUiBars();
+  }
 
   resetBricks() {
     this.bricks.length = 0;
