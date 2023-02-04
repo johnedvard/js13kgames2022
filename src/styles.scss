@@ -135,6 +135,7 @@
   #thanks {
     width: 80%;
     height: 80%;
+    align-self: center;
   }
 
   .level-item {
@@ -260,7 +261,7 @@
     all: unset;
 
     span {
-      margin-top: 0px;
+      margin-top: -5px;
       font-style: italic;
       letter-spacing: 0.1em;
       text-transform: uppercase;

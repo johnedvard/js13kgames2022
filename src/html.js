@@ -33,9 +33,9 @@ export const initHtml = () => {
       <button id="next-btn" class="svg-btn"><div class="svg-placeholder"></div><span id="play-next-txt">Play next level</span></button>
       </menu>
       <div id="thanks" class="overlay hide">
-        Rest in peace my soul
+        Rest in peace my soul.
         <br />
-        Thank you for playing
+        Thank you for playing.
       </div>
       <div id="hint"></div>
     </div>`;
