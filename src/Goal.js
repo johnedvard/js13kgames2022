@@ -40,7 +40,7 @@ export class Goal {
     this.sprite.rotation += dt * 4;
   }
   render(ctx) {
-    if (!ctx || this.hasVanished) return;
+    if (!this.sprite || !ctx || this.hasVanished) return;
     this.sprite.render(ctx);
 
     if (this.hasWon) {
