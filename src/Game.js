@@ -1,4 +1,4 @@
-import { init, initInput, GameLoop, on } from 'kontra';
+import { init, initInput, GameLoop, on, emit } from 'kontra';
 
 import {
   AD_FINISHED,
@@ -14,10 +14,9 @@ import { Level } from './Level';
 import { initSound, toggleSound } from './sound';
 import { setGameHeight, setGameWidth } from './store';
 import { showOverlay } from './menu';
-import { PLAYER_DEAD } from './PlayerState';
 import { drawDragline, initTouchControls } from './touchControls';
 import { scaleToFitHandler } from './utils';
-import { getItem, setItem } from './storage';
+import { setItem } from './storage';
 import {
   drawMouseLine,
   initMouseControls,
@@ -31,13 +30,12 @@ export class Game {
   saw;
   level;
   isAdPlaying;
-  deathCount;
-  setDeathCount;
   updateLevelsCompleted;
+  setDeathCountInParent;
+
   constructor({ setDeathCount, updateLevelsCompleted }) {
-    this.initDeathCount();
+    this.setDeathCountInParent = setDeathCount || (() => {});
     this.updateLevelsCompleted = updateLevelsCompleted || (() => {});
-    this.setDeathCount = setDeathCount || (() => {});
     const game = this;
     let { canvas, context } = init();
     context.textBaseline = 'middle';
@@ -75,24 +73,22 @@ export class Game {
     this.listenForGameEvents();
   }
 
-  /** Use death count from parent first, or from local storage if paremt is 0 */
-  initDeathCount = () => {
-    const storedDeathCount = Number(getItem('deathCount'));
-    if (!Number.isNaN(storedDeathCount)) {
-      this.deathCount = storedDeathCount;
-    } else {
-      this.deathCount = 0;
-    }
-  };
-
   loadLevel({ levelId, levelData }) {
     if (this.level) {
       this.level.destroy();
     }
     if (levelId) {
-      this.level = new Level({ levelId, game: this });
+      this.level = new Level({
+        levelId,
+        game: this,
+        setDeathCountInParent: this.setDeathCountInParent,
+      });
     } else if (levelData) {
-      this.level = new Level({ game: this, levelData });
+      this.level = new Level({
+        game: this,
+        levelData,
+        setDeathCountInParent: this.setDeathCountInParent,
+      });
     }
   }
 
@@ -104,18 +100,12 @@ export class Game {
     on(LEVEL_QUIT, this.onLevelQuit);
     on(AD_FINISHED, this.onAdFinished);
     on(AD_PLAYING, this.onAdPlaying);
-    on(PLAYER_DEAD, this.onPlayerDead);
     on(LEVEL_COMPLETE, this.onLevelComplete);
   }
   onLevelComplete = () => {
     const levelKey = `level${this.level.levelId}`;
     setItem(levelKey, true);
     this.updateLevelsCompleted({ [levelKey]: true });
-  };
-  onPlayerDead = () => {
-    this.deathCount++;
-    setItem('deathCount', this.deathCount);
-    this.setDeathCount(this.deathCount);
   };
   onAdPlaying = () => {
     this.isAdPlaying = true;

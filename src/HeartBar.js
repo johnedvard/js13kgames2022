@@ -1,6 +1,8 @@
 import heartBar from 'data-url:./assets/img/heart-bar.png';
 import healthFill from 'data-url:./assets/img/heart-bar-fill.png';
 import { createSprite } from './utils';
+import { off, on } from 'kontra';
+import { DEATH_COUNT } from './gameEvents';
 
 export class HeartBar {
   maxHealth = 3;
@@ -30,7 +32,12 @@ export class HeartBar {
       this.sprite = sprite;
     });
 
-    for (let i = 0; i < this.maxHealth; i++) {
+    this.createHeathSprites();
+    this.listenForEvents();
+  }
+  createHeathSprites() {
+    this.heartFillSprites.length = 0;
+    for (let i = 0; i < this.currHealth; i++) {
       createSprite({
         x: this.x + (11 + i * 5) * this.scale, // offside position inside hp bar
         y: this.y + 2 * this.scale,
@@ -42,11 +49,26 @@ export class HeartBar {
       }).then((sprite) => this.heartFillSprites.push(sprite));
     }
   }
+  listenForEvents() {
+    on(DEATH_COUNT, this.onDeathCount);
+  }
 
-  update(dt) {}
+  onDeathCount = ({ deathCount }) => {
+    this.currHealth = this.maxHealth - deathCount;
+    this.createHeathSprites();
+  };
+
+  update(dt) {
+    if (this.heartFillSprites.length != this.currHealth) {
+      this.createHeathSprites();
+    }
+  }
   render(ctx) {
     if (!this.sprite) return;
     this.sprite.render(ctx);
     this.heartFillSprites.forEach((s) => s.render(ctx));
+  }
+  destroy() {
+    off(DEATH_COUNT, this.onDeathCount);
   }
 }

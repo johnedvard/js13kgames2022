@@ -42,7 +42,7 @@ const initTextLevel1 = () => {
   if (textLevel1) return;
   textLevel1 = Text({
     text: 'Press "S",\nslide your finger or\n drag mouse to cut rope',
-    font: '20px Termina',
+    font: '20px RigidSquare-Regular',
     color: fgc2,
     x: 620,
     y: 300,
@@ -54,7 +54,7 @@ const initTextLevel2 = () => {
   if (textsLevel2.length) return;
   const part1 = Text({
     text: 'Tap here or\npress "a"\nto move',
-    font: '20px Termina',
+    font: '20px RigidSquare-Regular',
     color: fgc2,
     x: 720,
     y: 400,
@@ -63,7 +63,7 @@ const initTextLevel2 = () => {
   });
   const part3 = Text({
     text: 'Tap here or\npress "d"\nto move',
-    font: '20px Termina',
+    font: '20px RigidSquare-Regular',
     color: fgc2,
     x: 80,
     y: 400,
@@ -72,7 +72,7 @@ const initTextLevel2 = () => {
   });
   const part2 = Text({
     text: 'Tap here\nor press "space"\nto give the skull a boost up',
-    font: '20px Termina',
+    font: '20px RigidSquare-Regular',
     color: fgc2,
     x: 400,
     y: 750,

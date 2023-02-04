@@ -184,7 +184,6 @@ const addButtonListeners = () => {
 const onContainerClick = (e) => {
   let id = e.target.id;
   const classList = e.target.classList;
-  console.log('id', id);
 
   let closest = e.target.closest('#play-now-btn');
   if (closest) id = 'play-now-btn';

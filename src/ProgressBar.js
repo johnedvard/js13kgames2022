@@ -47,4 +47,5 @@ export class ProgressBar {
     this.sprite.render(ctx);
     this.progressFillSprites.forEach((s) => s.render(ctx));
   }
+  destroy() {}
 }

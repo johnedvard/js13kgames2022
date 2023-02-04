@@ -17,7 +17,6 @@ export const initGame = ({ setDeathCount, updateLevelsCompleted }) => {
   // TODO (johnedvard) add build flag to prevent adding NEAR if we build for crazy games
   // initNear();
   setLevelsCompleteInParent(updateLevelsCompleted);
-  setDeathCountInParent(setDeathCount);
 
   initMenu();
   initMenuControls();
@@ -25,12 +24,6 @@ export const initGame = ({ setDeathCount, updateLevelsCompleted }) => {
   initMonetization();
 };
 
-const setDeathCountInParent = (setDeathCount = () => {}) => {
-  const deathCount = Number(getItem('deathCount'));
-  if (!Number.isNaN(deathCount)) {
-    setDeathCount(deathCount);
-  }
-};
 const setLevelsCompleteInParent = (updateLevelsCompleted = () => {}) => {
   const completedLevels = {};
   for (let i = 1; i < numLevels + 1; i++) {

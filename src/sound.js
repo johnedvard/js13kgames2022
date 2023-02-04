@@ -104,7 +104,6 @@ export const playPickup = () => {
   ); // Pickup 368
 };
 export const playCutRope = () => {
-  console.log('play cut rope');
   zzfx(
     window.sfxContext,
     ...[, , 1081, 0.01, 0.01, 0.02, 4, 1.1, 14, 32, , , , 0.8, , , 0.06, 0.66]

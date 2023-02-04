@@ -1,7 +1,12 @@
-import { on, off } from 'kontra';
+import { on, off, emit } from 'kontra';
 
 import { Brick } from './Brick';
-import { CUT_ROPE, LEVEL_COMPLETE, PLAYER_DIED } from './gameEvents';
+import {
+  CUT_ROPE,
+  DEATH_COUNT,
+  LEVEL_COMPLETE,
+  PLAYER_DIED,
+} from './gameEvents';
 import { Goal } from './Goal';
 
 import { levels } from './levels/levels';
@@ -15,6 +20,7 @@ import { getTouchesById, ongoingTouches } from './touchControls';
 import { isBoxCollision, lineIntersection } from './utils';
 import { HeartBar } from './HeartBar';
 import { ProgressBar } from './ProgressBar';
+import { getItem, setItem } from './storage';
 
 export class Level {
   player;
@@ -29,7 +35,9 @@ export class Level {
   levelData;
   stopMotionTime = 10;
   stopMotionEllapsed = 0;
-  constructor({ game, levelId, levelData }) {
+  deathCount = 0;
+  constructor({ game, levelId, levelData, setDeathCountInParent }) {
+    this.setDeathCountInParent = setDeathCountInParent;
     this.levelId = levelId;
     this.levelData = levelData;
     this.game = game;
@@ -43,13 +51,27 @@ export class Level {
         .then((levelData) => {
           this.init(levelData);
         })
-        .catch(() => {
+        .catch((err) => {
+          if (err) console.error(err);
           showOverlay('thanks');
           // TODO (johnedvard) improve error handling, not always assume last level
         });
     }
     this.listenForGameEvents();
   }
+
+  /** Use death count from parent first, or from local storage if paremt is 0 */
+  initDeathCount = () => {
+    const storedDeathCount = Number(getItem('deathCountLevel-' + this.levelId));
+    if (!Number.isNaN(storedDeathCount)) {
+      this.deathCount = storedDeathCount;
+    } else {
+      this.deathCount = 0;
+    }
+
+    this.setDeathCountInParent(this.deathCount);
+    emit(DEATH_COUNT, { deathCount: this.deathCount });
+  };
 
   init(levelData) {
     this.levelData = levelData;
@@ -59,6 +81,7 @@ export class Level {
     this.createBricks(levelData);
     this.createUiBars();
     this.isLevelLoaded = true;
+    this.initDeathCount();
   }
 
   createUiBars() {
@@ -100,7 +123,6 @@ export class Level {
 
   update(dt) {
     if (!this.isLevelLoaded) return;
-
     if (this.isStopMotion) {
       this.stopMotionEllapsed += 1;
       if (this.stopMotionEllapsed >= this.stopMotionTime) {
@@ -173,10 +195,15 @@ export class Level {
   }
   onCutRope = ({ rope }) => {
     if (this.isFirstRopeCut) return;
+    this.deathCount++;
+    emit(DEATH_COUNT, { deathCount: this.deathCount });
+    setItem('deathCountLevel-' + this.levelId, this.deathCount);
+    this.setDeathCountInParent(this.deathCount);
     this.isStopMotion = true;
     this.isFirstRopeCut = true;
     this.flashScreen();
   };
+
   onLevelComplete = () => {};
 
   flashScreen() {
@@ -197,9 +224,13 @@ export class Level {
     this.resertSaws();
     this.resetBricks();
     this.resetUiBars();
+    this.initDeathCount();
   };
 
   resetUiBars() {
+    this.uiBars.forEach((uiBar) => {
+      uiBar.destroy();
+    });
     this.uiBars.length = 0;
     this.createUiBars();
   }

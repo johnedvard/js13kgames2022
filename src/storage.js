@@ -22,7 +22,6 @@ export const getLevelStates = () => {
   for (let i = 1; i < numLevels + 1; i++) {
     levelStates.push(isLevelCompleted(i));
   }
-  console.log('states', levelStates);
   return levelStates;
 };
 

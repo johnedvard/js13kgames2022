@@ -1,3 +1,21 @@
+@font-face {
+  font-family: 'RigidSquare-Regular';
+  src: url('assets/fonts/RigidSquareRegular/font.woff2') format('woff2'),
+    url('assets/fonts/RigidSquareRegular/font.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Termina';
+  src: url('assets/fonts/TerminaRegular/font.woff2') format('woff2'),
+    url('assets/fonts/TerminaRegular/font.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'm42';
+  src: url('assets/fonts/m42/font.woff2') format('woff2'),
+    url('assets/fonts/m42/font.woff') format('woff');
+}
+
 :root {
   --bgc: #211e20;
   --bgc2: #555568;
@@ -11,7 +29,9 @@
   display: flex;
   flex-flow: column;
   color: var(--fgc2);
-  font-family: 'Termina';
+  font-family: 'RigidSquare-Regular';
+  font-size: 22px;
+
   #wrap {
     position: relative;
     display: flex;
@@ -42,7 +62,6 @@
     color: var(--fgc2);
     position: absolute;
     font-size: 23px;
-    font-weight: 600;
     align-content: center;
     align-items: center;
     padding: 10px 20px;
@@ -239,7 +258,19 @@
   }
   button {
     all: unset;
+
+    span {
+      margin-top: 0px;
+      font-style: italic;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    &:hover span {
+      text-shadow: -2px 0px 0px rgba(184, 10, 138, 1),
+        4px 4px 0px rgba(0, 0, 0, 1);
+    }
   }
+
   .svg-btn {
     position: relative;
     width: 276px;
