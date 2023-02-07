@@ -198,7 +198,6 @@ export class Level {
     this.deathCount++;
     emit(DEATH_COUNT, { deathCount: this.deathCount });
     setItem('deathCountLevel-' + this.levelId, this.deathCount);
-    this.setDeathCountInParent(this.deathCount);
     this.isStopMotion = true;
     this.isFirstRopeCut = true;
     this.flashScreen();

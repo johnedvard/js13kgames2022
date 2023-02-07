@@ -1,4 +1,3 @@
-import skull from 'data-url:./assets/img/skull.png';
 import btnHover from 'data-url:./assets/img/btn-hover.png';
 import btnDefault from 'data-url:./assets/img/btn-default.png';
 
@@ -15,15 +14,13 @@ import {
   START_NEXT_LEVEL,
   TOGGLE_MUSIC,
 } from './gameEvents';
-import { fetchArcadianHeads } from './arcadianApi';
-import { isSubscriber, setNearLevel, setSelectedArcadian } from './store';
+import { setNearLevel } from './store';
 import { IPFS_BASE_PATH } from './near/nearConnection';
 import { doesOwnNft, getNearLevel } from './utils';
 import { getIsPlaying } from './sound';
 import { numLevels } from './levels/levels';
 import { CLICK_HAMBURGER, LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
-import { playLevelAd } from './adManager';
-import { getItem, getLastCompletedLevel, getLevelStates } from './storage';
+import { getItem, getLastCompletedLevel } from './storage';
 
 const overlayIds = [
   'main',
@@ -41,7 +38,6 @@ export const initMenu = () => {
   addButtonListeners();
   listenForGameEvents();
   listenForUiEvents();
-  initBonusContent();
   focusPlayNowBtn();
   changeNameOfPlayButton();
   setButtonImg();
@@ -127,52 +123,6 @@ const initNearLevels = ({
     levelEl.appendChild(mintForPriceEl);
     levelEl.classList.add('level-item');
     levelsGridEl.appendChild(levelEl);
-  });
-};
-
-const initBonusContent = () => {
-  const bonusGridEl = document.getElementById('bonus-grid');
-  pouplateBonusGrid(bonusGridEl);
-  listenForBonusGridEvents(bonusGridEl);
-};
-
-const pouplateBonusGrid = (bonusGridEl) => {
-  const skullImg = new Image();
-  skullImg.src = skull;
-  fetchArcadianHeads().then((res) => {
-    for (let i = 0; i < res.length; i++) {
-      // TODO (johnedvard) add slot for hat that failed to load instead of skipping
-      if (res[i].status !== 'fulfilled') continue;
-      const img = res[i].value.img;
-      const bonusEl = document.createElement('canvas');
-      bonusEl.setAttribute('height', img.height * 4);
-      bonusEl.setAttribute('width', img.width * 4);
-      bonusEl.classList.add('bonus-item');
-      bonusEl.setAttribute('arcadian', res[i].value.id);
-      if (i > 5 && !isSubscriber) {
-        bonusEl.classList.add('disabled');
-      }
-      const ctx = bonusEl.getContext('2d');
-      ctx.imageSmoothingEnabled = false;
-      ctx.scale(8, 8);
-      ctx.drawImage(skullImg, img.width / 4 - 4, img.height / 4 - 12);
-      ctx.scale(1 / 2, 1 / 2);
-      ctx.drawImage(img, 0, 0);
-      bonusGridEl.appendChild(bonusEl);
-    }
-  });
-};
-
-const listenForBonusGridEvents = (bonusGridEl) => {
-  bonusGridEl.addEventListener('click', (e) => {
-    if (e.target.classList.contains('bonus-item')) {
-      if (!e.target.classList.contains('disabled')) {
-        setSelectedArcadian(e.target.getAttribute('arcadian'));
-        showOverlay('main');
-      } else {
-        // TODO (johnedvard) tell player to become a subscriber
-      }
-    }
   });
 };
 
