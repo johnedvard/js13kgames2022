@@ -2,18 +2,21 @@
   font-family: 'RigidSquare-Regular';
   src: url('assets/fonts/RigidSquareRegular/font.woff2') format('woff2'),
     url('assets/fonts/RigidSquareRegular/font.woff') format('woff');
+  font-display: fallback;
 }
 
 @font-face {
   font-family: 'Termina';
   src: url('assets/fonts/TerminaRegular/font.woff2') format('woff2'),
     url('assets/fonts/TerminaRegular/font.woff') format('woff');
+  font-display: fallback;
 }
 
 @font-face {
   font-family: 'm42';
   src: url('assets/fonts/m42/font.woff2') format('woff2'),
     url('assets/fonts/m42/font.woff') format('woff');
+  font-display: fallback;
 }
 
 :root {
