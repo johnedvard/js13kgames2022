@@ -71,7 +71,7 @@ const initTextLevel2 = () => {
     textAlign: 'center',
   });
   const part2 = Text({
-    text: 'Tap here\nor press "space"\nto give the skull a boost up',
+    text: 'Tap here\nor press "space"\nto give the sage a boost up',
     font: '20px RigidSquare',
     color: fgc2,
     x: 400,
