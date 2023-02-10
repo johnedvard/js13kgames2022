@@ -4,14 +4,15 @@ import { nearLevelData } from './store';
 
 let isResizeListenerSet = false;
 const onResize = () => {
-  const wrapperEl = document.querySelector('#hang-by-a-thread #wrap');
-
-  if (window.innerHeight < window.innerWidth) {
-    wrapperEl.classList.add('autoWidth');
-    wrapperEl.classList.remove('autoHeight');
-  } else {
-    wrapperEl.classList.add('autoHeight');
-    wrapperEl.classList.remove('autoWidth');
+  const wrapperEl = document.querySelector('#hang-by-a-thread');
+  if (wrapperEl.parentNode) {
+    if (wrapperEl.parentNode.clientHeight < wrapperEl.parentNode.clientWidth) {
+      wrapperEl.style.height = wrapperEl.parentNode.clientHeight + 'px';
+      wrapperEl.style.width = wrapperEl.parentNode.clientHeight + 'px';
+    } else {
+      wrapperEl.style.height = wrapperEl.parentNode.clientWidth + 'px';
+      wrapperEl.style.width = wrapperEl.parentNode.clientWidth + 'px';
+    }
   }
 };
 export const scaleToFitHandler = () => {
