@@ -9,6 +9,7 @@ import {
   MONETIZATION_PROGRESS,
   NEAR_TOKENS_ADDED,
   NFT_BUY,
+  DISPLAY_GAME_OVER,
   RESTART_LEVEL,
   START_LEVEL,
   START_NEXT_LEVEL,
@@ -240,6 +241,7 @@ const onNearLogout = () => {
 const listenForGameEvents = () => {
   on(LEVEL_COMPLETE, onLevelComplete);
   on(NEAR_TOKENS_ADDED, onNearTokensAdded);
+  on(DISPLAY_GAME_OVER, onDisplayGameOver);
   on(MONETIZATION_PROGRESS, onMonetizationProgress);
   on(TOGGLE_MUSIC, onToggleMusic);
 };
@@ -249,6 +251,12 @@ const onToggleMusic = () => {
   musicBtnEl.textContent = getIsPlaying() ? 'Music is ON' : 'Music is OFF';
 };
 const onLevelComplete = () => {
+  document.getElementById('level-over-msg').innerHTML = 'SUCCESS!';
+  showOverlay('level-dialog');
+  document.getElementById('next-btn').focus();
+};
+const onDisplayGameOver = () => {
+  document.getElementById('level-over-msg').innerHTML = 'YOU DIED';
   showOverlay('level-dialog');
   document.getElementById('next-btn').focus();
 };

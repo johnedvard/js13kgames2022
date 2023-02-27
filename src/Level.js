@@ -6,6 +6,7 @@ import {
   DEATH_COUNT,
   LEVEL_COMPLETE,
   PLAYER_DIED,
+  DISPLAY_GAME_OVER,
 } from './gameEvents';
 import { Goal } from './Goal';
 
@@ -30,6 +31,7 @@ export class Level {
   uiBars = [];
   isLevelLoaded = false;
   isFirstRopeCut = false;
+  isPaused = false;
   isStopMotion = false;
   levelId;
   levelData;
@@ -82,6 +84,7 @@ export class Level {
     this.createUiBars();
     this.isLevelLoaded = true;
     this.initDeathCount();
+    this.handleGameOverCondition();
   }
 
   createUiBars() {
@@ -122,7 +125,7 @@ export class Level {
   }
 
   update(dt) {
-    if (!this.isLevelLoaded) return;
+    if (!this.isLevelLoaded || this.isPaused) return;
     if (this.isStopMotion) {
       this.stopMotionEllapsed += 1;
       if (this.stopMotionEllapsed >= this.stopMotionTime) {
@@ -224,7 +227,15 @@ export class Level {
     this.resetBricks();
     this.resetUiBars();
     this.initDeathCount();
+    this.handleGameOverCondition();
   };
+
+  handleGameOverCondition() {
+    if (this.deathCount >= 3) {
+      this.isPaused = true;
+      emit(DISPLAY_GAME_OVER);
+    }
+  }
 
   resetUiBars() {
     this.uiBars.forEach((uiBar) => {

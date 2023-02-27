@@ -3,6 +3,7 @@ import { init, initInput, GameLoop, on, emit } from 'kontra';
 import {
   AD_FINISHED,
   AD_PLAYING,
+  DISPLAY_GAME_OVER,
   LEVEL_COMPLETE,
   LEVEL_QUIT,
   RESTART_LEVEL,
@@ -101,10 +102,16 @@ export class Game {
     on(AD_FINISHED, this.onAdFinished);
     on(AD_PLAYING, this.onAdPlaying);
     on(LEVEL_COMPLETE, this.onLevelComplete);
+    on(DISPLAY_GAME_OVER, this.onLevelGameOver);
   }
   onLevelComplete = () => {
     const levelKey = `level${this.level.levelId}`;
     setItem(levelKey, true);
+    this.updateLevelsCompleted({ [levelKey]: true });
+  };
+  onLevelGameOver = () => {
+    const levelKey = `level${this.level.levelId}`;
+    setItem(levelKey, false);
     this.updateLevelsCompleted({ [levelKey]: true });
   };
   onAdPlaying = () => {

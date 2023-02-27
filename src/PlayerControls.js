@@ -47,7 +47,7 @@ export class PlayerControls {
   initControls() {
     onInput(['s'], this.cutRope);
     onGamepad('west', this.cutRope);
-    onInput(['z'], this.restartLevel);
+    // onInput(['z'], this.restartLevel);
   }
 
   restartLevel = () => {
@@ -57,6 +57,6 @@ export class PlayerControls {
   destroy = () => {
     offInput(['s'], this.cutRope);
     offGamepad('west', this.cutRope);
-    offInput(['z'], this.restartLevel);
+    // offInput(['z'], this.restartLevel);
   };
 }

@@ -30,7 +30,11 @@ export const initHtml = () => {
         <div id="near-levels-grid"></div>
       </div>
       <menu id="level-dialog" class="overlay hide">
-      <button id="next-btn" class="svg-btn"><div class="svg-placeholder"></div><span id="play-next-txt">Play next level</span></button>
+        <span id="level-over-msg"></span>
+        <button id="next-btn" class="svg-btn">
+          <div class="svg-placeholder"></div>
+          <span id="play-next-txt">Play next level</span>
+        </button>
       </menu>
       <div id="thanks" class="overlay hide">
         Rest in peace my soul.

@@ -30,5 +30,6 @@ export const getLastCompletedLevel = () => {
 };
 
 const isLevelCompleted = (i) => {
-  return Boolean(getItem(`level${i}`));
+  const levelCompleteState = getItem(`level${i}`);
+  return levelCompleteState === 'true' || levelCompleteState == 'false';
 };
