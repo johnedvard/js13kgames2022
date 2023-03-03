@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'RigidSquare';
+  src: url('assets/fonts/RigidSquareRegular/font.woff2') format('woff2'),
+    url('assets/fonts/RigidSquareRegular/font.woff') format('woff');
+  font-display: fallback;
+}
+
 :root {
   --bgc: #211e20;
   --bgc2: #555568;
@@ -68,6 +75,78 @@
     font-size: 2vmin;
     display: flex;
     align-self: center;
+  }
+
+  #snackbar-spawn-point {
+    white-space: pre-wrap;
+    text-align: center;
+    align-self: center;
+    display: flex;
+    position: absolute;
+    top: 80px;
+    height: 12%;
+    width: 85%;
+    justify-content: center;
+    cursor: pointer;
+
+    &.dismiss {
+      opacity: 0;
+      cursor: initial;
+      pointer-events: none;
+      transition: opacity 0.5s ease-out;
+    }
+    &.appear {
+      opacity: 1;
+      transition: opacity 0.5s ease-out;
+    }
+  }
+  #snackbar {
+    position: relative;
+    display: flex;
+    font-size: 2vmin;
+    background: black;
+    border: 3px solid #5f7b5f;
+    border-radius: 4px;
+    align-items: center;
+    flex: auto;
+
+    &:hover {
+      border: 3px solid #a3d0a3;
+    }
+    #snackbar-profile {
+      width: 100%;
+      height: 100%;
+      top: 30px;
+      position: relative;
+      top: -10%;
+      display: flex;
+      justify-content: center;
+      flex: 1 1 0;
+      align-items: center;
+      img {
+        position: absolute;
+        width: 100%;
+        &#snackbar-skull {
+          width: 50%;
+        }
+        &#snackbar-sage-txt {
+          margin-top: 50%;
+          width: 70%;
+        }
+      }
+    }
+    #snackbar-msg {
+      flex: 8 1 1;
+      margin-left: 2%;
+      margin-right: 5%;
+      text-align: start;
+    }
+    #snackbar-close-icon {
+      position: absolute;
+      width: 2%;
+      top: 10%;
+      right: 2%;
+    }
   }
 
   #hamburger,
@@ -254,7 +333,7 @@
     align-items: center;
     cursor: pointer;
 
-    .svg-placeholder{
+    .svg-placeholder {
       width: 100%;
     }
 

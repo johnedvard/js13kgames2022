@@ -22,6 +22,7 @@ import { isBoxCollision, lineIntersection } from './utils';
 import { HeartBar } from './HeartBar';
 import { ProgressBar } from './ProgressBar';
 import { getItem, setItem } from './storage';
+import { displaySnackbar } from './snackbar';
 
 export class Level {
   player;
@@ -228,7 +229,14 @@ export class Level {
     this.resetUiBars();
     this.initDeathCount();
     this.handleGameOverCondition();
+    this.handleWordsOfEncouragement();
   };
+
+  handleWordsOfEncouragement() {
+    if (this.deathCount > 1 && this.deathCount <= 3) {
+      displaySnackbar();
+    }
+  }
 
   handleGameOverCondition() {
     if (this.deathCount >= 3) {

@@ -10,6 +10,7 @@ import {
 
 import { RESTART_LEVEL } from './gameEvents';
 import { isMenuVisible } from './menu';
+import { displaySnackbar } from './snackbar';
 
 export class PlayerControls {
   player;
@@ -44,10 +45,15 @@ export class PlayerControls {
     this.player.rope.cutRope(Math.floor(this.player.rope.length / 2));
   };
 
+  displaySnackbar = () => {
+    displaySnackbar();
+  };
   initControls() {
     onInput(['s'], this.cutRope);
-    onGamepad('west', this.cutRope);
+    // Only add when we want to debug
+    onInput(['v'], this.displaySnackbar);
     // onInput(['z'], this.restartLevel);
+    onGamepad('west', this.cutRope);
   }
 
   restartLevel = () => {
@@ -57,6 +63,7 @@ export class PlayerControls {
   destroy = () => {
     offInput(['s'], this.cutRope);
     offGamepad('west', this.cutRope);
+    // offInput(['v'], this.displaySnackbar);
     // offInput(['z'], this.restartLevel);
   };
 }

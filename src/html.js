@@ -42,6 +42,8 @@ export const initHtml = () => {
         Thank you for playing.
       </div>
       <div id="hint"></div>
+      <div id="snackbar-spawn-point" class="dismiss">
+      </div>
     </div>`;
   document.getElementById('hang-by-a-thread').innerHTML = html;
 };
