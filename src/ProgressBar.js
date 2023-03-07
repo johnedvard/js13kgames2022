@@ -3,9 +3,11 @@ import progressFill from 'data-url:./assets/img/progress-bar-fill.png';
 import progressFillDead from 'data-url:./assets/img/progress-bar-fill-dead.png';
 import { createSprite } from './utils';
 import { getItem } from './storage';
+import { ProgressIcon } from './ProgressIcon';
 
 export class ProgressBar {
   sprite;
+  progressIcon;
   progressFillSprites = [];
   x;
   y;
@@ -15,9 +17,14 @@ export class ProgressBar {
   scale = 2;
 
   constructor({ level }) {
-    this.x = 22; // 1 pixel times scale indent from heart bar
-    this.y = 46; // 8 pixels times scale below heart bar
+    const x = 20; // 1 pixel times scale indent from heart bar
+    const y = 46; // 8 pixels times scale below heart bar
     this.level = level;
+
+    this.progressIcon = new ProgressIcon({ levelId: this.level.levelId, x, y });
+
+    this.x = x + this.progressIcon.width + 3; // add small margin
+    this.y = y + Math.ceil(this.progressIcon.height / 2) - this.height;
 
     createSprite({
       x: this.x,
@@ -48,6 +55,7 @@ export class ProgressBar {
   update(dt) {}
   render(ctx) {
     if (!this.sprite) return;
+    if (this.progressIcon) this.progressIcon.render(ctx);
     this.sprite.render(ctx);
     this.progressFillSprites.forEach((s) => s.render(ctx));
   }
