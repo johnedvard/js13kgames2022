@@ -40,8 +40,8 @@ export const displaySnackbar = () => {
   snackbarSpawnPoint.classList.remove('dismiss');
   snackbarSpawnPoint.classList.add('appear');
   // TODO (johnedvard) Prevent hiding the snackbar when hover over -> restart timeout
-  // if (dismissTimeout) clearTimeout(dismissTimeout);
-  // dismissTimeout = setTimeout(hideSnackbar, 4000);
+  if (dismissTimeout) clearTimeout(dismissTimeout);
+  dismissTimeout = setTimeout(hideSnackbar, 4000);
 };
 
 export const hideSnackbar = () => {
