@@ -17,7 +17,7 @@ export class ProgressBar {
   scale = 2;
 
   constructor({ level }) {
-    const x = 20; // 1 pixel times scale indent from heart bar
+    const x = 16; // 1 pixel times scale indent from heart bar
     const y = 46; // 8 pixels times scale below heart bar
     this.level = level;
 

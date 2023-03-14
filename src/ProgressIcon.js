@@ -3,6 +3,7 @@ import mouthIcon from 'data-url:./assets/img/Mouth.svg';
 import genderIcon from 'data-url:./assets/img/Gender.svg';
 import eyeIcon from 'data-url:./assets/img/Eye.svg';
 import classIcon from 'data-url:./assets/img/Class.svg';
+import hairIcon from 'data-url:./assets/img/Hair.svg';
 
 import { createSprite } from './utils';
 
@@ -14,33 +15,26 @@ export class ProgressIcon {
 
   getIcon = (levelId) => {
     let imgSrc;
-    let width;
-    let height;
+    const width = 30;
+    const height = 30;
     switch (levelId) {
       case 1:
         imgSrc = classIcon;
-        width = 17;
-        height = 32;
         break;
       case 2:
         imgSrc = genderIcon;
-        width = 25;
-        height = 35;
         break;
       case 3:
         imgSrc = skintoneIcon;
-        width = 25;
-        height = 24;
         break;
       case 4:
         imgSrc = eyeIcon;
-        width = 25;
-        height = 25;
         break;
       case 5:
         imgSrc = mouthIcon;
-        width = 25;
-        height = 15;
+        break;
+      case 6:
+        imgSrc = hairIcon;
         break;
     }
     return { imgSrc, width, height };
@@ -56,7 +50,7 @@ export class ProgressIcon {
       imgSrc,
       width: width,
       height: height,
-      scale: 1,
+      scale: 0.2,
       anchor: { x: 0, y: 0 },
     }).then((sprite) => {
       this.sprite = sprite;
