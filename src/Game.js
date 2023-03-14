@@ -12,7 +12,7 @@ import {
   TOGGLE_MUSIC,
 } from './gameEvents';
 import { Level } from './Level';
-import { initSound, toggleSound } from './sound';
+import { initSound, stopSong, toggleSound } from './sound';
 import { setGameHeight, setGameWidth } from './store';
 import { showOverlay } from './menu';
 import { drawDragline, initTouchControls } from './touchControls';
@@ -108,11 +108,17 @@ export class Game {
     const levelKey = `level${this.level.levelId}`;
     setItem(levelKey, true);
     this.updateLevelsCompleted({ [levelKey]: true });
+    if (this.level.levelId === 6) {
+      stopSong();
+    }
   };
   onLevelGameOver = () => {
     const levelKey = `level${this.level.levelId}`;
     setItem(levelKey, false);
     this.updateLevelsCompleted({ [levelKey]: true });
+    if (this.level.levelId === 6) {
+      stopSong();
+    }
   };
   onAdPlaying = () => {
     this.isAdPlaying = true;
