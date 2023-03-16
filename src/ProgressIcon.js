@@ -5,7 +5,7 @@ import eyeIcon from 'data-url:./assets/img/Eye.svg';
 import classIcon from 'data-url:./assets/img/Class.svg';
 import hairIcon from 'data-url:./assets/img/Hair.svg';
 
-import { createSprite } from './utils';
+import { createSprite, isSafari } from './utils';
 
 export class ProgressIcon {
   height = 0;
@@ -42,15 +42,21 @@ export class ProgressIcon {
 
   createProgressIcon = ({ levelId, x, y }) => {
     const { imgSrc, width, height } = this.getIcon(levelId);
+
     this.height = height;
     this.width = width;
+    let scale = 0.2;
+
+    if (isSafari()) {
+      scale = 0.08;
+    }
     createSprite({
       x,
       y,
       imgSrc,
       width: width,
       height: height,
-      scale: 0.2,
+      scale,
       anchor: { x: 0, y: 0 },
     }).then((sprite) => {
       this.sprite = sprite;
