@@ -103,7 +103,10 @@
   #snackbar {
     position: relative;
     display: flex;
-    font-size: 1vmin;
+    font-size: 15px;
+    @media only screen and (max-width: 750px) {
+      font-size: 10px;
+    }
     background: black;
     border: 3px solid #5f7b5f;
     border-radius: 4px;

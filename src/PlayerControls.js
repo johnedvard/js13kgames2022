@@ -51,7 +51,7 @@ export class PlayerControls {
   initControls() {
     onInput(['s'], this.cutRope);
     // Only add when we want to debug
-    onInput(['v'], this.displaySnackbar);
+    // onInput(['v'], this.displaySnackbar);
     // onInput(['z'], this.restartLevel);
     onGamepad('west', this.cutRope);
   }
