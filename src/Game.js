@@ -115,7 +115,7 @@ export class Game {
   onLevelGameOver = () => {
     const levelKey = `level${this.level.levelId}`;
     setItem(levelKey, false);
-    this.updateLevelsCompleted({ [levelKey]: true });
+    this.updateLevelsCompleted({ [levelKey]: false });
     if (this.level.levelId === 6) {
       stopSong();
     }
