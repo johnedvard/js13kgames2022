@@ -28,8 +28,9 @@ const setLevelsCompleteInParent = (updateLevelsCompleted = () => {}) => {
   const completedLevels = {};
   for (let i = 1; i < numLevels + 1; i++) {
     const levelKey = `level${i}`;
-    const levelCompleted = Boolean(getItem(levelKey));
-    if (levelCompleted) completedLevels[levelKey] = levelCompleted;
+    const levelState = getItem(levelKey);
+    const levelCompleted = Boolean(levelState);
+    if (levelCompleted) completedLevels[levelKey] = levelState;
   }
   updateLevelsCompleted(completedLevels);
 };
