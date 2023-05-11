@@ -21,8 +21,10 @@ export const getIsPlaying = () => {
   return isPlaying;
 };
 export const stopSong = () => {
+  if (isPlaying) {
+    audioContext.suspend();
+  }
   isPlaying = false;
-  audioContext.suspend();
 };
 export const toggleSound = () => {
   if (isPlaying) {
