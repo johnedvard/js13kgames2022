@@ -10,10 +10,11 @@ import { initMenuControls } from './menuControls';
 import { initAdManager } from './adManager';
 import { getItem } from './storage';
 
+let game;
 export const initGame = ({ setDeathCount, updateLevelsCompleted }) => {
   initHtml();
   addStyles();
-  new Game({ setDeathCount, updateLevelsCompleted });
+  game = new Game({ setDeathCount, updateLevelsCompleted });
   // TODO (johnedvard) add build flag to prevent adding NEAR if we build for crazy games
   // initNear();
   setLevelsCompleteInParent(updateLevelsCompleted);
@@ -22,6 +23,10 @@ export const initGame = ({ setDeathCount, updateLevelsCompleted }) => {
   initMenuControls();
   initAdManager();
   initMonetization();
+};
+
+export const destroyGame = () => {
+  if (game) game.destroyGame();
 };
 
 const setLevelsCompleteInParent = (updateLevelsCompleted = () => {}) => {

@@ -25,6 +25,16 @@ export const updateTutorial = (dt, level) => {
       break;
   }
 };
+
+export const resetTutorial = () => {
+  phaseLevel1 = 0; // cumulative delta time
+  phaseLevel2 = 0; // cumulative delta time
+  hideLevel1GuideNumber = 0;
+  textLevel1 = '';
+  textsLevel2.length = 0;
+  strokeWidthLevel2 = 0;
+};
+
 export const renderTutorial = (level, ctx) => {
   if (!level || !level.levelId) return;
   switch (level.levelId) {

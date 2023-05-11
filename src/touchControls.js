@@ -51,7 +51,6 @@ const handleStart = (evt) => {
   isDragging = true;
   const pos = getPosFromTouches(evt.changedTouches);
   ongoingControls.push(...pos);
-  console.log('handle start', evt);
 };
 const removeOngoingControl = (evt) => {
   const touches = evt.changedTouches;

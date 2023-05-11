@@ -1,4 +1,4 @@
-import { init, initInput, GameLoop, on, emit } from 'kontra';
+import { init, initInput, GameLoop, on, off } from 'kontra';
 
 import {
   AD_FINISHED,
@@ -14,7 +14,7 @@ import {
 import { Level } from './Level';
 import { initSound, stopSong, toggleSound } from './sound';
 import { setGameHeight, setGameWidth } from './store';
-import { showOverlay } from './menu';
+import { destroyMenu, showOverlay } from './menu';
 import { drawDragline, initTouchControls } from './touchControls';
 import { scaleToFitHandler } from './utils';
 import { setItem } from './storage';
@@ -23,16 +23,17 @@ import {
   initMouseControls,
   updateMouseControls,
 } from './mouseControls';
+import { resetTutorial } from './tutorial';
 
 export class Game {
   canvas;
   context;
   player;
-  saw;
   level;
   isAdPlaying;
   updateLevelsCompleted;
   setDeathCountInParent;
+  loop;
 
   constructor({ setDeathCount, updateLevelsCompleted }) {
     this.setDeathCountInParent = setDeathCount || (() => {});
@@ -53,7 +54,7 @@ export class Game {
     setGameHeight(canvas.height);
     setGameWidth(canvas.width);
 
-    let loop = GameLoop({
+    this.loop = GameLoop({
       update: function (dt) {
         if (game.isAdPlaying) return;
         if (!game.level) return;
@@ -70,7 +71,7 @@ export class Game {
       },
     });
 
-    loop.start(); // start the game
+    this.loop.start(); // start the game
     this.listenForGameEvents();
   }
 
@@ -94,6 +95,8 @@ export class Game {
   }
 
   listenForGameEvents() {
+    if (this.isListenersCreated) return;
+    this.isListenersCreated = true;
     on(START_NEXT_LEVEL, this.onStartNextLevel);
     on(START_LEVEL, this.onStartLevel);
     on(RESTART_LEVEL, this.onReStartLevel);
@@ -104,6 +107,28 @@ export class Game {
     on(LEVEL_COMPLETE, this.onLevelComplete);
     on(DISPLAY_GAME_OVER, this.onLevelGameOver);
   }
+
+  destroyGame() {
+    console.log('destroy game');
+    this.isListenersCreated = false;
+    off(START_NEXT_LEVEL, this.onStartNextLevel);
+    off(START_LEVEL, this.onStartLevel);
+    off(RESTART_LEVEL, this.onReStartLevel);
+    off(TOGGLE_MUSIC, this.onToggleMusic);
+    off(LEVEL_QUIT, this.onLevelQuit);
+    off(AD_FINISHED, this.onAdFinished);
+    off(AD_PLAYING, this.onAdPlaying);
+    off(LEVEL_COMPLETE, this.onLevelComplete);
+    off(DISPLAY_GAME_OVER, this.onLevelGameOver);
+    this.loop.stop();
+    stopSong();
+    destroyMenu();
+    resetTutorial();
+    if (this.level) {
+      this.level.destroy();
+    }
+  }
+
   onLevelComplete = () => {
     const levelKey = `level${this.level.levelId}`;
     setItem(levelKey, true);

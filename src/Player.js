@@ -150,8 +150,8 @@ export class Player {
     ctx.strokeStyle = fgc2;
     ctx.beginPath();
     ctx.rect(
-      this.sprite.x,
-      this.sprite.y,
+      this.sprite.x - (this.sprite.height * this.scale) / 2, // make up for scaling
+      this.sprite.y - (this.sprite.width * this.scale) / 2,
       this.sprite.width * this.scale,
       this.sprite.height * this.scale
     );

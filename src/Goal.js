@@ -91,14 +91,19 @@ export class Goal {
           height: this.height,
         },
         {
-          x: this.level.player.sprite.x - 30, // make up for scaling
-          y: this.level.player.sprite.y - 30,
+          x:
+            this.level.player.sprite.x -
+            (this.level.player.sprite.height * this.level.player.scale) / 2, // make up for scaling
+          y:
+            this.level.player.sprite.y -
+            (this.level.player.sprite.width * this.level.player.scale) / 2,
           width: this.level.player.sprite.width * this.level.player.scale,
           height: this.level.player.sprite.height * this.level.player.scale,
         }
       )
     ) {
       if (this.hasWon) return;
+
       emit(GOAL_COLLISION);
       this.hasWon = true;
     }

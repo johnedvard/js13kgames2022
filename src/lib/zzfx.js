@@ -6,7 +6,7 @@ const zzfxR = 44100;
 
 /** should only be called once, inside sound.js */
 export const initZzfx = () => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== 'undefined' && !window.zzfxX) {
     // Client-side-only code
     window.sfxContext = new (window.AudioContext || webkitAudioContext)();
     window.zzfxR = zzfxR;

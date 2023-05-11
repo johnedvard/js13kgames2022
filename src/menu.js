@@ -1,7 +1,7 @@
 import btnHover from 'data-url:./assets/img/btn-hover.png';
 import btnDefault from 'data-url:./assets/img/btn-default.png';
 
-import { emit, on } from 'kontra';
+import { emit, off, on } from 'kontra';
 
 import {
   LEVEL_COMPLETE,
@@ -45,14 +45,31 @@ export const initMenu = () => {
   setSvgBtnListener();
 };
 
+export const destroyMenu = () => {
+  unListenForGameEvents();
+  unListenForUiEvents();
+  removeButtonListeners();
+  removeSvgBtnListener();
+};
+
+function mouseOverSvg() {
+  this.el.classList.add('show-hover');
+}
+function mouseLeaveSvg() {
+  this.el.classList.remove('show-hover');
+}
+
+const removeSvgBtnListener = () => {
+  document.querySelectorAll('.svg-btn').forEach((el) => {
+    el.removeEventListener('mouseover', mouseOverSvg);
+    el.removeEventListener('mouseleave', mouseLeaveSvg);
+  });
+};
+
 const setSvgBtnListener = () => {
   document.querySelectorAll('.svg-btn').forEach((el) => {
-    el.addEventListener('mouseover', function () {
-      this.classList.add('show-hover');
-    });
-    el.addEventListener('mouseleave', function () {
-      this.classList.remove('show-hover');
-    });
+    el.addEventListener('mouseover', mouseOverSvg.bind({ el }));
+    el.addEventListener('mouseleave', mouseLeaveSvg.bind({ el }));
   });
 };
 
@@ -127,9 +144,18 @@ const initNearLevels = ({
   });
 };
 
+const removeButtonListeners = () => {
+  const containerEl = document.getElementById('wrap');
+  if (containerEl) {
+    containerEl.removeEventListener('click', onContainerClick);
+  }
+};
+
 const addButtonListeners = () => {
   const containerEl = document.getElementById('wrap');
-  containerEl.addEventListener('click', onContainerClick);
+  if (containerEl) {
+    containerEl.addEventListener('click', onContainerClick);
+  }
 };
 
 const onContainerClick = (e) => {
@@ -228,6 +254,11 @@ const listenForUiEvents = () => {
   on(LOGOUT_NEAR, onNearLogout);
 };
 
+const unListenForUiEvents = () => {
+  off(LOGIN_NEAR, onNearLogin);
+  off(LOGOUT_NEAR, onNearLogout);
+};
+
 const onNearLogin = () => {
   showLoading();
 };
@@ -244,6 +275,14 @@ const listenForGameEvents = () => {
   on(DISPLAY_GAME_OVER, onDisplayGameOver);
   on(MONETIZATION_PROGRESS, onMonetizationProgress);
   on(TOGGLE_MUSIC, onToggleMusic);
+};
+
+const unListenForGameEvents = () => {
+  off(LEVEL_COMPLETE, onLevelComplete);
+  off(NEAR_TOKENS_ADDED, onNearTokensAdded);
+  off(DISPLAY_GAME_OVER, onDisplayGameOver);
+  off(MONETIZATION_PROGRESS, onMonetizationProgress);
+  off(TOGGLE_MUSIC, onToggleMusic);
 };
 
 const onToggleMusic = () => {

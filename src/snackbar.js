@@ -39,11 +39,25 @@ export const displaySnackbar = () => {
   snackbarSpawnPoint.innerHTML = getSnackBarMsg(msg);
   snackbarSpawnPoint.classList.remove('dismiss');
   snackbarSpawnPoint.classList.add('appear');
+
+  setSnackbarFontSize();
+
   // TODO (johnedvard) Prevent hiding the snackbar when hover over -> restart timeout
   if (dismissTimeout) clearTimeout(dismissTimeout);
   dismissTimeout = setTimeout(hideSnackbar, 4000);
 };
 
+const setSnackbarFontSize = () => {
+  const gameContainer = document.querySelector('#hang-by-a-thread #wrap');
+  const snackbar = document.querySelector('#hang-by-a-thread #wrap #snackbar');
+  if (gameContainer && gameContainer.clientWidth >= 670) {
+    snackbar.classList.add('txt-large');
+    snackbar.classList.remove('txt-small');
+  } else {
+    snackbar.classList.add('txt-small');
+    snackbar.classList.remove('txt-large');
+  }
+};
 export const hideSnackbar = () => {
   const snackbarSpawnPoint = document.querySelector(
     '#hang-by-a-thread #wrap #snackbar-spawn-point'
