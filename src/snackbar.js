@@ -48,15 +48,13 @@ export const displaySnackbar = () => {
 };
 
 const setSnackbarFontSize = () => {
-  const gameContainer = document.querySelector('#hang-by-a-thread #wrap');
   const snackbar = document.querySelector('#hang-by-a-thread #wrap #snackbar');
-  if (gameContainer && gameContainer.clientWidth >= 670) {
-    snackbar.classList.add('txt-large');
-    snackbar.classList.remove('txt-small');
-  } else {
-    snackbar.classList.add('txt-small');
-    snackbar.classList.remove('txt-large');
-  }
+
+  const canvas = document.getElementById('game-canvas');
+  let rect = canvas.getBoundingClientRect(); // assume there's no padding to the canvas element
+
+  snackbar.style['height'] = `${Math.max(80, rect.width / 5)}px`;
+  snackbar.style['font-size'] = `${rect.width / 40}px`;
 };
 export const hideSnackbar = () => {
   const snackbarSpawnPoint = document.querySelector(
