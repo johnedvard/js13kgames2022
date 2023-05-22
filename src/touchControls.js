@@ -15,14 +15,18 @@ const getPosFromTouches = (touches) => {
   const canvas = document.getElementById('game-canvas');
   // @see https://stackoverflow.com/a/53405390/2124254
   let rect = canvas.getBoundingClientRect(); // assume there's no padding to the canvas element
+  // @see https://stackoverflow.com/a/14384091/1471485 Need to account for scroll factor
+  const top = window.pageYOffset || document.documentElement.scrollTop;
+  const left = window.pageXOffset || document.documentElement.scrollLeft;
+
   const transformScaleX = parseFloat(gameWidth / rect.width); // account for scaling
   const transformScaleY = parseFloat(gameHeight / rect.height);
   const res = [];
   for (let i = 0; i < touches.length; i++) {
     res.push({
       id: touches[i].identifier,
-      x: (touches[i].pageX - rect.left) * transformScaleX,
-      y: (touches[i].pageY - rect.top) * transformScaleY,
+      x: (touches[i].pageX - rect.left - left) * transformScaleX,
+      y: (touches[i].pageY - rect.top - top) * transformScaleY,
       draws: maxDraws,
     });
   }
