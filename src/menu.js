@@ -21,7 +21,7 @@ import { doesOwnNft, getNearLevel } from './utils';
 import { getIsPlaying } from './sound';
 import { numLevels } from './levels/levels';
 import { CLICK_HAMBURGER, LOGIN_NEAR, LOGOUT_NEAR } from './uiEvents';
-import { getItem, getLastCompletedLevel } from './storage';
+import { getItem, getLastCompletedLevel, resetAllLevels } from './storage';
 
 const overlayIds = [
   'main',
@@ -168,6 +168,8 @@ const onContainerClick = (e) => {
   if (closest) id = 'music-btn';
   closest = e.target.closest('#next-btn');
   if (closest) id = 'next-btn';
+  closest = e.target.closest('#restart-btn');
+  if (closest) id = 'restart-btn';
 
   switch (id) {
     case 'play-now-btn':
@@ -200,6 +202,11 @@ const onContainerClick = (e) => {
       break;
     case 'music-btn':
       emit(TOGGLE_MUSIC);
+      break;
+    case 'restart-btn':
+      resetAllLevels();
+      showOverlay();
+      emit(START_LEVEL, { levelId: getLastCompletedLevel() + 1 });
       break;
   }
 

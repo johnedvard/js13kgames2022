@@ -29,6 +29,13 @@ export const getLastCompletedLevel = () => {
   return getLevelStates().reduce((prev, curr) => prev + curr, 0);
 };
 
+export const resetAllLevels = () => {
+  for (let i = 0; i <= numLevels; i++) {
+    localStorage.removeItem(`level${i}`);
+    localStorage.removeItem(`deathCountLevel-${i}`);
+  }
+};
+
 const isLevelCompleted = (i) => {
   const levelCompleteState = getItem(`level${i}`);
   return levelCompleteState === 'true' || levelCompleteState == 'false';

@@ -23,7 +23,7 @@ export class ProgressBar {
 
     this.progressIcon = new ProgressIcon({ levelId: this.level.levelId, x, y });
 
-    this.x = x + this.progressIcon.width + 3; // add small margin
+    this.x = x + 8; // add small margin
     this.y = y + Math.ceil(this.progressIcon.height / 2) - this.height;
 
     createSprite({
@@ -55,7 +55,7 @@ export class ProgressBar {
   update(dt) {}
   render(ctx) {
     if (!this.sprite) return;
-    if (this.progressIcon) this.progressIcon.render(ctx);
+    // if (this.progressIcon) this.progressIcon.render(ctx);
     this.sprite.render(ctx);
     this.progressFillSprites.forEach((s) => s.render(ctx));
   }

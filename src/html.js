@@ -39,7 +39,7 @@ export const initHtml = () => {
       <div id="thanks" class="overlay hide">
         Rest in peace my soul.
         <br />
-        Thank you for playing.
+        <button id="restart-btn" class="svg-btn"><div class="svg-placeholder"></div><span id="play-now-txt">Restart</span></button>
       </div>
       <div id="hint"></div>
       <div id="snackbar-spawn-point" class="dismiss">

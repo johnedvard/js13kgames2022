@@ -21,8 +21,6 @@ export const initGame = ({ setDeathCount, updateLevelsCompleted }) => {
 
   initMenu();
   initMenuControls();
-  initAdManager();
-  initMonetization();
 };
 
 export const destroyGame = () => {

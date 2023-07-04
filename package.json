@@ -6,7 +6,7 @@
     "src/index.html",
     "src/index.js"
   ],
-  "module": "dist/game.js",
+  "module": "dist/hbat.js",
   "targets": {
     "module": {
       "includeNodeModules": [
